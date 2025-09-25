@@ -1,7 +1,7 @@
 #ifndef PRODUTORA_MODEL_H
 #define PRODUTORA_MODEL_H
 
-#include "model/sistema.h"
+#include "model/produtora/produtora_model.h"
 
 void salvarProdutora(Sistema *sistema);
 void carregarProdutora(Sistema *sistema);

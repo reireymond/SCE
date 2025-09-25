@@ -1,4 +1,4 @@
-#include "equipe_interna.h" // Verifique este include
+#include "model/equipe_interna/equipe_interna_model.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 

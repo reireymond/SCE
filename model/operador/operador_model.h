@@ -1,7 +1,7 @@
 #ifndef OPERADOR_MODEL_H
 #define OPERADOR_MODEL_H
 
-#include "model/sistema.h"
+#include #include "model/operador/operador_model.h"
 
 void salvarOperadores(Sistema *sistema);
 void carregarOperadores(Sistema *sistema);

@@ -1,4 +1,4 @@
-#include "model/recurso/recurso_model.h"
+#include "controller/produtora/produtora_controller.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

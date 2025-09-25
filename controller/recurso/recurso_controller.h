@@ -1,7 +1,7 @@
 #ifndef RECURSO_CONTROLLER_H
 #define RECURSO_CONTROLLER_H
 
-#include "model/sistema.h"
+#include "model/sistema_model.h"
 
 void adicionarRecursoController(Sistema *sistema);
 void alterarRecursoController(Sistema *sistema);

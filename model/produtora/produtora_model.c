@@ -1,9 +1,9 @@
-#include "produtora.h"
+#include "model/produtora/produtora_model.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #define PRODUTORA_DATA_FILE "data/produtora.dat"
-#define PRODUTORA_TEXT_FILE "data/recursos.txt"
+#define PRODUTORA_TEXT_FILE "data/produtora.txt"
 
 void salvarProdutora(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
