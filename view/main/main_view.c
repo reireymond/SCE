@@ -54,7 +54,10 @@ void menuGestaoDeDadosView(Sistema *sistema) {
         printf("\n--- GESTAO DE DADOS ---\n");
         printf("1. Gerenciar Produtora\n");
         printf("2. Gerenciar Clientes\n");
-        // adicionar as outras opções
+        printf("3. Gerenciar Equipe Interna\n");
+        printf("4. Gerenciar Recursos e Equipamentos\n");
+        printf("5. Gerenciar Fornecedores e Parceiros\n");
+        printf("6. Gerenciar Operadores do Sistema\n");
         printf("0. Voltar ao Menu Principal\n");
         printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
@@ -63,10 +66,12 @@ void menuGestaoDeDadosView(Sistema *sistema) {
         switch (opcao) {
             case 1: menuProdutoraView(sistema); break;
             case 2: menuClientesView(sistema); break;
-            // adicionar as outras opções
+            case 3: menuEquipeInternaView(sistema); break;
+            case 4: menuRecursosView(sistema); break;
+            case 5: menuFornecedoresView(sistema); break;
+            case 6: menuOperadoresView(sistema); break;
             case 0: break;
             default: printf("\nOpcao invalida!\n"); pausar(); break;
         }
-
     } while (opcao != 0);
 }
