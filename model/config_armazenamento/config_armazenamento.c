@@ -1,5 +1,5 @@
 #include "model/config_armazenamento/config_armazenamento.h"
-#include "model/sistema.h" // Inclui a definição completa da struct Sistema
+#include "model/sistema.h"
 
 // Define o modo de armazenamento de dados do sistema.
 void definirModoDeArmazenamento(Sistema *sistema, TipoArmazenamento modo)
@@ -15,6 +15,6 @@ TipoArmazenamento obterModoDeArmazenamento(Sistema *sistema)
    if (sistema) {
        return sistema->modo_de_armazenamento;
    }
-   // Retorna um padrão em caso de erro, embora 'sistema' nunca deva ser NULL.
+   // Retorna um padrão em caso de erro.
    return ARQUIVO_BINARIO;
 }

@@ -76,7 +76,7 @@ typedef struct
 typedef struct
 {
     // Configuração do modo de armazenamento
-    TipoArmazenamento *modo_de_armazenamento;
+    TipoArmazenamento modo_de_armazenamento;
 
     // Dados da Produtora
     Produtora *dados_produtora;
