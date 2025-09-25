@@ -6,7 +6,6 @@
 #define CLIENTES_DATA_FILE "data/clientes.dat"
 #define CLIENTES_TEXT_FILE "data/clientes.txt"
 
-// Função salvarClientes(...) permanece como você já fez.
 void salvarClientes(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;

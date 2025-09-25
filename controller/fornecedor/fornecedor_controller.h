@@ -1,7 +1,7 @@
 #ifndef FORNECEDOR_CONTROLLER_H
 #define FORNECEDOR_CONTROLLER_H
 
-#include "model/sistema_model.h"
+#include "model/sistema.h"
 
 void adicionarFornecedorController(Sistema *sistema);
 void alterarFornecedorController(Sistema *sistema);

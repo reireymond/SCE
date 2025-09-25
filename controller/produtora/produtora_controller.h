@@ -1,7 +1,7 @@
 #ifndef PRODUTORA_CONTROLLER_H
 #define PRODUTORA_CONTROLLER_H
 
-#include "model/sistema_model.h"
+#include "model/sistema.h"
 
 void adicionarProdutoraController(Sistema *sistema);
 void alterarProdutoraController(Sistema *sistema);
