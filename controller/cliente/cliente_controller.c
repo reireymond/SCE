@@ -88,12 +88,44 @@ void alterarClienteController(Sistema *sistema) {
         limpar_buffer();
 
         switch (opcao) {
-            case 1: printf("Novo Nome: "); fgets(cliente->razao_social, sizeof(cliente->razao_social), stdin); cliente->razao_social[strcspn(cliente->razao_social, "\n")] = 0; break;
-            case 2: printf("Novo CPF/CNPJ: "); fgets(cliente->cnpj, sizeof(cliente->cnpj), stdin); cliente->cnpj[strcspn(cliente->cnpj, "\n")] = 0; break;
-            // Adicione os outros cases aqui...
-            case 0: printf("\nAlteracoes salvas!\n"); break;
-            default: printf("\nOpcao invalida!\n"); pausar(); break;
-        }
+    case 1:
+        printf("Novo Nome / Razao Social: ");
+        fgets(cliente->razao_social, sizeof(cliente->razao_social), stdin);
+        cliente->razao_social[strcspn(cliente->razao_social, "\n")] = 0;
+        break;
+    case 2:
+        printf("Novo CPF / CNPJ: ");
+        fgets(cliente->cnpj, sizeof(cliente->cnpj), stdin);
+        cliente->cnpj[strcspn(cliente->cnpj, "\n")] = 0;
+        break;
+    case 3:
+        printf("Novo Endereco Completo: ");
+        fgets(cliente->endereco, sizeof(cliente->endereco), stdin);
+        cliente->endereco[strcspn(cliente->endereco, "\n")] = 0;
+        break;
+    case 4:
+        printf("Novo Telefone: ");
+        fgets(cliente->telefone, sizeof(cliente->telefone), stdin);
+        cliente->telefone[strcspn(cliente->telefone, "\n")] = 0;
+        break;
+    case 5:
+        printf("Novo E-mail: ");
+        fgets(cliente->email, sizeof(cliente->email), stdin);
+        cliente->email[strcspn(cliente->email, "\n")] = 0;
+        break;
+    case 6:
+        printf("Novo Nome do Contato: ");
+        fgets(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), stdin);
+        cliente->nome_do_contato[strcspn(cliente->nome_do_contato, "\n")] = 0;
+        break;
+    case 0:
+        printf("\nAlteracoes salvas!\n");
+        break;
+    default:
+        printf("\nOpcao invalida!\n");
+        pausar();
+        break;
+}
     } while (opcao != 0);
 
     salvarClientes(sistema);

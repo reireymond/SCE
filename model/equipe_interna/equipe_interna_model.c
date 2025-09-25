@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #define EQUIPE_DATA_FILE "data/equipe.dat"
+#define RECURSOS_TEXT_FILE "data/recursos.txt"
 
 void salvarEquipeInterna(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);

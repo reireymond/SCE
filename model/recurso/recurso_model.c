@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #define RECURSOS_DATA_FILE "data/recursos.dat"
+#define RECURSOS_TEXT_FILE "data/recursos.txt"
 
 void salvarRecursos(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);

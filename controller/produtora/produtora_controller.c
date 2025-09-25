@@ -84,20 +84,64 @@ void alterarProdutoraController(Sistema *sistema) {
         limpar_buffer();
 
         switch (opcao) {
-            case 1:
-                printf("Novo Nome Fantasia: ");
-                fgets(sistema->dados_produtora->nome_fantasia, 100, stdin);
-                sistema->dados_produtora->nome_fantasia[strcspn(sistema->dados_produtora->nome_fantasia, "\n")] = 0;
-                break;
-            // Adicione os outros cases aqui... (ex: case 2: ... case 10: ...)
-            case 0:
-                printf("\nAlteracoes salvas!\n");
-                break;
-            default:
-                printf("\nOpcao invalida!\n");
-                pausar();
-                break;
-        }
+    case 1:
+        printf("Digite o novo Nome Fantasia: ");
+        fgets(sistema->dados_produtora->nome_fantasia, sizeof(sistema->dados_produtora->nome_fantasia), stdin);
+        sistema->dados_produtora->nome_fantasia[strcspn(sistema->dados_produtora->nome_fantasia, "\n")] = 0;
+        break;
+    case 2:
+        printf("Digite a nova Razao Social: ");
+        fgets(sistema->dados_produtora->razao_social, sizeof(sistema->dados_produtora->razao_social), stdin);
+        sistema->dados_produtora->razao_social[strcspn(sistema->dados_produtora->razao_social, "\n")] = 0;
+        break;
+    case 3:
+        printf("Digite o novo Nome do Responsavel: ");
+        fgets(sistema->dados_produtora->nome_do_responsavel, sizeof(sistema->dados_produtora->nome_do_responsavel), stdin);
+        sistema->dados_produtora->nome_do_responsavel[strcspn(sistema->dados_produtora->nome_do_responsavel, "\n")] = 0;
+        break;
+    case 4:
+        printf("Digite o novo CNPJ: ");
+        fgets(sistema->dados_produtora->cnpj, sizeof(sistema->dados_produtora->cnpj), stdin);
+        sistema->dados_produtora->cnpj[strcspn(sistema->dados_produtora->cnpj, "\n")] = 0;
+        break;
+    case 5:
+        printf("Digite a nova Inscricao Estadual: ");
+        fgets(sistema->dados_produtora->inscricao_estadual, sizeof(sistema->dados_produtora->inscricao_estadual), stdin);
+        sistema->dados_produtora->inscricao_estadual[strcspn(sistema->dados_produtora->inscricao_estadual, "\n")] = 0;
+        break;
+    case 6:
+        printf("Digite o novo Endereco: ");
+        fgets(sistema->dados_produtora->endereco, sizeof(sistema->dados_produtora->endereco), stdin);
+        sistema->dados_produtora->endereco[strcspn(sistema->dados_produtora->endereco, "\n")] = 0;
+        break;
+    case 7:
+        printf("Digite o novo Telefone: ");
+        fgets(sistema->dados_produtora->telefone, sizeof(sistema->dados_produtora->telefone), stdin);
+        sistema->dados_produtora->telefone[strcspn(sistema->dados_produtora->telefone, "\n")] = 0;
+        break;
+    case 8:
+        printf("Digite o novo Telefone do Responsavel: ");
+        fgets(sistema->dados_produtora->telefone_responsavel, sizeof(sistema->dados_produtora->telefone_responsavel), stdin);
+        sistema->dados_produtora->telefone_responsavel[strcspn(sistema->dados_produtora->telefone_responsavel, "\n")] = 0;
+        break;
+    case 9:
+        printf("Digite o novo E-mail: ");
+        fgets(sistema->dados_produtora->email, sizeof(sistema->dados_produtora->email), stdin);
+        sistema->dados_produtora->email[strcspn(sistema->dados_produtora->email, "\n")] = 0;
+        break;
+    case 10:
+        printf("Digite a nova Margem de Lucro (%%): ");
+        scanf("%f", &sistema->dados_produtora->margem_lucro);
+        limpar_buffer();
+        break;
+    case 0:
+        printf("\nAlteracoes salvas!\n");
+        break;
+    default:
+        printf("\nOpcao invalida!\n");
+        pausar();
+        break;
+}
     } while (opcao != 0);
 
     salvarProdutora(sistema);

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #define OPERADORES_DATA_FILE "data/operadores.dat"
+#define RECURSOS_TEXT_FILE "data/recursos.txt"
 
 void salvarOperadores(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
