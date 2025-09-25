@@ -65,8 +65,50 @@ void alterarEquipeController(Sistema *sistema) {
         return;
     }
     
-    // Lógica para alterar o membro selecionado (adapte do seu código antigo)
-    printf("\nFuncao de alterar equipe ainda nao totalmente implementada.\n");
+    EquipeInterna *membro = &sistema->lista_equipe[indice];
+    int opcao;
+    do {
+        limpar_tela();
+        printf("--- Alterando Membro: %s ---\n", membro->nome);
+        printf("1. Alterar Nome\n");
+        printf("2. Alterar CPF\n");
+        printf("3. Alterar Funcao\n");
+        printf("4. Alterar Valor da Diaria\n");
+        printf("0. Salvar e Voltar\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                printf("Novo Nome: ");
+                fgets(membro->nome, sizeof(membro->nome), stdin);
+                membro->nome[strcspn(membro->nome, "\n")] = 0;
+                break;
+            case 2:
+                printf("Novo CPF: ");
+                fgets(membro->cpf, sizeof(membro->cpf), stdin);
+                membro->cpf[strcspn(membro->cpf, "\n")] = 0;
+                break;
+            case 3:
+                printf("Nova Funcao: ");
+                fgets(membro->funcao, sizeof(membro->funcao), stdin);
+                membro->funcao[strcspn(membro->funcao, "\n")] = 0;
+                break;
+            case 4:
+                printf("Novo Valor da Diaria: R$ ");
+                scanf("%f", &membro->valor_diaria);
+                limpar_buffer();
+                break;
+            case 0:
+                printf("\nAlteracoes salvas!\n");
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                pausar();
+        }
+    } while (opcao != 0);
+
     salvarEquipeInterna(sistema);
 }
 

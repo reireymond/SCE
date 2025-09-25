@@ -56,9 +56,69 @@ void alterarRecursoController(Sistema *sistema) {
     printf("\nDigite o codigo do recurso para alterar: ");
     scanf("%d", &codigo);
     limpar_buffer();
-    
-    // Lógica de busca e alteração (adapte do seu código antigo)
-    printf("\nFuncao de alterar recurso ainda nao totalmente implementada.\n");
+
+    for (int i = 0; i < sistema->num_recursos; i++) {
+        if (sistema->lista_recursos[i].codigo == codigo) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice == -1) {
+        printf("\nRecurso com codigo %d nao encontrado.\n", codigo);
+        return;
+    }
+
+    Recurso *recurso = &sistema->lista_recursos[indice];
+    int opcao;
+    do {
+        limpar_tela();
+        printf("--- Alterando Recurso: %s ---\n", recurso->descricao);
+        printf("1. Alterar Descricao\n");
+        printf("2. Alterar Categoria\n");
+        printf("3. Alterar Quantidade em Estoque\n");
+        printf("4. Alterar Preco de Custo\n");
+        printf("5. Alterar Valor da Locacao\n");
+        printf("0. Salvar e Voltar\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                printf("Nova Descricao: ");
+                fgets(recurso->descricao, sizeof(recurso->descricao), stdin);
+                recurso->descricao[strcspn(recurso->descricao, "\n")] = 0;
+                break;
+            case 2:
+                printf("Nova Categoria: ");
+                fgets(recurso->categoria, sizeof(recurso->categoria), stdin);
+                recurso->categoria[strcspn(recurso->categoria, "\n")] = 0;
+                break;
+            case 3:
+                printf("Nova Quantidade em Estoque: ");
+                scanf("%d", &recurso->quantidade_estoque);
+                limpar_buffer();
+                break;
+            case 4:
+                printf("Novo Preco de Custo: R$ ");
+                scanf("%f", &recurso->preco_custo);
+                limpar_buffer();
+                break;
+            case 5:
+                printf("Novo Valor da Locacao: R$ ");
+                scanf("%f", &recurso->valor_locacao);
+                limpar_buffer();
+                break;
+            case 0:
+                printf("\nAlteracoes salvas!\n");
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                pausar();
+        }
+    } while (opcao != 0);
+
     salvarRecursos(sistema);
 }
 

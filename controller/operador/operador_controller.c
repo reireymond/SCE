@@ -44,8 +44,62 @@ void alterarOperadorController(Sistema *sistema) {
     listarOperadoresView(sistema);
     if (sistema->num_operadores == 0) return;
 
-    // Lógica de alteração (adapte do seu código antigo)
-    printf("\nFuncao de alterar operador ainda nao implementada.\n");
+    int codigo, indice = -1;
+    printf("\nDigite o codigo do operador que deseja alterar: ");
+    scanf("%d", &codigo);
+    limpar_buffer();
+
+    for (int i = 0; i < sistema->num_operadores; i++) {
+        if (sistema->lista_operadores[i].codigo == codigo) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice == -1) {
+        printf("\nOperador com codigo %d nao encontrado.\n", codigo);
+        return;
+    }
+
+    Operador *operador = &sistema->lista_operadores[indice];
+    int opcao;
+    do {
+        limpar_tela();
+        printf("--- Alterando Operador: %s ---\n", operador->usuario);
+        printf("1. Alterar Nome\n");
+        printf("2. Alterar Usuario\n");
+        printf("3. Alterar Senha\n");
+        printf("0. Salvar e Voltar\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                printf("Novo Nome: ");
+                fgets(operador->nome, sizeof(operador->nome), stdin);
+                operador->nome[strcspn(operador->nome, "\n")] = 0;
+                break;
+            case 2:
+                printf("Novo Usuario: ");
+                fgets(operador->usuario, sizeof(operador->usuario), stdin);
+                operador->usuario[strcspn(operador->usuario, "\n")] = 0;
+                break;
+            case 3:
+                printf("Nova Senha: ");
+                fgets(operador->senha, sizeof(operador->senha), stdin);
+                operador->senha[strcspn(operador->senha, "\n")] = 0;
+                printf("Senha alterada com sucesso.\n");
+                break;
+            case 0:
+                printf("\nAlteracoes salvas!\n");
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                pausar();
+        }
+    } while (opcao != 0);
+    
     salvarOperadores(sistema);
 }
 

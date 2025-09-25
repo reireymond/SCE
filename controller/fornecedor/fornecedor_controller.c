@@ -56,8 +56,79 @@ void alterarFornecedorController(Sistema *sistema) {
     listarFornecedoresView(sistema);
     if (sistema->num_fornecedores == 0) return;
     
-    // Lógica para alterar fornecedor (adapte do seu código antigo)
-    printf("\nFuncao de alterar fornecedor ainda nao implementada.\n");
+    int codigo, indice = -1;
+    printf("\nDigite o codigo do fornecedor que deseja alterar: ");
+    scanf("%d", &codigo);
+    limpar_buffer();
+
+    for (int i = 0; i < sistema->num_fornecedores; i++) {
+        if (sistema->lista_fornecedores[i].codigo == codigo) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice == -1) {
+        printf("\nFornecedor com codigo %d nao encontrado.\n", codigo);
+        return;
+    }
+
+    Fornecedor *fornecedor = &sistema->lista_fornecedores[indice];
+    int opcao;
+    do {
+        limpar_tela();
+        printf("--- Alterando Fornecedor: %s ---\n", fornecedor->nome_fantasia);
+        printf("1. Alterar Nome Fantasia\n");
+        printf("2. Alterar Razao Social\n");
+        printf("3. Alterar CNPJ / CPF\n");
+        printf("4. Alterar Endereco\n");
+        printf("5. Alterar Telefone\n");
+        printf("6. Alterar Tipo de Servico\n");
+        printf("0. Salvar e Voltar\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                printf("Novo Nome Fantasia: ");
+                fgets(fornecedor->nome_fantasia, sizeof(fornecedor->nome_fantasia), stdin);
+                fornecedor->nome_fantasia[strcspn(fornecedor->nome_fantasia, "\n")] = 0;
+                break;
+            case 2:
+                printf("Nova Razao Social: ");
+                fgets(fornecedor->razao_social, sizeof(fornecedor->razao_social), stdin);
+                fornecedor->razao_social[strcspn(fornecedor->razao_social, "\n")] = 0;
+                break;
+            case 3:
+                printf("Novo CNPJ / CPF: ");
+                fgets(fornecedor->cnpj, sizeof(fornecedor->cnpj), stdin);
+                fornecedor->cnpj[strcspn(fornecedor->cnpj, "\n")] = 0;
+                break;
+            case 4:
+                printf("Novo Endereco: ");
+                fgets(fornecedor->endereco, sizeof(fornecedor->endereco), stdin);
+                fornecedor->endereco[strcspn(fornecedor->endereco, "\n")] = 0;
+                break;
+            case 5:
+                printf("Novo Telefone: ");
+                fgets(fornecedor->telefone, sizeof(fornecedor->telefone), stdin);
+                fornecedor->telefone[strcspn(fornecedor->telefone, "\n")] = 0;
+                break;
+            case 6:
+                printf("Novo Tipo de Servico: ");
+                fgets(fornecedor->tipo_servico, sizeof(fornecedor->tipo_servico), stdin);
+                fornecedor->tipo_servico[strcspn(fornecedor->tipo_servico, "\n")] = 0;
+                break;
+            case 0:
+                printf("\nAlteracoes salvas!\n");
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                pausar();
+        }
+    } while (opcao != 0);
+
     salvarFornecedores(sistema);
 }
 

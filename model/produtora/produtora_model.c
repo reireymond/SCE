@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #define PRODUTORA_DATA_FILE "data/produtora.dat"
-#define RECURSOS_TEXT_FILE "data/recursos.txt"
+#define PRODUTORA_TEXT_FILE "data/recursos.txt"
 
 void salvarProdutora(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
