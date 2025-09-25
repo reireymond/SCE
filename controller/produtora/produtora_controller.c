@@ -22,7 +22,39 @@ void adicionarProdutoraController(Sistema *sistema) {
     printf("Nome Fantasia: ");
     fgets(sistema->dados_produtora->nome_fantasia, 100, stdin);
     sistema->dados_produtora->nome_fantasia[strcspn(sistema->dados_produtora->nome_fantasia, "\n")] = 0;
-    // ... (resto dos fgets para pegar os dados)
+
+    printf("Razao Social: ");
+    fgets(sistema->dados_produtora->razao_social, 100, stdin);
+    sistema->dados_produtora->razao_social[strcspn(sistema->dados_produtora->razao_social, "\n")] = 0;
+
+    printf("Nome do Responsavel: ");
+    fgets(sistema->dados_produtora->nome_do_responsavel, 100, stdin);
+    sistema->dados_produtora->nome_do_responsavel[strcspn(sistema->dados_produtora->nome_do_responsavel, "\n")] = 0;
+
+    printf("CNPJ: ");
+    fgets(sistema->dados_produtora->cnpj, 20, stdin);
+    sistema->dados_produtora->cnpj[strcspn(sistema->dados_produtora->cnpj, "\n")] = 0;
+
+    printf("Inscricao Estadual: ");
+    fgets(sistema->dados_produtora->inscricao_estadual, 20, stdin);
+    sistema->dados_produtora->inscricao_estadual[strcspn(sistema->dados_produtora->inscricao_estadual, "\n")] = 0;
+
+    printf("Endereco: ");
+    fgets(sistema->dados_produtora->endereco, 150, stdin);
+    sistema->dados_produtora->endereco[strcspn(sistema->dados_produtora->endereco, "\n")] = 0;
+
+    printf("Telefone: ");
+    fgets(sistema->dados_produtora->telefone, 20, stdin);
+    sistema->dados_produtora->telefone[strcspn(sistema->dados_produtora->telefone, "\n")] = 0;
+
+    printf("Telefone do Responsavel: ");
+    fgets(sistema->dados_produtora->telefone_responsavel, 20, stdin);
+    sistema->dados_produtora->telefone_responsavel[strcspn(sistema->dados_produtora->telefone_responsavel, "\n")] = 0;
+
+    printf("E-mail: ");
+    fgets(sistema->dados_produtora->email, 50, stdin);
+    sistema->dados_produtora->email[strcspn(sistema->dados_produtora->email, "\n")] = 0;
+
     printf("Margem de Lucro (%%): ");
     scanf("%f", &sistema->dados_produtora->margem_lucro);
     limpar_buffer();
@@ -32,8 +64,43 @@ void adicionarProdutoraController(Sistema *sistema) {
 }
 
 void alterarProdutoraController(Sistema *sistema) {
-    // A lógica de alteração do seu arquivo original viria aqui
-    printf("\nFuncao de alterar ainda nao implementada.\n");
+    if (sistema->dados_produtora == NULL) {
+        printf("\nNenhuma produtora cadastrada para alterar.\n");
+        return;
+    }
+
+    int opcao;
+    do {
+        limpar_tela();
+        printf("--- Alterar Dados da Produtora ---\n");
+        verDetalhesProdutoraView(sistema); // Mostra os dados atuais
+
+        printf("\n\nQual campo deseja alterar?\n");
+        printf("1. Nome Fantasia\n2. Razao Social\n3. Nome do Responsavel\n4. CNPJ\n5. Inscricao Estadual\n");
+        printf("6. Endereco\n7. Telefone\n8. Telefone do Responsavel\n9. E-mail\n10. Margem de Lucro\n");
+        printf("0. Salvar e Voltar\n");
+        printf("Escolha: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                printf("Novo Nome Fantasia: ");
+                fgets(sistema->dados_produtora->nome_fantasia, 100, stdin);
+                sistema->dados_produtora->nome_fantasia[strcspn(sistema->dados_produtora->nome_fantasia, "\n")] = 0;
+                break;
+            // Adicione os outros cases aqui... (ex: case 2: ... case 10: ...)
+            case 0:
+                printf("\nAlteracoes salvas!\n");
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                pausar();
+                break;
+        }
+    } while (opcao != 0);
+
+    salvarProdutora(sistema);
 }
 
 void excluirProdutoraController(Sistema *sistema) {
@@ -43,7 +110,7 @@ void excluirProdutoraController(Sistema *sistema) {
     }
 
     char confirmacao;
-    printf("\nTem certeza? (s/n): ");
+    printf("\nTem certeza que deseja excluir os dados da produtora %s? (s/n): ", sistema->dados_produtora->nome_fantasia);
     scanf(" %c", &confirmacao);
     limpar_buffer();
 

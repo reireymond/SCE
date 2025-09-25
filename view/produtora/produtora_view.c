@@ -36,6 +36,13 @@ void verDetalhesProdutoraView(Sistema *sistema) {
     }
     printf("\n--- Detalhes da Produtora Cadastrada ---\n");
     printf("Nome Fantasia: %s\n", sistema->dados_produtora->nome_fantasia);
-    // ... (resto dos prints)
+    printf("Razao Social: %s\n", sistema->dados_produtora->razao_social);
+    printf("Nome do Responsavel: %s\n", sistema->dados_produtora->nome_do_responsavel);
+    printf("CNPJ: %s\n", sistema->dados_produtora->cnpj);
+    printf("Inscricao Estadual: %s\n", sistema->dados_produtora->inscricao_estadual);
+    printf("Endereco: %s\n", sistema->dados_produtora->endereco);
+    printf("Telefone: %s\n", sistema->dados_produtora->telefone);
+    printf("Telefone do Responsavel: %s\n", sistema->dados_produtora->telefone_responsavel);
+    printf("E-mail: %s\n", sistema->dados_produtora->email);
     printf("Margem de Lucro: %.2f%%\n", sistema->dados_produtora->margem_lucro);
 }

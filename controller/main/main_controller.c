@@ -18,7 +18,7 @@ void configuracaoInicialController(Sistema *sistema) {
 void carregarTodosOsDadosController(Sistema *sistema) {
     printf("\nCarregando dados...\n");
     carregarProdutora(sistema);
-    // carregarClientes(sistema);       // Descomente quando criar os outros models
+    carregarClientes(sistema);
     // carregarEquipeInterna(sistema);
     // carregarRecursos(sistema);
     // carregarFornecedores(sistema);
@@ -29,7 +29,7 @@ void carregarTodosOsDadosController(Sistema *sistema) {
 
 void liberarTodaMemoriaController(Sistema *sistema) {
     liberarMemoriaProdutora(sistema);
-    // liberarMemoriaClientes(sistema); // Descomente quando criar os outros models
+    liberarMemoriaClientes(sistema);
     // liberarMemoriaEquipe(sistema);
     // liberarMemoriaRecursos(sistema);
     // liberarMemoriaFornecedores(sistema);

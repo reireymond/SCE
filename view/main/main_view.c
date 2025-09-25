@@ -5,7 +5,7 @@
 
 // Incluir as views dos submódulos
 #include "view/produtora/produtora_view.h"
-// #include "view/cliente/cliente_view.h" // Adicionar depois
+#include "view/cliente/cliente_view.h"
 
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
@@ -53,7 +53,8 @@ void menuGestaoDeDadosView(Sistema *sistema) {
         limpar_tela();
         printf("\n--- GESTAO DE DADOS ---\n");
         printf("1. Gerenciar Produtora\n");
-        printf("2. Gerenciar Clientes\n"); // Implementar depois
+        printf("2. Gerenciar Clientes\n");
+        // adicionar as outras opções
         printf("0. Voltar ao Menu Principal\n");
         printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
@@ -61,7 +62,8 @@ void menuGestaoDeDadosView(Sistema *sistema) {
 
         switch (opcao) {
             case 1: menuProdutoraView(sistema); break;
-            // case 2: menuClientesView(sistema); break;
+            case 2: menuClientesView(sistema); break;
+            // adicionar as outras opções
             case 0: break;
             default: printf("\nOpcao invalida!\n"); pausar(); break;
         }
