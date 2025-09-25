@@ -20,13 +20,13 @@ all: $(TARGET)
 
 # Linking: Junta todos os .o para criar o executável
 $(TARGET): $(OBJECTS)
-	@mkdir -p $(BDIR)
+	@-mkdir $(BDIR)
 	$(CC) $(OBJECTS) -o $@
 	@echo "Executavel '$(TARGET)' criado com sucesso."
 
 # Compilação: Transforma cada .c em um .o
 $(ODIR)/%.o: %.c
-	@mkdir -p $(ODIR)
+	@-mkdir $(ODIR)
 	@echo "Compilando $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
 
