@@ -7,21 +7,29 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
+// Função responsável por adicionar um novo membro à equipe
 void adicionarEquipeController(Sistema *sistema) {
+    // Verifica se o vetor está cheio; se sim, dobra a capacidade
     if (sistema->num_equipe == sistema->capacidade_equipe) {
         int nova_capacidade = (sistema->capacidade_equipe == 0) ? 10 : sistema->capacidade_equipe * 2;
         EquipeInterna *temp = realloc(sistema->lista_equipe, nova_capacidade * sizeof(EquipeInterna));
+
+        // Verifica se houve erro de alocação
         if (temp == NULL) {
             printf("\nErro de alocacao de memoria para equipe!\n");
             return;
         }
+
+        // Atualiza ponteiro e capacidade
         sistema->lista_equipe = temp;
         sistema->capacidade_equipe = nova_capacidade;
     }
 
+    // Cria um novo membro na próxima posição do vetor
     EquipeInterna *novo_membro = &sistema->lista_equipe[sistema->num_equipe];
-    novo_membro->codigo = sistema->num_equipe + 1;
+    novo_membro->codigo = sistema->num_equipe + 1; // Código automático
 
+    // Coleta os dados do novo membro
     printf("\n--- Cadastro de Novo Membro (Codigo: %d) ---\n", novo_membro->codigo);
     printf("Nome: ");
     ler_string_valida(novo_membro->nome, sizeof(novo_membro->nome), VALIDATE_NAME);
@@ -36,21 +44,26 @@ void adicionarEquipeController(Sistema *sistema) {
     scanf("%f", &novo_membro->valor_diaria);
     limpar_buffer();
 
+    // Incrementa o contador de membros
     sistema->num_equipe++;
 
+    // Salva as alterações no arquivo
     salvarEquipeInterna(sistema);
     printf("\nMembro '%s' cadastrado com sucesso!\n", novo_membro->nome);
 }
 
+// Função responsável por alterar os dados de um membro existente
 void alterarEquipeController(Sistema *sistema) {
+    // Mostra a lista atual de membros
     listarEquipeInternaView(sistema);
-    if (sistema->num_equipe == 0) return;
+    if (sistema->num_equipe == 0) return; // Sai se não houver membros
 
     int codigo, indice = -1;
     printf("\nDigite o codigo do membro que deseja alterar: ");
     scanf("%d", &codigo);
     limpar_buffer();
 
+    // Procura o membro pelo código informado
     for (int i = 0; i < sistema->num_equipe; i++) {
         if (sistema->lista_equipe[i].codigo == codigo) {
             indice = i;
@@ -58,13 +71,17 @@ void alterarEquipeController(Sistema *sistema) {
         }
     }
 
+    // Caso o membro não seja encontrado
     if (indice == -1) {
         printf("\nMembro com codigo %d nao encontrado.\n", codigo);
         return;
     }
     
+    // Aponta para o membro encontrado
     EquipeInterna *membro = &sistema->lista_equipe[indice];
     int opcao;
+
+    // Menu para escolher qual campo alterar
     do {
         limpar_tela();
         printf("--- Alterando Membro: %s ---\n", membro->nome);
@@ -76,6 +93,7 @@ void alterarEquipeController(Sistema *sistema) {
         printf("Escolha: ");
         ler_int_valido(&opcao, 0, 4);
 
+        // Executa a alteração conforme a escolha do usuário
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
@@ -99,18 +117,22 @@ void alterarEquipeController(Sistema *sistema) {
         }
     } while (opcao != 0);
 
+    // Salva as mudanças feitas
     salvarEquipeInterna(sistema);
 }
 
+// Função responsável por excluir um membro da equipe
 void excluirEquipeController(Sistema *sistema) {
+    // Mostra todos os membros cadastrados
     listarEquipeInternaView(sistema);
-    if (sistema->num_equipe == 0) return;
+    if (sistema->num_equipe == 0) return; // Sai se não houver membros
 
     int codigo;
     printf("\nDigite o codigo do membro que deseja excluir: ");
     scanf("%d", &codigo);
     limpar_buffer();
 
+    // Procura o membro pelo código
     for (int i = 0; i < sistema->num_equipe; i++) {
         if (sistema->lista_equipe[i].codigo == codigo) {
             char confirmacao;
@@ -118,16 +140,20 @@ void excluirEquipeController(Sistema *sistema) {
             scanf(" %c", &confirmacao);
             limpar_buffer();
 
+            // Confirma a exclusão
             if (confirmacao == 's' || confirmacao == 'S') {
+                // Substitui o membro excluído pelo último da lista
                 sistema->lista_equipe[i] = sistema->lista_equipe[sistema->num_equipe - 1];
                 sistema->num_equipe--;
                 printf("\nMembro excluido com sucesso!\n");
-                salvarEquipeInterna(sistema);
+                salvarEquipeInterna(sistema); // Atualiza o arquivo
             } else {
                 printf("\nExclusao cancelada.\n");
             }
             return;
         }
     }
+
+    // Caso o membro não seja encontrado
     printf("\nMembro com codigo %d nao encontrado.\n", codigo);
 }
