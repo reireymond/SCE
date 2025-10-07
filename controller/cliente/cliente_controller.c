@@ -48,7 +48,7 @@ void adicionarClienteController(Sistema *sistema) {
 }
 
 void alterarClienteController(Sistema *sistema) {
-    listarClientesView(sistema); // A controller chama a view para exibir os dados
+    listarClientesView(sistema); 
     if (sistema->num_clientes == 0) return;
 
     int codigo, indice_cliente = -1;
@@ -77,54 +77,42 @@ void alterarClienteController(Sistema *sistema) {
         printf("1. Nome / Razao Social\n2. CPF / CNPJ\n3. Endereco\n4. Telefone\n5. E-mail\n6. Nome do Contato\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+        ler_int_valido(&opcao, 0, 6);
 
         switch (opcao) {
-    case 1:
-        printf("Novo Nome / Razao Social: ");
-        fgets(cliente->razao_social, sizeof(cliente->razao_social), stdin);
-        cliente->razao_social[strcspn(cliente->razao_social, "\n")] = 0;
-        break;
-    case 2:
-        printf("Novo CPF / CNPJ: ");
-        fgets(cliente->cnpj, sizeof(cliente->cnpj), stdin);
-        cliente->cnpj[strcspn(cliente->cnpj, "\n")] = 0;
-        break;
-    case 3:
-        printf("Novo Endereco Completo: ");
-        fgets(cliente->endereco, sizeof(cliente->endereco), stdin);
-        cliente->endereco[strcspn(cliente->endereco, "\n")] = 0;
-        break;
-    case 4:
-        printf("Novo Telefone: ");
-        fgets(cliente->telefone, sizeof(cliente->telefone), stdin);
-        cliente->telefone[strcspn(cliente->telefone, "\n")] = 0;
-        break;
-    case 5:
-        printf("Novo E-mail: ");
-        fgets(cliente->email, sizeof(cliente->email), stdin);
-        cliente->email[strcspn(cliente->email, "\n")] = 0;
-        break;
-    case 6:
-        printf("Novo Nome do Contato: ");
-        fgets(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), stdin);
-        cliente->nome_do_contato[strcspn(cliente->nome_do_contato, "\n")] = 0;
-        break;
-    case 0:
-        printf("\nAlteracoes salvas!\n");
-        break;
-    default:
-        printf("\nOpcao invalida!\n");
-        pausar();
-        break;
-}
+            case 1:
+                printf("Novo Nome / Razao Social: ");
+                ler_string_valida(cliente->razao_social, sizeof(cliente->razao_social), VALIDATE_NOT_EMPTY);
+                break;
+            case 2:
+                printf("Novo CPF / CNPJ: ");
+                ler_string_valida(cliente->cnpj, sizeof(cliente->cnpj), VALIDATE_CPF_CNPJ);
+                break;
+            case 3:
+                printf("Novo Endereco Completo: ");
+                ler_string_valida(cliente->endereco, sizeof(cliente->endereco), VALIDATE_NOT_EMPTY);
+                break;
+            case 4:
+                printf("Novo Telefone: ");
+                ler_string_valida(cliente->telefone, sizeof(cliente->telefone), VALIDATE_PHONE);
+                break;
+            case 5:
+                printf("Novo E-mail: ");
+                ler_string_valida(cliente->email, sizeof(cliente->email), VALIDATE_EMAIL);
+                break;
+            case 6:
+                printf("Novo Nome do Contato: ");
+                ler_string_valida(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), VALIDATE_NAME);
+                break;
+            case 0:
+                printf("\nAlteracoes salvas!\n");
+                break;
+        }
     } while (opcao != 0);
 
     salvarClientes(sistema);
 }
 
-// *** FUNÇÃO COMPLETADA ***
 void excluirClienteController(Sistema *sistema) {
     listarClientesView(sistema);
     if (sistema->num_clientes == 0) return;

@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model/fornecedor/fornecedor.h"
+#include "model/fornecedor/fornecedor_model.h"
 #include "view/fornecedor/fornecedor_view.h"
 #include "utils/utils.h"
+#include "utils/validation.h"
 
 void adicionarFornecedorController(Sistema *sistema) {
     if (sistema->num_fornecedores == sistema->capacidade_fornecedores) {
@@ -23,28 +24,22 @@ void adicionarFornecedorController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Fornecedor (Codigo: %d) ---\n", novo_fornecedor->codigo);
     printf("Nome Fantasia: ");
-    fgets(novo_fornecedor->nome_fantasia, sizeof(novo_fornecedor->nome_fantasia), stdin);
-    novo_fornecedor->nome_fantasia[strcspn(novo_fornecedor->nome_fantasia, "\n")] = 0;
+    ler_string_valida(novo_fornecedor->nome_fantasia, sizeof(novo_fornecedor->nome_fantasia), VALIDATE_NOT_EMPTY);
 
     printf("Razao Social: ");
-    fgets(novo_fornecedor->razao_social, sizeof(novo_fornecedor->razao_social), stdin);
-    novo_fornecedor->razao_social[strcspn(novo_fornecedor->razao_social, "\n")] = 0;
+    ler_string_valida(novo_fornecedor->razao_social, sizeof(novo_fornecedor->razao_social), VALIDATE_NOT_EMPTY);
     
     printf("CNPJ / CPF: ");
-    fgets(novo_fornecedor->cnpj, sizeof(novo_fornecedor->cnpj), stdin);
-    novo_fornecedor->cnpj[strcspn(novo_fornecedor->cnpj, "\n")] = 0;
+    ler_string_valida(novo_fornecedor->cnpj, sizeof(novo_fornecedor->cnpj), VALIDATE_CPF_CNPJ);
 
     printf("Endereco: ");
-    fgets(novo_fornecedor->endereco, sizeof(novo_fornecedor->endereco), stdin);
-    novo_fornecedor->endereco[strcspn(novo_fornecedor->endereco, "\n")] = 0;
+    ler_string_valida(novo_fornecedor->endereco, sizeof(novo_fornecedor->endereco), VALIDATE_NOT_EMPTY);
 
     printf("Telefone: ");
-    fgets(novo_fornecedor->telefone, sizeof(novo_fornecedor->telefone), stdin);
-    novo_fornecedor->telefone[strcspn(novo_fornecedor->telefone, "\n")] = 0;
+    ler_string_valida(novo_fornecedor->telefone, sizeof(novo_fornecedor->telefone), VALIDATE_PHONE);
 
     printf("Tipo de Servico: ");
-    fgets(novo_fornecedor->tipo_servico, sizeof(novo_fornecedor->tipo_servico), stdin);
-    novo_fornecedor->tipo_servico[strcspn(novo_fornecedor->tipo_servico, "\n")] = 0;
+    ler_string_valida(novo_fornecedor->tipo_servico, sizeof(novo_fornecedor->tipo_servico), VALIDATE_NOT_EMPTY);
 
     sistema->num_fornecedores++;
 
@@ -86,46 +81,36 @@ void alterarFornecedorController(Sistema *sistema) {
         printf("6. Alterar Tipo de Servico\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+        ler_int_valido(&opcao, 0, 6);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome Fantasia: ");
-                fgets(fornecedor->nome_fantasia, sizeof(fornecedor->nome_fantasia), stdin);
-                fornecedor->nome_fantasia[strcspn(fornecedor->nome_fantasia, "\n")] = 0;
+                ler_string_valida(fornecedor->nome_fantasia, sizeof(fornecedor->nome_fantasia), VALIDATE_NOT_EMPTY);
                 break;
             case 2:
                 printf("Nova Razao Social: ");
-                fgets(fornecedor->razao_social, sizeof(fornecedor->razao_social), stdin);
-                fornecedor->razao_social[strcspn(fornecedor->razao_social, "\n")] = 0;
+                ler_string_valida(fornecedor->razao_social, sizeof(fornecedor->razao_social), VALIDATE_NOT_EMPTY);
                 break;
             case 3:
                 printf("Novo CNPJ / CPF: ");
-                fgets(fornecedor->cnpj, sizeof(fornecedor->cnpj), stdin);
-                fornecedor->cnpj[strcspn(fornecedor->cnpj, "\n")] = 0;
+                ler_string_valida(fornecedor->cnpj, sizeof(fornecedor->cnpj), VALIDATE_CPF_CNPJ);
                 break;
             case 4:
                 printf("Novo Endereco: ");
-                fgets(fornecedor->endereco, sizeof(fornecedor->endereco), stdin);
-                fornecedor->endereco[strcspn(fornecedor->endereco, "\n")] = 0;
+                ler_string_valida(fornecedor->endereco, sizeof(fornecedor->endereco), VALIDATE_NOT_EMPTY);
                 break;
             case 5:
                 printf("Novo Telefone: ");
-                fgets(fornecedor->telefone, sizeof(fornecedor->telefone), stdin);
-                fornecedor->telefone[strcspn(fornecedor->telefone, "\n")] = 0;
+                ler_string_valida(fornecedor->telefone, sizeof(fornecedor->telefone), VALIDATE_PHONE);
                 break;
             case 6:
                 printf("Novo Tipo de Servico: ");
-                fgets(fornecedor->tipo_servico, sizeof(fornecedor->tipo_servico), stdin);
-                fornecedor->tipo_servico[strcspn(fornecedor->tipo_servico, "\n")] = 0;
+                ler_string_valida(fornecedor->tipo_servico, sizeof(fornecedor->tipo_servico), VALIDATE_NOT_EMPTY);
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");
                 break;
-            default:
-                printf("\nOpcao invalida!\n");
-                pausar();
         }
     } while (opcao != 0);
 
