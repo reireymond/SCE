@@ -68,3 +68,12 @@ void carregarOperadores(Sistema *sistema) {
     }
     fclose(arquivo);
 }
+
+void liberarMemoriaOperadores(Sistema *sistema) {
+    if (sistema->lista_operadores != NULL) {
+        free(sistema->lista_operadores);
+        sistema->lista_operadores = NULL;
+        sistema->num_operadores = 0;
+        sistema->capacidade_operadores = 0;
+    }
+}

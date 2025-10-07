@@ -6,6 +6,10 @@
 // Incluir as views dos submódulos
 #include "view/produtora/produtora_view.h"
 #include "view/cliente/cliente_view.h"
+#include "view/equipe_interna/equipe_interna_view.h" // ADICIONAR
+#include "view/recurso/recurso_view.h"             // ADICIONAR
+#include "view/fornecedor/fornecedor_view.h"       // ADICIONAR
+#include "view/operador/operador_view.h"           // ADICIONAR
 
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;

@@ -73,7 +73,8 @@ typedef struct
 } Operador;
 
 // Estrutura central que armazena todos os dados do sistema.
-typedef struct
+// ALTERAÇÃO: Dando um nome "Sistema" para a struct.
+typedef struct Sistema
 {
     // Configuração do modo de armazenamento
     TipoArmazenamento modo_de_armazenamento;

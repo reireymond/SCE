@@ -1,6 +1,7 @@
 #include "main_controller.h"
 #include <stdio.h>
 #include "view/main/main_view.h" // O controller chama a view
+#include "utils/utils.h"         // ADICIONAR ESTA LINHA
 
 // Incluir todos os models para carregar e liberar
 #include "model/produtora/produtora_model.h"

@@ -75,3 +75,12 @@ void carregarFornecedores(Sistema *sistema) {
     }
     fclose(arquivo);
 }
+
+void liberarMemoriaFornecedores(Sistema *sistema) {
+    if (sistema->lista_fornecedores != NULL) {
+        free(sistema->lista_fornecedores);
+        sistema->lista_fornecedores = NULL;
+        sistema->num_fornecedores = 0;
+        sistema->capacidade_fornecedores = 0;
+    }
+}

@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model/operador/operador.h"
+#include "model/operador/operador_model.h"
 #include "view/operador/operador_view.h"
 #include "utils/utils.h"
+#include "utils/validation.h"
 
 void adicionarOperadorController(Sistema *sistema) {
     if (sistema->num_operadores == sistema->capacidade_operadores) {
@@ -23,16 +24,13 @@ void adicionarOperadorController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Operador (Codigo: %d) ---\n", novo_operador->codigo);
     printf("Nome: ");
-    fgets(novo_operador->nome, sizeof(novo_operador->nome), stdin);
-    novo_operador->nome[strcspn(novo_operador->nome, "\n")] = 0;
+    ler_string_valida(novo_operador->nome, sizeof(novo_operador->nome), VALIDATE_NAME);
 
     printf("Usuario: ");
-    fgets(novo_operador->usuario, sizeof(novo_operador->usuario), stdin);
-    novo_operador->usuario[strcspn(novo_operador->usuario, "\n")] = 0;
+    ler_string_valida(novo_operador->usuario, sizeof(novo_operador->usuario), VALIDATE_NOT_EMPTY);
 
     printf("Senha: ");
-    fgets(novo_operador->senha, sizeof(novo_operador->senha), stdin);
-    novo_operador->senha[strcspn(novo_operador->senha, "\n")] = 0;
+    ler_string_valida(novo_operador->senha, sizeof(novo_operador->senha), VALIDATE_NOT_EMPTY);
 
     sistema->num_operadores++;
 
@@ -71,32 +69,25 @@ void alterarOperadorController(Sistema *sistema) {
         printf("3. Alterar Senha\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+        ler_int_valido(&opcao, 0, 3);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
-                fgets(operador->nome, sizeof(operador->nome), stdin);
-                operador->nome[strcspn(operador->nome, "\n")] = 0;
+                ler_string_valida(operador->nome, sizeof(operador->nome), VALIDATE_NAME);
                 break;
             case 2:
                 printf("Novo Usuario: ");
-                fgets(operador->usuario, sizeof(operador->usuario), stdin);
-                operador->usuario[strcspn(operador->usuario, "\n")] = 0;
+                ler_string_valida(operador->usuario, sizeof(operador->usuario), VALIDATE_NOT_EMPTY);
                 break;
             case 3:
                 printf("Nova Senha: ");
-                fgets(operador->senha, sizeof(operador->senha), stdin);
-                operador->senha[strcspn(operador->senha, "\n")] = 0;
+                ler_string_valida(operador->senha, sizeof(operador->senha), VALIDATE_NOT_EMPTY);
                 printf("Senha alterada com sucesso.\n");
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");
                 break;
-            default:
-                printf("\nOpcao invalida!\n");
-                pausar();
         }
     } while (opcao != 0);
     

@@ -73,3 +73,12 @@ void carregarRecursos(Sistema *sistema) {
     }
     fclose(arquivo);
 }
+
+void liberarMemoriaRecursos(Sistema *sistema) {
+    if (sistema->lista_recursos != NULL) {
+        free(sistema->lista_recursos);
+        sistema->lista_recursos = NULL;
+        sistema->num_recursos = 0;
+        sistema->capacidade_recursos = 0;
+    }
+}

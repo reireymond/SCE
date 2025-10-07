@@ -24,30 +24,28 @@ void adicionarRecursoController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Recurso (Codigo: %d) ---\n", novo_recurso->codigo);
     printf("Descricao: ");
-    fgets(novo_recurso->descricao, sizeof(novo_recurso->descricao), stdin);
-    novo_recurso->descricao[strcspn(novo_recurso->descricao, "\n")] = 0;
+    ler_string_valida(novo_recurso->descricao, sizeof(novo_recurso->descricao), VALIDATE_NOT_EMPTY);
 
     printf("Categoria: ");
-    fgets(novo_recurso->categoria, sizeof(novo_recurso->categoria), stdin);
-    novo_recurso->categoria[strcspn(novo_recurso->categoria, "\n")] = 0;
+    ler_string_valida(novo_recurso->categoria, sizeof(novo_recurso->categoria), VALIDATE_NOT_EMPTY);
 
     printf("Quantidade em Estoque: ");
-    scanf("%d", &novo_recurso->quantidade_estoque);
-    limpar_buffer();
+    int estoque;
+    ler_int_valido(&estoque, 0, 9999); // Valida um inteiro entre 0 e 9999
+    novo_recurso->quantidade_estoque = estoque;
 
     printf("Preco de Custo (unitario): R$ ");
-    scanf("%f", &novo_recurso->preco_custo);
-    limpar_buffer();
+    ler_float_positivo(&novo_recurso->preco_custo);
 
     printf("Valor da Locacao (diaria): R$ ");
-    scanf("%f", &novo_recurso->valor_locacao);
-    limpar_buffer();
+    ler_float_positivo(&novo_recurso->valor_locacao);
 
     sistema->num_recursos++;
 
     salvarRecursos(sistema);
     printf("\nRecurso '%s' cadastrado com sucesso!\n", novo_recurso->descricao);
 }
+
 
 void alterarRecursoController(Sistema *sistema) {
     listarRecursosView(sistema);
@@ -82,41 +80,34 @@ void alterarRecursoController(Sistema *sistema) {
         printf("5. Alterar Valor da Locacao\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+        ler_int_valido(&opcao, 0, 5);
 
         switch (opcao) {
             case 1:
                 printf("Nova Descricao: ");
-                fgets(recurso->descricao, sizeof(recurso->descricao), stdin);
-                recurso->descricao[strcspn(recurso->descricao, "\n")] = 0;
+                ler_string_valida(recurso->descricao, sizeof(recurso->descricao), VALIDATE_NOT_EMPTY);
                 break;
             case 2:
                 printf("Nova Categoria: ");
-                fgets(recurso->categoria, sizeof(recurso->categoria), stdin);
-                recurso->categoria[strcspn(recurso->categoria, "\n")] = 0;
+                ler_string_valida(recurso->categoria, sizeof(recurso->categoria), VALIDATE_NOT_EMPTY);
                 break;
             case 3:
                 printf("Nova Quantidade em Estoque: ");
-                scanf("%d", &recurso->quantidade_estoque);
-                limpar_buffer();
+                int estoque;
+                ler_int_valido(&estoque, 0, 9999);
+                recurso->quantidade_estoque = estoque;
                 break;
             case 4:
                 printf("Novo Preco de Custo: R$ ");
-                scanf("%f", &recurso->preco_custo);
-                limpar_buffer();
+                ler_float_positivo(&recurso->preco_custo);
                 break;
             case 5:
                 printf("Novo Valor da Locacao: R$ ");
-                scanf("%f", &recurso->valor_locacao);
-                limpar_buffer();
+                ler_float_positivo(&recurso->valor_locacao);
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");
                 break;
-            default:
-                printf("\nOpcao invalida!\n");
-                pausar();
         }
     } while (opcao != 0);
 

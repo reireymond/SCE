@@ -71,3 +71,12 @@ void carregarEquipeInterna(Sistema *sistema) {
     }
     fclose(arquivo);
 }
+
+void liberarMemoriaEquipe(Sistema *sistema) {
+    if (sistema->lista_equipe != NULL) {
+        free(sistema->lista_equipe);
+        sistema->lista_equipe = NULL;
+        sistema->num_equipe = 0;
+        sistema->capacidade_equipe = 0;
+    }
+}
