@@ -39,13 +39,43 @@ void menuPrincipalView(Sistema *sistema) {
         limpar_tela();
         printf("\n--- MENU PRINCIPAL ---\n");
         printf("1. Gestao de Dados\n");
+        printf("2. Gestao de Eventos\n");
+        printf("3. Transacoes\n");
+        printf("4. FeedBack\n");
+        printf("5. Importar ou Exportar Dados\n");
         printf("0. Sair\n");
         printf("\nEscolha sua opcao: ");
         scanf("%d", &opcao);
         limpar_buffer();
 
-        if (opcao == 1) {
+        switch (opcao)
+        {
+        case 1:
             menuGestaoDeDadosView(sistema);
+            break;
+        case 2:
+            printf("\nModulo em construcao...\n");
+            pausar();
+            break;
+        case 3:
+            printf("\nModulo em construcao...\n");
+            pausar();
+            break;
+        case 4:
+            printf("\nModulo em construcao...\n");
+            pausar();
+            break;
+        case 5:
+            printf("\nModulo em construcao...\n");
+            pausar();
+            break;
+        case 0:
+            printf("\nSaindo do programa...\n");
+            break;
+        default:
+            printf("\nOpcao invalida! Tente novamente.\n");
+            pausar();
+            break;
         }
 
     } while (opcao != 0);
