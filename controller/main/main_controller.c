@@ -17,15 +17,12 @@ void configuracaoInicialController(Sistema *sistema) {
 }
 
 void carregarTodosOsDadosController(Sistema *sistema) {
-    printf("\nCarregando dados...\n");
     carregarProdutora(sistema);
     carregarClientes(sistema);
     carregarEquipeInterna(sistema);
     carregarRecursos(sistema);
     carregarFornecedores(sistema);
     carregarOperadores(sistema);
-    printf("Dados carregados.\n");
-    pausar();
 }
 
 void liberarTodaMemoriaController(Sistema *sistema) {
