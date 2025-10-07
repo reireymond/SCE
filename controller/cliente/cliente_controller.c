@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model/cliente/cliente.h"
+#include "model/cliente/cliente_model.h"
 #include "view/cliente/cliente_view.h"
 #include "utils/utils.h"
+#include "utils/validation.h"
 
-// *** FUNÇÃO COMPLETADA ***
 void adicionarClienteController(Sistema *sistema) {
     if (sistema->num_clientes == sistema->capacidade_clientes) {
         int nova_capacidade = (sistema->capacidade_clientes == 0) ? 10 : sistema->capacidade_clientes * 2;
@@ -24,28 +24,22 @@ void adicionarClienteController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Cliente (Codigo: %d) ---\n", novo_cliente->codigo);
     printf("Nome / Razao Social: ");
-    fgets(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), stdin);
-    novo_cliente->razao_social[strcspn(novo_cliente->razao_social, "\n")] = 0;
+    ler_string_valida(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDATE_NOT_EMPTY);
 
     printf("CPF / CNPJ: ");
-    fgets(novo_cliente->cnpj, sizeof(novo_cliente->cnpj), stdin);
-    novo_cliente->cnpj[strcspn(novo_cliente->cnpj, "\n")] = 0;
+    ler_string_valida(novo_cliente->cnpj, sizeof(novo_cliente->cnpj), VALIDATE_CPF_CNPJ);
 
     printf("Endereco Completo: ");
-    fgets(novo_cliente->endereco, sizeof(novo_cliente->endereco), stdin);
-    novo_cliente->endereco[strcspn(novo_cliente->endereco, "\n")] = 0;
+    ler_string_valida(novo_cliente->endereco, sizeof(novo_cliente->endereco), VALIDATE_NOT_EMPTY);
 
     printf("Telefone: ");
-    fgets(novo_cliente->telefone, sizeof(novo_cliente->telefone), stdin);
-    novo_cliente->telefone[strcspn(novo_cliente->telefone, "\n")] = 0;
+    ler_string_valida(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDATE_NOT_EMPTY);
 
     printf("E-mail: ");
-    fgets(novo_cliente->email, sizeof(novo_cliente->email), stdin);
-    novo_cliente->email[strcspn(novo_cliente->email, "\n")] = 0;
-
+    ler_string_valida(novo_cliente->email, sizeof(novo_cliente->email), VALIDATE_EMAIL);
+    
     printf("Nome do Contato: ");
-    fgets(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), stdin);
-    novo_cliente->nome_do_contato[strcspn(novo_cliente->nome_do_contato, "\n")] = 0;
+    ler_string_valida(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDATE_NOT_EMPTY);
 
     sistema->num_clientes++;
 
@@ -53,7 +47,6 @@ void adicionarClienteController(Sistema *sistema) {
     printf("\nCliente '%s' cadastrado com sucesso!\n", novo_cliente->razao_social);
 }
 
-// *** FUNÇÃO COMPLETADA ***
 void alterarClienteController(Sistema *sistema) {
     listarClientesView(sistema); // A controller chama a view para exibir os dados
     if (sistema->num_clientes == 0) return;

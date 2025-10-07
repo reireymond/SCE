@@ -23,17 +23,14 @@ void adicionarEquipeController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Membro (Codigo: %d) ---\n", novo_membro->codigo);
     printf("Nome: ");
-    fgets(novo_membro->nome, sizeof(novo_membro->nome), stdin);
-    novo_membro->nome[strcspn(novo_membro->nome, "\n")] = 0;
+    ler_string_valida(novo_membro->nome, sizeof(novo_membro->nome), VALIDATE_NAME);
 
     printf("CPF: ");
-    fgets(novo_membro->cpf, sizeof(novo_membro->cpf), stdin);
-    novo_membro->cpf[strcspn(novo_membro->cpf, "\n")] = 0;
+    ler_string_valida(novo_membro->cpf, sizeof(novo_membro->cpf), VALIDATE_CPF);
 
     printf("Funcao: ");
-    fgets(novo_membro->funcao, sizeof(novo_membro->funcao), stdin);
-    novo_membro->funcao[strcspn(novo_membro->funcao, "\n")] = 0;
-
+    ler_string_valida(novo_membro->funcao, sizeof(novo_membro->funcao), VALIDATE_NOT_EMPTY);
+    
     printf("Valor da diaria: R$ ");
     scanf("%f", &novo_membro->valor_diaria);
     limpar_buffer();

@@ -20,6 +20,25 @@ void salvarProdutora(Sistema *sistema) {
     if (produtora_existe) {
         fwrite(sistema->dados_produtora, sizeof(Produtora), 1, arquivo);
     }
+    
+    if (modo == ARQUIVO_BINARIO) {
+    // Lógica atual para binário...
+} else { // ARQUIVO_TEXTO
+    arquivo = fopen(PRODUTORA_TEXT_FILE, "w");
+    if (!arquivo) {
+        perror("Nao foi possivel abrir o arquivo de texto da produtora");
+        return;
+    }
+    int produtora_existe = (sistema->dados_produtora != NULL);
+    fprintf(arquivo, "%d\n", produtora_existe);
+    if (produtora_existe) {
+        Produtora *p = sistema->dados_produtora;
+        fprintf(arquivo, "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%.2f\n",
+                p->nome_fantasia, p->razao_social, p->nome_do_responsavel,
+                p->cnpj, p->inscricao_estadual, p->endereco, p->telefone,
+                p->telefone_responsavel, p->email, p->margem_lucro);
+    }
+}
     fclose(arquivo);
 }
 
