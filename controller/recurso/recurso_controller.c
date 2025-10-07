@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model/recurso/recurso.h"
+#include "model/recurso/recurso_model.h"
 #include "view/recurso/recurso_view.h"
 #include "utils/utils.h"
+#include "utils/validation.h"
 
 void adicionarRecursoController(Sistema *sistema) {
     if (sistema->num_recursos == sistema->capacidade_recursos) {

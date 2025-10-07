@@ -5,7 +5,8 @@
 #include "utils/utils.h"
 #include "model/produtora/produtora_model.h"
 #include "view/produtora/produtora_view.h"
-#include "utils/validation.h" // ADICIONADO
+#include "utils/utils.h"
+#include "utils/validation.h"
 
 void adicionarProdutoraController(Sistema *sistema) {
     if (sistema->dados_produtora != NULL) {

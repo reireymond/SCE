@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "model/equipe_interna/equipe_interna.h"
+#include "model/equipe_interna/equipe_interna_model.h"
 #include "view/equipe_interna/equipe_interna_view.h"
 #include "utils/utils.h"
+#include "utils/validation.h"
 
 void adicionarEquipeController(Sistema *sistema) {
     if (sistema->num_equipe == sistema->capacidade_equipe) {
@@ -73,36 +74,28 @@ void alterarEquipeController(Sistema *sistema) {
         printf("4. Alterar Valor da Diaria\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+        ler_int_valido(&opcao, 0, 4);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
-                fgets(membro->nome, sizeof(membro->nome), stdin);
-                membro->nome[strcspn(membro->nome, "\n")] = 0;
+                ler_string_valida(membro->nome, sizeof(membro->nome), VALIDATE_NAME);
                 break;
             case 2:
                 printf("Novo CPF: ");
-                fgets(membro->cpf, sizeof(membro->cpf), stdin);
-                membro->cpf[strcspn(membro->cpf, "\n")] = 0;
+                ler_string_valida(membro->cpf, sizeof(membro->cpf), VALIDATE_CPF);
                 break;
             case 3:
                 printf("Nova Funcao: ");
-                fgets(membro->funcao, sizeof(membro->funcao), stdin);
-                membro->funcao[strcspn(membro->funcao, "\n")] = 0;
+                ler_string_valida(membro->funcao, sizeof(membro->funcao), VALIDATE_NOT_EMPTY);
                 break;
             case 4:
                 printf("Novo Valor da Diaria: R$ ");
-                scanf("%f", &membro->valor_diaria);
-                limpar_buffer();
+                ler_float_positivo(&membro->valor_diaria);
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");
                 break;
-            default:
-                printf("\nOpcao invalida!\n");
-                pausar();
         }
     } while (opcao != 0);
 
