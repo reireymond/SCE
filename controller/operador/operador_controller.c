@@ -1,33 +1,46 @@
+// Inclui o cabeçalho do controller de operador, que contém as declarações
+// das funções implementadas neste arquivo.
 #include "operador_controller.h"
+// Inclui cabeçalhos padrão do C para funções de entrada/saída (stdio),
+// alocação de memória (stdlib) e manipulação de strings (string).
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// Inclui o cabeçalho do model para poder chamar a função 'salvarOperadores'.
 #include "model/operador/operador_model.h"
+// Inclui o cabeçalho da view para poder chamar a função 'listarOperadoresView'.
 #include "view/operador/operador_view.h"
+// Inclui o cabeçalho de utilitários para usar funções auxiliares como 'limpar_buffer'.
 #include "utils/utils.h"
+// Inclui o cabeçalho de validação para usar funções como 'ler_string_valida'.
 #include "utils/validation.h"
 
-// Função responsável por cadastrar um novo operador no sistema
+// Função para adicionar um novo operador ao sistema.
 void adicionarOperadorController(Sistema *sistema) {
-    // Verifica se é necessário aumentar a capacidade da lista de operadores
+    // Verifica se a lista de operadores atingiu a capacidade máxima do array.
     if (sistema->num_operadores == sistema->capacidade_operadores) {
+        // Se a capacidade for 0, define uma capacidade inicial; senão, dobra a capacidade.
         int nova_capacidade = (sistema->capacidade_operadores == 0) ? 10 : sistema->capacidade_operadores * 2;
-        // Realoca memória para armazenar mais operadores
+        // Tenta realocar a memória da lista para o novo tamanho.
         Operador *temp = realloc(sistema->lista_operadores, nova_capacidade * sizeof(Operador));
+        // Se a realocação falhar, informa o erro e encerra a função.
         if (temp == NULL) {
             printf("\nErro de alocacao de memoria para operadores!\n");
             return;
         }
+        // Atualiza o ponteiro da lista e a capacidade no sistema.
         sistema->lista_operadores = temp;
         sistema->capacidade_operadores = nova_capacidade;
     }
 
-    // Cria um novo operador no próximo índice disponível
+    // Obtém um ponteiro para a próxima posição livre no array de operadores.
     Operador *novo_operador = &sistema->lista_operadores[sistema->num_operadores];
+    // Atribui um código sequencial ao novo operador.
     novo_operador->codigo = sistema->num_operadores + 1;
 
-    // Coleta os dados do operador
+    // Exibe o cabeçalho para o formulário de cadastro.
     printf("\n--- Cadastro de Novo Operador (Codigo: %d) ---\n", novo_operador->codigo);
+    // Solicita e lê cada informação do novo operador, validando as entradas.
     printf("Nome: ");
     ler_string_valida(novo_operador->nome, sizeof(novo_operador->nome), VALIDATE_NAME);
 
@@ -37,17 +50,18 @@ void adicionarOperadorController(Sistema *sistema) {
     printf("Senha: ");
     ler_string_valida(novo_operador->senha, sizeof(novo_operador->senha), VALIDATE_NOT_EMPTY);
 
-    // Atualiza o total de operadores cadastrados
+    // Incrementa o número total de operadores.
     sistema->num_operadores++;
 
-    // Salva os dados no arquivo
+    // Salva a lista atualizada no arquivo.
     salvarOperadores(sistema);
     printf("\nOperador '%s' cadastrado com sucesso!\n", novo_operador->usuario);
 }
 
-// Função responsável por alterar os dados de um operador existente
+// Função para alterar os dados de um operador existente.
 void alterarOperadorController(Sistema *sistema) {
-    listarOperadoresView(sistema); // Exibe a lista de operadores
+    // Exibe a lista de operadores para que o usuário escolha qual alterar.
+    listarOperadoresView(sistema);
     if (sistema->num_operadores == 0) return;
 
     int codigo, indice = -1;
@@ -55,34 +69,36 @@ void alterarOperadorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura o operador pelo código informado
+    // Procura o operador pelo código informado.
     for (int i = 0; i < sistema->num_operadores; i++) {
         if (sistema->lista_operadores[i].codigo == codigo) {
-            indice = i;
+            indice = i; // Armazena o índice do operador encontrado.
             break;
         }
     }
 
-    // Caso o operador não seja encontrado
+    // Se o operador não foi encontrado, exibe uma mensagem e retorna.
     if (indice == -1) {
         printf("\nOperador com codigo %d nao encontrado.\n", codigo);
         return;
     }
 
-    // Ponteiro para o operador que será alterado
+    // Obtém um ponteiro para o operador que será modificado.
     Operador *operador = &sistema->lista_operadores[indice];
     int opcao;
+    // Loop para o menu de alteração.
     do {
-        limpar_tela(); // Limpa a tela a cada iteração
+        limpar_tela();
         printf("--- Alterando Operador: %s ---\n", operador->usuario);
         printf("1. Alterar Nome\n");
         printf("2. Alterar Usuario\n");
         printf("3. Alterar Senha\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
+        // Lê a opção do usuário, validando o intervalo de entrada.
         ler_int_valido(&opcao, 0, 3);
 
-        // Menu de alteração de campos do operador
+        // Executa a ação correspondente à opção escolhida.
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
@@ -103,13 +119,14 @@ void alterarOperadorController(Sistema *sistema) {
         }
     } while (opcao != 0);
     
-    // Salva as alterações realizadas
+    // Salva todas as alterações no arquivo.
     salvarOperadores(sistema);
 }
 
-// Função responsável por excluir um operador do sistema
+// Função para excluir um operador do sistema.
 void excluirOperadorController(Sistema *sistema) {
-    listarOperadoresView(sistema); // Exibe a lista de operadores
+    // Exibe a lista de operadores.
+    listarOperadoresView(sistema);
     if (sistema->num_operadores == 0) return;
 
     int codigo;
@@ -117,28 +134,30 @@ void excluirOperadorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura o operador pelo código
+    // Procura o operador pelo código.
     for (int i = 0; i < sistema->num_operadores; i++) {
         if (sistema->lista_operadores[i].codigo == codigo) {
             char confirmacao;
-            // Pede confirmação antes de excluir
+            // Pede confirmação ao usuário antes de prosseguir com a exclusão.
             printf("Tem certeza que deseja excluir o operador %s? (s/n): ", sistema->lista_operadores[i].usuario);
             scanf(" %c", &confirmacao);
             limpar_buffer();
 
-            // Se o usuário confirmar, o operador é removido
             if (confirmacao == 's' || confirmacao == 'S') {
-                sistema->lista_operadores[i] = sistema->lista_operadores[sistema->num_operadores - 1]; // Substitui pelo último da lista
-                sistema->num_operadores--; // Reduz a contagem
+                // Move o último operador da lista para a posição do que está sendo excluído.
+                sistema->lista_operadores[i] = sistema->lista_operadores[sistema->num_operadores - 1];
+                // Reduz o contador de operadores.
+                sistema->num_operadores--;
                 printf("\nOperador excluido com sucesso!\n");
-                salvarOperadores(sistema); // Atualiza os dados
+                // Salva o estado atualizado da lista no arquivo.
+                salvarOperadores(sistema);
             } else {
                 printf("\nExclusao cancelada.\n");
             }
+            // Retorna, pois a operação foi finalizada.
             return;
         }
     }
-
-    // Caso o código não seja encontrado
+    // Se o loop terminar sem encontrar o operador, exibe uma mensagem.
     printf("\nOperador com codigo %d nao encontrado.\n", codigo);
 }

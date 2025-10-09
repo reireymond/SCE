@@ -1,36 +1,46 @@
+// Inclui o cabeçalho do controller, que contém as declarações das funções
+// que serão implementadas neste arquivo.
 #include "equipe_interna_controller.h"
+// Inclui os cabeçalhos padrão do C para funções de entrada/saída (stdio),
+// alocação de memória (stdlib) e manipulação de strings (string).
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+// Inclui o cabeçalho do model para poder chamar a função 'salvarEquipeInterna'.
 #include "model/equipe_interna/equipe_interna_model.h"
+// Inclui o cabeçalho da view para poder chamar a função 'listarEquipeInternaView'.
 #include "view/equipe_interna/equipe_interna_view.h"
+// Inclui o cabeçalho de utilitários para usar funções como 'limpar_buffer'.
 #include "utils/utils.h"
+// Inclui o cabeçalho de validação para usar funções como 'ler_string_valida'.
 #include "utils/validation.h"
 
-// Função responsável por adicionar um novo membro à equipe
+// Função para adicionar um novo membro da equipe ao sistema.
 void adicionarEquipeController(Sistema *sistema) {
-    // Verifica se o vetor está cheio; se sim, dobra a capacidade
+    // Verifica se a lista de membros da equipe atingiu sua capacidade máxima.
     if (sistema->num_equipe == sistema->capacidade_equipe) {
+        // Se a capacidade for 0, define uma capacidade inicial de 10; caso contrário, dobra a capacidade atual.
         int nova_capacidade = (sistema->capacidade_equipe == 0) ? 10 : sistema->capacidade_equipe * 2;
+        // Tenta realocar a memória da lista para o novo tamanho.
         EquipeInterna *temp = realloc(sistema->lista_equipe, nova_capacidade * sizeof(EquipeInterna));
-
-        // Verifica se houve erro de alocação
+        // Se a realocação de memória falhar (realloc retorna NULL), exibe um erro e encerra a função.
         if (temp == NULL) {
             printf("\nErro de alocacao de memoria para equipe!\n");
             return;
         }
-
-        // Atualiza ponteiro e capacidade
+        // Se a realocação for bem-sucedida, atualiza o ponteiro da lista e a capacidade no sistema.
         sistema->lista_equipe = temp;
         sistema->capacidade_equipe = nova_capacidade;
     }
 
-    // Cria um novo membro na próxima posição do vetor
+    // Obtém um ponteiro para a próxima posição livre no array da equipe.
     EquipeInterna *novo_membro = &sistema->lista_equipe[sistema->num_equipe];
-    novo_membro->codigo = sistema->num_equipe + 1; // Código automático
+    // Define o código do novo membro de forma sequencial.
+    novo_membro->codigo = sistema->num_equipe + 1;
 
-    // Coleta os dados do novo membro
+    // Exibe o cabeçalho para o formulário de cadastro.
     printf("\n--- Cadastro de Novo Membro (Codigo: %d) ---\n", novo_membro->codigo);
+    // Solicita e lê cada informação do novo membro, validando as entradas.
     printf("Nome: ");
     ler_string_valida(novo_membro->nome, sizeof(novo_membro->nome), VALIDATE_NAME);
 
@@ -41,47 +51,48 @@ void adicionarEquipeController(Sistema *sistema) {
     ler_string_valida(novo_membro->funcao, sizeof(novo_membro->funcao), VALIDATE_NOT_EMPTY);
     
     printf("Valor da diaria: R$ ");
+    // scanf é usado aqui para ler um float. A função de validação específica para floats será usada em 'alterar'.
     scanf("%f", &novo_membro->valor_diaria);
-    limpar_buffer();
+    limpar_buffer(); // Limpa o buffer de entrada após a leitura do scanf.
 
-    // Incrementa o contador de membros
+    // Incrementa o contador de membros da equipe.
     sistema->num_equipe++;
 
-    // Salva as alterações no arquivo
+    // Chama a função do model para salvar a lista atualizada em arquivo.
     salvarEquipeInterna(sistema);
     printf("\nMembro '%s' cadastrado com sucesso!\n", novo_membro->nome);
 }
 
-// Função responsável por alterar os dados de um membro existente
+// Função para alterar os dados de um membro da equipe.
 void alterarEquipeController(Sistema *sistema) {
-    // Mostra a lista atual de membros
+    // Exibe a lista de membros para que o usuário possa ver os códigos e escolher quem alterar.
     listarEquipeInternaView(sistema);
-    if (sistema->num_equipe == 0) return; // Sai se não houver membros
+    // Se não houver membros, informa o usuário e retorna.
+    if (sistema->num_equipe == 0) return;
 
     int codigo, indice = -1;
     printf("\nDigite o codigo do membro que deseja alterar: ");
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura o membro pelo código informado
+    // Procura o membro na lista pelo código fornecido.
     for (int i = 0; i < sistema->num_equipe; i++) {
         if (sistema->lista_equipe[i].codigo == codigo) {
-            indice = i;
-            break;
+            indice = i; // Guarda o índice do membro encontrado.
+            break;      // Sai do loop.
         }
     }
 
-    // Caso o membro não seja encontrado
+    // Se o índice não foi alterado, o membro não foi encontrado.
     if (indice == -1) {
         printf("\nMembro com codigo %d nao encontrado.\n", codigo);
         return;
     }
     
-    // Aponta para o membro encontrado
+    // Obtém um ponteiro para o membro a ser alterado.
     EquipeInterna *membro = &sistema->lista_equipe[indice];
     int opcao;
-
-    // Menu para escolher qual campo alterar
+    // Loop do menu de alteração.
     do {
         limpar_tela();
         printf("--- Alterando Membro: %s ---\n", membro->nome);
@@ -91,9 +102,10 @@ void alterarEquipeController(Sistema *sistema) {
         printf("4. Alterar Valor da Diaria\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
+        // Lê a opção do usuário, garantindo que seja um número válido no intervalo [0, 4].
         ler_int_valido(&opcao, 0, 4);
 
-        // Executa a alteração conforme a escolha do usuário
+        // Processa a opção escolhida pelo usuário.
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
@@ -109,6 +121,7 @@ void alterarEquipeController(Sistema *sistema) {
                 break;
             case 4:
                 printf("Novo Valor da Diaria: R$ ");
+                // Usa a função de validação para garantir que o float seja um número positivo.
                 ler_float_positivo(&membro->valor_diaria);
                 break;
             case 0:
@@ -117,43 +130,45 @@ void alterarEquipeController(Sistema *sistema) {
         }
     } while (opcao != 0);
 
-    // Salva as mudanças feitas
+    // Salva as alterações no arquivo.
     salvarEquipeInterna(sistema);
 }
 
-// Função responsável por excluir um membro da equipe
+// Função para excluir um membro da equipe.
 void excluirEquipeController(Sistema *sistema) {
-    // Mostra todos os membros cadastrados
+    // Mostra a lista de membros para o usuário.
     listarEquipeInternaView(sistema);
-    if (sistema->num_equipe == 0) return; // Sai se não houver membros
+    if (sistema->num_equipe == 0) return;
 
     int codigo;
     printf("\nDigite o codigo do membro que deseja excluir: ");
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura o membro pelo código
+    // Procura o membro pelo código.
     for (int i = 0; i < sistema->num_equipe; i++) {
         if (sistema->lista_equipe[i].codigo == codigo) {
             char confirmacao;
+            // Pede confirmação ao usuário antes de excluir.
             printf("Tem certeza que deseja excluir o membro %s? (s/n): ", sistema->lista_equipe[i].nome);
             scanf(" %c", &confirmacao);
             limpar_buffer();
 
-            // Confirma a exclusão
             if (confirmacao == 's' || confirmacao == 'S') {
-                // Substitui o membro excluído pelo último da lista
+                // Para remover o item do array, o último elemento é movido para a posição do item a ser excluído.
                 sistema->lista_equipe[i] = sistema->lista_equipe[sistema->num_equipe - 1];
+                // O contador total de membros é decrementado.
                 sistema->num_equipe--;
                 printf("\nMembro excluido com sucesso!\n");
-                salvarEquipeInterna(sistema); // Atualiza o arquivo
+                // Salva o novo estado da lista no arquivo.
+                salvarEquipeInterna(sistema);
             } else {
                 printf("\nExclusao cancelada.\n");
             }
+            // Retorna da função, pois a operação foi concluída.
             return;
         }
     }
-
-    // Caso o membro não seja encontrado
+    // Se o loop terminar e o membro não for encontrado, informa o usuário.
     printf("\nMembro com codigo %d nao encontrado.\n", codigo);
 }
