@@ -15,7 +15,7 @@
 4. [🛠️ Tecnologias Utilizadas](#️-tecnologias-utilizadas)
 5. [🚀 Como Compilar e Executar](#-como-compilar-e-executar)
 6. [📂 Estrutura de Arquivos](#-estrutura-de-arquivos)
-7. [👤 Autor](#-autor)
+7. [👤 Autores](#-autores)
 
 ---
 
@@ -67,6 +67,7 @@ Atualmente, os seguintes métodos de persistência são suportados:
 ## 🛠️ Tecnologias Utilizadas
 
 * **Linguagem C (Padrão C99):** Todo o sistema foi desenvolvido em C puro, com foco em gerenciamento de memória, ponteiros e manipulação de arquivos.
+* **Make/Makefile:** Para automação do processo de compilação.
 * **Git & GitHub:** Para controle de versão e gerenciamento do projeto.
 
 ## 🚀 Como Compilar e Executar
@@ -76,16 +77,25 @@ Atualmente, os seguintes métodos de persistência são suportados:
 
 ```bash
 # 1. Clone o repositório
-git clone [https://github.com/reireymond/Projeto_AII_Res.git](https://github.com/reireymond/Projeto_AII_Res.git)
+git clone [https://github.com/reireymond/SCE.git](https://github.com/reireymond/SCE.git)
 
 # 2. Navegue até o diretório do projeto
 cd SCE
 
-# 3. Compile todos os arquivos .c
-gcc *.c -o sce_executavel -lm
+# 3. Compile o projeto
+# No Linux, use o comando 'make'
+make
+
+# No Windows (com MinGW instalado), use o comando 'mingw32-make'
+mingw32-make
 
 # 4. Execute o programa
+# No Linux
 ./sce_executavel
+
+# No Windows
+sce_executavel.exe
+
 ```
 
 ## 📂 Estrutura de Arquivos
@@ -97,15 +107,35 @@ O código fonte está organizado da seguinte maneira para garantir a modularidad
 * `funcoes.h` / `funcoes.c`: Contém a lógica de negócios e as funcionalidades de cada módulo do sistema.
 * `structs.h`: Define todas as estruturas de dados (structs) utilizadas no projeto.
 * `persistencia.h` / `persistencia_*.c`: Arquivos responsáveis pela camada de abstração e implementações de persistência.
+* `Makefile`: Arquivo com as regras para compilar o projeto de forma automatizada.
 
-## 👤 Autor
+## 👤 Autores
 
-* **Kaua Teixeira Nascimento**
-* **LinkedIn:** [linkedin.com/in/kaua-teixeira-nascimento-ba6b03331](https://www.linkedin.com/in/kaua-teixeira-nascimento-ba6b03331)
-* **GitHub:** [@reireymond](https://github.com/reireymond)
+<table>
+<tr>
+<td align="center">
+<a href="https://github.com/reireymond">
+<img src="https://www.google.com/search?q=https://github.com/reireymond.png%3Fsize%3D100" width="100px;" alt="Foto de Kaua Teixeira Nascimento no GitHub"/>
 
-* **Gabriel Mendonça de Oliveira**
-* **GitHub:** [@bielbieloliveirag8-eng](https://github.com/bielbieloliveirag8-eng)
 
+
+<sub>
+<b>Kaua Teixeira N.</b>
+</sub>
+</a>
+</td>
+<td align="center">
+<a href="https://github.com/bielbieloliveirag8-eng">
+<img src="https://www.google.com/search?q=https://github.com/bielbieloliveirag8-eng.png%3Fsize%3D100" width="100px;" alt="Foto de Gabriel Mendonça de Oliveira no GitHub"/>
+
+
+
+<sub>
+<b>Gabriel Mendonça O.</b>
+</sub>
+</a>
+</td>
+</tr>
+</table>
 ---
 > Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
