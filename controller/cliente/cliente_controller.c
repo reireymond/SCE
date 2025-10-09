@@ -53,13 +53,13 @@ void adicionarClienteController(Sistema *sistema) {
     ler_string_valida(novo_cliente->endereco, sizeof(novo_cliente->endereco), VALIDATE_NOT_EMPTY);
 
     printf("Telefone: ");
-    ler_string_valida(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDATE_PHONE);
 
     printf("E-mail: ");
     ler_string_valida(novo_cliente->email, sizeof(novo_cliente->email), VALIDATE_EMAIL);
     
     printf("Nome do Contato: ");
-    ler_string_valida(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDATE_NAME);
 
     // Incrementa o contador de clientes no sistema.
     sistema->num_clientes++;
