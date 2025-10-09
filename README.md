@@ -1,7 +1,7 @@
 # Sistema de Controle de Eventos (SCE)
 
 ![Status do Projeto](https://img.shields.io/badge/status-em%20desenvolvimento-yellowgreen)
-![Linguagem](https://img.shields.io/badge/linguagem-C-blue.svg)
+![Linguagem](https://img.shields.io/badge/C-C99-blue.svg)
 ![Licença](https://img.shields.io/badge/licen%C3%A7a-MIT-green)
 
 > Projeto acadêmico da disciplina de Algoritmos II do IFMG - Campus Formiga. Um sistema de gestão completo para produtoras de eventos, desenvolvido em C.
@@ -77,7 +77,7 @@ Atualmente, os seguintes métodos de persistência são suportados:
 
 ```bash
 # 1. Clone o repositório
-git clone [https://github.com/reireymond/SCE.git](https://github.com/reireymond/SCE.git)
+git clone https://github.com/reireymond/SCE.git
 
 # 2. Navegue até o diretório do projeto
 cd SCE
@@ -91,10 +91,10 @@ mingw32-make
 
 # 4. Execute o programa
 # No Linux
-./sce_executavel
+./sce
 
 # No Windows
-sce_executavel.exe
+sce.exe
 
 ```
 
@@ -112,30 +112,26 @@ O código fonte está organizado da seguinte maneira para garantir a modularidad
 ## 👤 Autores
 
 <table>
-<tr>
-<td align="center">
-<a href="https://github.com/reireymond">
-<img src="https://www.google.com/search?q=https://github.com/reireymond.png%3Fsize%3D100" width="100px;" alt="Foto de Kaua Teixeira Nascimento no GitHub"/>
-
-
-
-<sub>
-<b>Kaua Teixeira N.</b>
-</sub>
-</a>
-</td>
-<td align="center">
-<a href="https://github.com/bielbieloliveirag8-eng">
-<img src="https://www.google.com/search?q=https://github.com/bielbieloliveirag8-eng.png%3Fsize%3D100" width="100px;" alt="Foto de Gabriel Mendonça de Oliveira no GitHub"/>
-
-
-
-<sub>
-<b>Gabriel Mendonça O.</b>
-</sub>
-</a>
-</td>
-</tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/reireymond">
+        <img src="https://github.com/reireymond.png?size=100" width="100px;" alt="Foto de Kaua Teixeira Nascimento no GitHub"/>
+        <br />
+        <sub>
+          <b>Kaua Teixeira N.</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/bielbieloliveirag8-eng">
+        <img src="https://github.com/bielbieloliveirag8-eng.png?size=100" width="100px;" alt="Foto de Gabriel Mendonça de Oliveira no GitHub"/>
+        <br />
+        <sub>
+          <b>Gabriel Mendonça O.</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
 </table>
 ---
 > Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
