@@ -79,7 +79,7 @@ Atualmente, os seguintes métodos de persistência são suportados:
 git clone [https://github.com/reireymond/Projeto_AII_Res.git](https://github.com/reireymond/Projeto_AII_Res.git)
 
 # 2. Navegue até o diretório do projeto
-cd Projeto_AII_Res
+cd SCE
 
 # 3. Compile todos os arquivos .c
 gcc *.c -o sce_executavel -lm
