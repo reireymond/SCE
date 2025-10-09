@@ -66,6 +66,6 @@ void listarRecursosView(Sistema *sistema) {
         printf("Preco de Custo: R$ %.2f\n", sistema->lista_recursos[i].preco_custo);
         printf("Valor Locacao (diaria): R$ %.2f\n", sistema->lista_recursos[i].valor_locacao);
     }
-    // Imprime uma linha final para delimitar o fim da lista.
+
     printf("----------------------------------\n");
 }

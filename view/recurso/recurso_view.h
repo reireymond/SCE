@@ -19,5 +19,5 @@ void menuRecursosView(Sistema *sistema);
 // um na tela de forma organizada e legível.
 void listarRecursosView(Sistema *sistema);
 
-// Fim da diretiva de inclusão condicional.
+
 #endif
