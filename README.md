@@ -133,5 +133,5 @@ O código fonte está organizado da seguinte maneira para garantir a modularidad
     </td>
   </tr>
 </table>
----
+
 > Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
