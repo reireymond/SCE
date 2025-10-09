@@ -104,5 +104,8 @@ O código fonte está organizado da seguinte maneira para garantir a modularidad
 * **LinkedIn:** [linkedin.com/in/kaua-teixeira-nascimento-ba6b03331](https://www.linkedin.com/in/kaua-teixeira-nascimento-ba6b03331)
 * **GitHub:** [@reireymond](https://github.com/reireymond)
 
+* **Gabriel Mendonça de Oliveira**
+* **GitHub:** [@bielbieloliveirag8-eng](https://github.com/bielbieloliveirag8-eng)
+
 ---
 > Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
