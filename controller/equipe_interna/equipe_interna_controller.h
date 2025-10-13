@@ -1,26 +1,20 @@
-// Previne a inclusão múltipla deste arquivo de cabeçalho, um mecanismo padrão
-// para evitar erros de compilação por redefinição de funções.
 #ifndef EQUIPE_INTERNA_CONTROLLER_H
 #define EQUIPE_INTERNA_CONTROLLER_H
 
-// Inclui a definição da estrutura principal 'Sistema'. Todas as funções do controller
-// recebem um ponteiro para esta estrutura, pois elas precisam interagir com os dados
-// globais da aplicação, como a lista de membros da equipe.
 #include "model/sistema.h"
 
-// Declaração da função do controller para adicionar um novo membro à equipe.
-// Esta função irá gerenciar o processo de coletar os dados do novo membro
-// e inseri-lo na lista de equipe do sistema.
+// Controller para gerenciar membros da equipe interna do sistema
+
+// Adiciona um novo membro à equipe
+// Recebe um ponteiro para o sistema para acessar a lista de membros
 void adicionarEquipeController(Sistema *sistema);
 
-// Declaração da função do controller para alterar os dados de um membro existente.
-// Esta função será responsável pela lógica de selecionar um membro,
-// solicitar as novas informações e atualizar o registro correspondente.
+// Altera os dados de um membro existente
+// Permite selecionar o membro e atualizar suas informações
 void alterarEquipeController(Sistema *sistema);
 
-// Declaração da função do controller para excluir um membro da equipe.
-// Irá gerenciar a localização do membro na lista e sua remoção.
+// Exclui um membro da equipe
+// Localiza o membro na lista e remove o registro correspondente
 void excluirEquipeController(Sistema *sistema);
 
-// Fim da diretiva de inclusão condicional.
 #endif

@@ -1,22 +1,14 @@
-// Garante que este arquivo de cabeçalho seja incluído apenas uma vez
-// durante a compilação, prevenindo erros de redefinição de funções.
+// Evita múltiplas inclusões do arquivo, prevenindo redefinições de funções
 #ifndef UTILS_H
 #define UTILS_H
 
-// Declaração da função para limpar o buffer de entrada do teclado.
-// É útil para consumir caracteres extras que permanecem no buffer após
-// uma leitura com scanf, evitando que eles interfiram na próxima leitura.
+// Limpa o buffer de entrada para evitar problemas após scanf
 void limpar_buffer();
 
-// Declaração da função para pausar a execução do programa.
-// Exibe uma mensagem e aguarda que o usuário pressione a tecla Enter
-// para continuar, melhorando a usabilidade em consoles.
+// Pausa a execução até o usuário pressionar Enter
 void pausar();
 
-// Declaração da função para limpar a tela do console.
-// Esta função executa um comando do sistema operacional ('cls' no Windows,
-// 'clear' em outros sistemas) para limpar o conteúdo da tela.
+// Limpa a tela do console (Windows: cls, Linux/macOS: clear)
 void limpar_tela();
 
-// Fim da diretiva de inclusão condicional.
-#endif
+#endif // UTILS_H

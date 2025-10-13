@@ -5,18 +5,10 @@
 // Inclui a biblioteca padrão para funções como 'atoi' (converter string para inteiro).
 #include <stdlib.h>
 
-<<<<<<< HEAD
+
 //Funções de validação específicas (privadas para este arquivo) 
 
 
-=======
-// --- Funções de validação específicas (privadas para este arquivo) --- //
-// A palavra-chave 'static' torna estas funções visíveis apenas dentro deste arquivo .c,
-// o que é uma boa prática para funções auxiliares que não precisam ser usadas em outros lugares.
-
-// Remove todos os caracteres que não são dígitos de uma string.
-// Útil para limpar entradas de CPF/CNPJ antes de validar os números.
->>>>>>> 645da4619f2ef11c04a515c458f43d5e02a1f4a4
 static void extrair_apenas_numeros(const char *str_in, char *str_out)
 {
     // 'j' será o índice para a string de saída.
@@ -100,15 +92,10 @@ static int is_valid_phone(const char *str)
     return 1;
 }
 
-<<<<<<< HEAD
-//FUNÇÕES DE VALIDAÇÃO DE CPF E CNPJ 
-
-
-=======
-// --- NOVAS FUNÇÕES DE VALIDAÇÃO DE CPF E CNPJ --- //
+// função valida cpf
 
 // Realiza a validação matemática completa de um CPF.
->>>>>>> 645da4619f2ef11c04a515c458f43d5e02a1f4a4
+
 static int is_valid_cpf(const char *cpf_str)
 {
     char numeros[12];
@@ -171,11 +158,6 @@ static int is_valid_cpf(const char *cpf_str)
     return 1; // Se todas as verificações passaram, o CPF é válido.
 }
 
-<<<<<<< HEAD
-
-=======
-// Realiza a validação matemática completa de um CNPJ.
->>>>>>> 645da4619f2ef11c04a515c458f43d5e02a1f4a4
 static int is_valid_cnpj(const char *cnpj_str)
 {
     char numeros[15];
@@ -237,12 +219,6 @@ static int is_valid_cnpj(const char *cnpj_str)
 
     return 1; // Se passou em todas as verificações, o CNPJ é válido.
 }
-<<<<<<< HEAD
- 
-=======
-
-// --- Implementação das funções públicas --- //
->>>>>>> 645da4619f2ef11c04a515c458f43d5e02a1f4a4
 
 // Função genérica para ler e validar uma string do teclado.
 int ler_string_valida(char *buffer, int length, ValidationType type)
