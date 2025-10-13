@@ -2,13 +2,9 @@
 #include "utils.h" // Para usar o limpar_buffer
 #include <stdlib.h> // Para atoi
 
-/* --- Funções de validação específicas (privadas para este arquivo) --- */
+//Funções de validação específicas (privadas para este arquivo) 
 
-/**
- * @brief Remove todos os caracteres não numéricos de uma string de entrada.
- * @param str_in A string original com caracteres diversos.
- * @param str_out O buffer de saída onde apenas os dígitos serão armazenados.
- */
+
 static void extrair_apenas_numeros(const char *str_in, char *str_out)
 {
     int j = 0;
@@ -77,13 +73,9 @@ static int is_valid_phone(const char *str)
     return 1;
 }
 
-/* --- NOVAS FUNÇÕES DE VALIDAÇÃO DE CPF E CNPJ --- */
+//FUNÇÕES DE VALIDAÇÃO DE CPF E CNPJ 
 
-/**
- * @brief Realiza a validação matemática completa de um CPF.
- * @param cpf_str String contendo o CPF (pode estar formatado ou não).
- * @return 1 se o CPF for válido, 0 caso contrário.
- */
+
 static int is_valid_cpf(const char *cpf_str)
 {
     char numeros[12];
@@ -142,11 +134,7 @@ static int is_valid_cpf(const char *cpf_str)
     return 1; // CPF Válido
 }
 
-/**
- * @brief Realiza a validação matemática completa de um CNPJ.
- * @param cnpj_str String contendo o CNPJ (pode estar formatado ou não).
- * @return 1 se o CNPJ for válido, 0 caso contrário.
- */
+
 static int is_valid_cnpj(const char *cnpj_str)
 {
     char numeros[15];
@@ -206,8 +194,7 @@ static int is_valid_cnpj(const char *cnpj_str)
 
     return 1; // CNPJ Válido
 }
-
-/* --- Implementação das funções públicas --- */
+ 
 
 int ler_string_valida(char *buffer, int length, ValidationType type)
 {
