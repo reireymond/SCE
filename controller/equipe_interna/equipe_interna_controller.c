@@ -53,7 +53,6 @@ void adicionarEquipeController(Sistema *sistema) {
     printf("Valor da diaria: R$ ");
     // scanf é usado aqui para ler um float. A função de validação específica para floats será usada em 'alterar'.
     ler_float_positivo(&novo_membro->valor_diaria);
-    limpar_buffer(); // Limpa o buffer de entrada após a leitura do scanf.
 
     // Incrementa o contador de membros da equipe.
     sistema->num_equipe++;
