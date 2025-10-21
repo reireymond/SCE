@@ -21,11 +21,14 @@
 // Implementação da função que exibe o menu de escolha do modo de armazenamento.
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
-    printf("\n--- Configuracao de Armazenamento ---\n");
-    printf("Escolha como os dados devem ser salvos:\n");
-    printf("1. Arquivo Binario (Mais rapido)\n");
-    printf("2. Arquivo de Texto (Legivel)\n");
-    printf("3. Apenas em Memoria (Dados nao serao salvos)\n");
+    printf("+=====================================================+\n");
+    printf("|        CONFIGURACAO DE ARMAZENAMENTO                |\n");
+    printf("|      Escolha como os dados devem ser salvos:        |\n");
+    printf("+=====================================================+\n");
+    printf("| [1] Arquivo Binario (Mais rapido)                   |\n");
+    printf("| [2] Arquivo de Texto (Legivel)                      |\n");
+    printf("| [3] Apenas em Memoria (Dados nao serao salvos)      |\n");
+    printf("+=====================================================+\n");
     printf("Escolha: ");
     scanf("%d", &opcao);
     limpar_buffer();
@@ -49,13 +52,16 @@ void menuPrincipalView(Sistema *sistema) {
     // O loop continua exibindo o menu até que o usuário escolha a opção 0 para sair.
     do {
         limpar_tela();
-        printf("\n--- MENU PRINCIPAL ---\n");
-        printf("1. Gestao de Dados\n");
-        printf("2. Gestao de Eventos\n");
-        printf("3. Transacoes\n");
-        printf("4. FeedBack\n");
-        printf("5. Importar ou Exportar Dados\n");
-        printf("0. Sair\n");
+        printf("+=====================================================+\n");
+        printf("|                  MENU PRINCIPAL                     |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Gestao de Dados                                 |\n");
+        printf("| [2] Gestao de Eventos                               |\n");
+        printf("| [3] Transacoes                                      |\n");
+        printf("| [4] FeedBack                                        |\n");
+        printf("| [5] Importar ou Exportar Dados                      |\n");
+        printf("| [0] Sair                                            |\n");
+        printf("+=====================================================+\n");
         printf("\nEscolha sua opcao: ");
         scanf("%d", &opcao);
         limpar_buffer();
@@ -93,14 +99,19 @@ void menuGestaoDeDadosView(Sistema *sistema) {
     // O loop continua até o usuário escolher a opção 0 para voltar ao menu principal.
     do {
         limpar_tela();
-        printf("\n--- GESTAO DE DADOS ---\n");
-        printf("1. Gerenciar Produtora\n");
-        printf("2. Gerenciar Clientes\n");
-        printf("3. Gerenciar Equipe Interna\n");
-        printf("4. Gerenciar Recursos e Equipamentos\n");
-        printf("5. Gerenciar Fornecedores e Parceiros\n");
-        printf("6. Gerenciar Operadores do Sistema\n");
-        printf("0. Voltar ao Menu Principal\n");
+        limpar_tela();
+        printf("+=====================================================+\n");
+        printf("|                 GESTAO DE DADOS                     |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Gerenciar Produtora                             |\n");
+        printf("| [2] Gerenciar Clientes                              |\n");
+        printf("| [3] Gerenciar Equipe Interna                        |\n");
+        printf("| [4] Gerenciar Recursos e Equipamentos               |\n");
+        printf("| [5] Gerenciar Fornecedores e Parceiros              |\n");
+        printf("| [6] Gerenciar Operadores do Sistema                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar ao Menu Principal                        |\n");
+        printf("+=====================================================+\n");
         printf("\nEscolha uma opcao: ");
         scanf("%d", &opcao);
         limpar_buffer();

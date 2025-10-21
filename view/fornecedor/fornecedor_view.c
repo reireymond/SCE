@@ -17,13 +17,17 @@ void menuFornecedoresView(Sistema *sistema) {
     do {
         // Limpa a tela para uma apresentação mais limpa do menu.
         limpar_tela();
-        printf("\n--- Menu Fornecedores e Parceiros ---\n");
-        printf("1. Adicionar Novo Fornecedor\n");
-        printf("2. Alterar Fornecedor Existente\n");
-        printf("3. Listar Todos os Fornecedores\n");
-        printf("4. Excluir Fornecedor\n");
-        printf("0. Voltar\n");
-        printf("Escolha: ");
+        printf("+=====================================================+\n");
+        printf("|           MENU FORNECEDORES E PARCEIROS             |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Adicionar Novo Fornecedor                       |\n");
+        printf("| [2] Alterar Fornecedor Existente                    |\n");
+        printf("| [3] Listar Todos os Fornecedores                    |\n");
+        printf("| [4] Excluir Fornecedor                              |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
         // Limpa o buffer de entrada para evitar problemas na próxima leitura.
@@ -53,19 +57,25 @@ void listarFornecedoresView(Sistema *sistema) {
         return; // Retorna para a função anterior (o menu).
     }
     // Imprime o cabeçalho da lista.
-    printf("\n--- Lista de Fornecedores e Parceiros ---\n");
-    // Percorre o array de fornecedores.
+    printf("+=====================================================+\n");
+    printf("|       LISTA DE FORNECEDORES E PARCEIROS             |\n");
+    printf("+=====================================================+\n");
+
+if (sistema->num_fornecedores == 0) {
+    printf("| Nenhum fornecedor cadastrado.                       |\n");
+} else {
     for (int i = 0; i < sistema->num_fornecedores; i++) {
-        // Para cada fornecedor, imprime seus dados de forma formatada e legível.
-        printf("----------------------------------\n");
-        printf("Codigo: %d\n", sistema->lista_fornecedores[i].codigo);
-        printf("Nome Fantasia: %s\n", sistema->lista_fornecedores[i].nome_fantasia);
-        printf("Razao Social: %s\n", sistema->lista_fornecedores[i].razao_social);
-        printf("CNPJ / CPF: %s\n", sistema->lista_fornecedores[i].cnpj);
-        printf("Endereco: %s\n", sistema->lista_fornecedores[i].endereco);
-        printf("Telefone: %s\n", sistema->lista_fornecedores[i].telefone);
-        printf("Tipo de Servico: %s\n", sistema->lista_fornecedores[i].tipo_servico);
+        printf("+-----------------------------------------------------+\n");
+        printf("| Codigo         : %-36d |\n", sistema->lista_fornecedores[i].codigo);
+        printf("| Nome Fantasia  : %-36s |\n", sistema->lista_fornecedores[i].nome_fantasia);
+        printf("| Razao Social   : %-36s |\n", sistema->lista_fornecedores[i].razao_social);
+        printf("| CNPJ / CPF     : %-36s |\n", sistema->lista_fornecedores[i].cnpj);
+        printf("| Endereco       : %-36s |\n", sistema->lista_fornecedores[i].endereco);
+        printf("| Telefone       : %-36s |\n", sistema->lista_fornecedores[i].telefone);
+        printf("| Tipo de Servico: %-36s |\n", sistema->lista_fornecedores[i].tipo_servico);
     }
-    // Imprime uma linha final para fechar a formatação da lista.
-    printf("----------------------------------\n");
+}
+
+        printf("+=====================================================+\n");
+
 }

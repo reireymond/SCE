@@ -16,14 +16,22 @@ void menuClientesView(Sistema *sistema) {
     // sendo exibido até que o usuário escolha a opção 0 para sair.
     do {
         // Limpa a tela antes de exibir o menu para uma interface mais limpa.
-        limpar_tela();
-        printf("\n--- Menu Clientes ---\n");
-        printf("1. Adicionar Novo Cliente\n");
-        printf("2. Alterar Cliente Existente\n");
-        printf("3. Listar Todos os Clientes\n");
-        printf("4. Excluir Cliente\n");
-        printf("0. Voltar\n");
-        printf("Escolha: ");
+      limpar_tela();
+        printf("+=====================================================+\n");
+        printf("|                   MENU CLIENTES                     |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Adicionar Novo Cliente                          |\n");
+        printf("| [2] Alterar Cliente Existente                       |\n");
+        printf("| [3] Listar Todos os Clientes                        |\n");
+        printf("| [4] Excluir Cliente                                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+
+
+
+
         // Lê a opção do usuário.
         scanf("%d", &opcao);
         // Limpa o buffer de entrada para remover o '\n' deixado pelo scanf.
@@ -53,19 +61,22 @@ void listarClientesView(Sistema *sistema) {
         return; // Retorna para a função anterior.
     }
     // Imprime o cabeçalho da lista.
-    printf("\n--- Lista de Clientes ---\n");
+    printf("+=====================================================================+\n");
+    printf("|                      Lista de Clientes                              |\n");
     // Percorre o array de clientes do início ao fim.
     for (int i = 0; i < sistema->num_clientes; i++) {
         // Para cada cliente, imprime seus dados de forma formatada e legível.
-        printf("----------------------------------\n");
-        printf("Codigo: %d\n", sistema->lista_clientes[i].codigo);
-        printf("Nome / Razao Social: %s\n", sistema->lista_clientes[i].razao_social);
-        printf("CPF / CNPJ: %s\n", sistema->lista_clientes[i].cnpj);
-        printf("Endereco: %s\n", sistema->lista_clientes[i].endereco);
-        printf("Telefone: %s\n", sistema->lista_clientes[i].telefone);
-        printf("E-mail: %s\n", sistema->lista_clientes[i].email);
-        printf("Contato: %s\n", sistema->lista_clientes[i].nome_do_contato);
+        printf("+=====================================================================+\n");
+        printf("| Codigo: %d\n", sistema->lista_clientes[i].codigo);
+        printf("| Nome / Razao Social: %s\n", sistema->lista_clientes[i].razao_social);
+        printf("| CPF / CNPJ: %s\n", sistema->lista_clientes[i].cnpj);
+        printf("| Endereco: %s\n", sistema->lista_clientes[i].endereco);
+        printf("| Telefone: %s\n", sistema->lista_clientes[i].telefone);
+        printf("| E-mail: %s\n", sistema->lista_clientes[i].email);
+        printf("| Contato: %s\n", sistema->lista_clientes[i].nome_do_contato);
     }
+        printf("+=====================================================================\n");
+
     // Imprime uma linha final para fechar a formatação da lista.
-    printf("----------------------------------\n");
+   
 }

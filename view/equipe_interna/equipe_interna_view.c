@@ -17,13 +17,19 @@ void menuEquipeInternaView(Sistema *sistema) {
     do {
         // Limpa a tela para uma apresentação mais organizada do menu.
         limpar_tela();
-        printf("\n--- Menu Equipe Interna ---\n");
-        printf("1. Adicionar Novo Membro\n");
-        printf("2. Alterar Membro Existente\n");
-        printf("3. Listar Todos os Membros\n");
-        printf("4. Excluir Membro\n");
-        printf("0. Voltar\n");
-        printf("Escolha: ");
+       
+        printf("+=====================================================+\n");
+        printf("|                MENU EQUIPE INTERNA                  |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Adicionar Novo Membro                          |\n");
+        printf("| [2] Alterar Membro Existente                       |\n");
+        printf("| [3] Listar Todos os Membros                        |\n");
+        printf("| [4] Excluir Membro                                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                         |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
         // Limpa o buffer de entrada para evitar que o '\n' afete a próxima leitura.
@@ -53,17 +59,23 @@ void listarEquipeInternaView(Sistema *sistema) {
         return; // Retorna para a função que a chamou (geralmente o menu).
     }
     // Imprime o cabeçalho da lista.
-    printf("\n--- Lista de Membros da Equipe Interna ---\n");
-    // Percorre o array de membros da equipe.
+    printf("+=====================================================+\n");
+    printf("|        LISTA DE MEMBROS DA EQUIPE INTERNA          |\n");
+    printf("+=====================================================+\n");
+
+if (sistema->num_equipe == 0) {
+    printf("| Nenhum membro cadastrado.                          |\n");
+} else {
     for (int i = 0; i < sistema->num_equipe; i++) {
-        // Para cada membro, imprime seus dados de forma formatada.
-        printf("----------------------------------\n");
-        printf("Codigo: %d\n", sistema->lista_equipe[i].codigo);
-        printf("Nome: %s\n", sistema->lista_equipe[i].nome);
-        printf("CPF: %s\n", sistema->lista_equipe[i].cpf);
-        printf("Funcao: %s\n", sistema->lista_equipe[i].funcao);
-        printf("Diaria: R$ %.2f\n", sistema->lista_equipe[i].valor_diaria);
+        printf("+-----------------------------------------------------+\n");
+        printf("| Codigo : %-42d |\n", sistema->lista_equipe[i].codigo);
+        printf("| Nome   : %-42s |\n", sistema->lista_equipe[i].nome);
+        printf("| CPF    : %-42s |\n", sistema->lista_equipe[i].cpf);
+        printf("| Funcao : %-42s |\n", sistema->lista_equipe[i].funcao);
+        printf("| Diaria : R$ %-39.2f |\n", sistema->lista_equipe[i].valor_diaria);
     }
-    // Imprime uma linha final para delimitar o fim da lista.
-    printf("----------------------------------\n");
+}
+
+        printf("+=====================================================+\n");
+
 }

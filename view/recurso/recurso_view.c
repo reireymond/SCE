@@ -15,15 +15,21 @@ void menuRecursosView(Sistema *sistema) {
     // O loop 'do-while' garante que o menu seja exibido continuamente até que o
     // usuário escolha a opção 0 para voltar ao menu anterior.
     do {
-        // Limpa a tela antes de cada exibição do menu para uma interface mais limpa.
-        limpar_tela();
-        printf("\n--- Menu Recursos e Equipamentos ---\n");
-        printf("1. Adicionar Novo Recurso\n");
-        printf("2. Alterar Recurso Existente\n");
-        printf("3. Listar Todos os Recursos\n");
-        printf("4. Excluir Recurso\n");
-        printf("0. Voltar\n");
-        printf("Escolha: ");
+       limpar_tela();
+        printf("+=====================================================+\n");
+        printf("|           MENU RECURSOS E EQUIPAMENTOS              |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Adicionar Novo Recurso                          |\n");
+        printf("| [2] Alterar Recurso Existente                       |\n");
+        printf("| [3] Listar Todos os Recursos                        |\n");
+        printf("| [4] Excluir Recurso                                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+
+        // Prompt para o usuário escolher
+        printf("Escolha uma opcao: ");
+
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
         // Limpa o buffer de entrada para remover o '\n' deixado pelo scanf.
@@ -52,20 +58,26 @@ void listarRecursosView(Sistema *sistema) {
         printf("\nNenhum recurso cadastrado.\n");
         return; // Retorna para a função anterior (o menu).
     }
-    // Imprime o cabeçalho da lista.
-    printf("\n--- Lista de Recursos e Equipamentos ---\n");
-    // Percorre o array de recursos.
-    for (int i = 0; i < sistema->num_recursos; i++) {
-        // Para cada recurso, imprime seus dados de forma formatada.
-        printf("----------------------------------\n");
-        printf("Codigo: %d\n", sistema->lista_recursos[i].codigo);
-        printf("Descricao: %s\n", sistema->lista_recursos[i].descricao);
-        printf("Categoria: %s\n", sistema->lista_recursos[i].categoria);
-        printf("Estoque: %d unid.\n", sistema->lista_recursos[i].quantidade_estoque);
-        // Para os valores float, '%.2f' formata o número para exibir duas casas decimais.
-        printf("Preco de Custo: R$ %.2f\n", sistema->lista_recursos[i].preco_custo);
-        printf("Valor Locacao (diaria): R$ %.2f\n", sistema->lista_recursos[i].valor_locacao);
-    }
+    // Imprime o cabeçalho da lista com retângulo destacado
+        printf("+=====================================================+\n");
+        printf("|           LISTA DE RECURSOS E EQUIPAMENTOS         |\n");
+        printf("+=====================================================+\n");
 
-    printf("----------------------------------\n");
+        // Verifica se há recursos cadastrados
+        if (sistema->num_recursos == 0) {
+            printf("| Nenhum recurso cadastrado.                          |\n");
+        } else {
+            for (int i = 0; i < sistema->num_recursos; i++) {
+                
+                printf("+-----------------------------------------------------+\n");
+                printf("| Codigo             : %-32d |\n", sistema->lista_recursos[i].codigo);
+                printf("| Descricao          : %-32s |\n", sistema->lista_recursos[i].descricao);
+                printf("| Categoria          : %-32s |\n", sistema->lista_recursos[i].categoria);
+                printf("| Estoque            : %-32d |\n", sistema->lista_recursos[i].quantidade_estoque);
+                printf("| Preco de Custo     : R$ %-28.2f |\n", sistema->lista_recursos[i].preco_custo);
+                printf("| Valor Locacao      : R$ %-28.2f |\n", sistema->lista_recursos[i].valor_locacao);
+            }
+        }
+                printf("+=====================================================+\n");
+
 }
