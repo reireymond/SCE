@@ -60,7 +60,7 @@ void listarRecursosView(Sistema *sistema) {
     }
     // Imprime o cabeçalho da lista com retângulo destacado
         printf("+=====================================================+\n");
-        printf("|           LISTA DE RECURSOS E EQUIPAMENTOS         |\n");
+        printf("|           LISTA DE RECURSOS E EQUIPAMENTOS          |\n");
         printf("+=====================================================+\n");
 
         // Verifica se há recursos cadastrados
@@ -70,12 +70,12 @@ void listarRecursosView(Sistema *sistema) {
             for (int i = 0; i < sistema->num_recursos; i++) {
                 
                 printf("+-----------------------------------------------------+\n");
-                printf("| Codigo             : %-32d |\n", sistema->lista_recursos[i].codigo);
-                printf("| Descricao          : %-32s |\n", sistema->lista_recursos[i].descricao);
-                printf("| Categoria          : %-32s |\n", sistema->lista_recursos[i].categoria);
-                printf("| Estoque            : %-32d |\n", sistema->lista_recursos[i].quantidade_estoque);
-                printf("| Preco de Custo     : R$ %-28.2f |\n", sistema->lista_recursos[i].preco_custo);
-                printf("| Valor Locacao      : R$ %-28.2f |\n", sistema->lista_recursos[i].valor_locacao);
+                printf("| Codigo: %-32d \n", sistema->lista_recursos[i].codigo);
+                printf("| Descricao: %-32s \n", sistema->lista_recursos[i].descricao);
+                printf("| Categoria: %-32s \n", sistema->lista_recursos[i].categoria);
+                printf("| Estoque: %-32d \n", sistema->lista_recursos[i].quantidade_estoque);
+                printf("| Preco de Custo: R$ %-28.2f \n", sistema->lista_recursos[i].preco_custo);
+                printf("| Valor Locacao: R$ %-28.2f \n", sistema->lista_recursos[i].valor_locacao);
             }
         }
                 printf("+=====================================================+\n");

@@ -61,23 +61,23 @@ void verDetalhesProdutoraView(Sistema *sistema) {
     }
    // Inicia a exibição da produtora com uma caixa de destaque
         printf("+=====================================================+\n");
-        printf("|          DETALHES DA PRODUTORA CADASTRADA          |\n");
+        printf("|          DETALHES DA PRODUTORA CADASTRADA           |\n");
         printf("+=====================================================+\n");
 
         // Cada linha exibe um campo da estrutura 'Produtora', alinhado e dentro do retângulo
-        printf("| Nome Fantasia           : %-32s |\n", sistema->dados_produtora->nome_fantasia);
-        printf("| Razao Social            : %-32s |\n", sistema->dados_produtora->razao_social);
-        printf("| Nome do Responsavel     : %-32s |\n", sistema->dados_produtora->nome_do_responsavel);
-        printf("| CNPJ                    : %-32s |\n", sistema->dados_produtora->cnpj);
-        printf("| Inscricao Estadual      : %-32s |\n", sistema->dados_produtora->inscricao_estadual);
-        printf("| Endereco                : %-32s |\n", sistema->dados_produtora->endereco);
-        printf("| Telefone                : %-32s |\n", sistema->dados_produtora->telefone);
-        printf("| Telefone do Responsavel : %-32s |\n", sistema->dados_produtora->telefone_responsavel);
-        printf("| E-mail                  : %-32s |\n", sistema->dados_produtora->email);
+        printf("| Nome Fantasia: %-32s \n", sistema->dados_produtora->nome_fantasia);
+        printf("| Razao Social: %-32s \n", sistema->dados_produtora->razao_social);
+        printf("| Nome do Responsavel: %-32s \n", sistema->dados_produtora->nome_do_responsavel);
+        printf("| CNPJ: %-32s \n", sistema->dados_produtora->cnpj);
+        printf("| Inscricao Estadual: %-32s \n", sistema->dados_produtora->inscricao_estadual);
+        printf("| Endereco: %-32s \n", sistema->dados_produtora->endereco);
+        printf("| Telefone: %-32s \n", sistema->dados_produtora->telefone);
+        printf("| Telefone do Responsavel: %-32s \n", sistema->dados_produtora->telefone_responsavel);
+        printf("| E-mail: %-32s \n", sistema->dados_produtora->email);
 
         // Para o float, '%.2f' formata o número com duas casas decimais
         // O '%%' é usado para imprimir o caractere de porcentagem literal
-        printf("| Margem de Lucro         : %-30.2f%% |\n", sistema->dados_produtora->margem_lucro);
+        printf("| Margem de Lucro: %-30.2f%% \n", sistema->dados_produtora->margem_lucro);
 
         // Linha final para fechar o retângulo
         printf("+=====================================================+\n");

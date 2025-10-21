@@ -66,9 +66,9 @@ if (sistema->num_operadores == 0) {
 } else {
     for (int i = 0; i < sistema->num_operadores; i++) {
         printf("+-----------------------------------------------------+\n");
-        printf("| Codigo : %-42d |\n", sistema->lista_operadores[i].codigo);
-        printf("| Nome   : %-42s |\n", sistema->lista_operadores[i].nome);
-        printf("| Usuario: %-42s |\n", sistema->lista_operadores[i].usuario);
+        printf("| Codigo : %-42d \n", sistema->lista_operadores[i].codigo);
+        printf("| Nome   : %-42s \n", sistema->lista_operadores[i].nome);
+        printf("| Usuario: %-42s \n", sistema->lista_operadores[i].usuario);
     }
 }
 

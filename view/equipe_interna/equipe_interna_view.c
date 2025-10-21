@@ -21,12 +21,12 @@ void menuEquipeInternaView(Sistema *sistema) {
         printf("+=====================================================+\n");
         printf("|                MENU EQUIPE INTERNA                  |\n");
         printf("+=====================================================+\n");
-        printf("| [1] Adicionar Novo Membro                          |\n");
-        printf("| [2] Alterar Membro Existente                       |\n");
-        printf("| [3] Listar Todos os Membros                        |\n");
-        printf("| [4] Excluir Membro                                 |\n");
+        printf("| [1] Adicionar Novo Membro                           |\n");
+        printf("| [2] Alterar Membro Existente                        |\n");
+        printf("| [3] Listar Todos os Membros                         |\n");
+        printf("| [4] Excluir Membro                                  |\n");
         printf("+-----------------------------------------------------+\n");
-        printf("| [0] Voltar                                         |\n");
+        printf("| [0] Voltar                                          |\n");
         printf("+=====================================================+\n");
         printf("Escolha uma opcao: ");
 
