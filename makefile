@@ -32,16 +32,23 @@ OBJECTS := $(patsubst %.c,$(ODIR)/%.o,$(notdir $(SOURCES)))
 # Regra principal: compila tudo
 all: $(TARGET)
 
-# Regra para criar os diretórios de saída (obj e bin)
-# A flag -p evita erros caso os diretórios já existam
-$(ODIR) $(BDIR):
-	@mkdir -p $@
+# Regra para criar os diretórios de saída (obj e bin) - Compatível com Windows
+$(ODIR):
+	@if not exist $(ODIR) mkdir $(ODIR)
 
-# Regra de Linkagem: junta todos os arquivos .o para criar o executável final
+$(BDIR):
+	@if not exist $(BDIR) mkdir $(BDIR)
+
+# Garante que as regras de diretório sejam executadas antes das outras
 $(TARGET): $(ODIR) $(BDIR) $(OBJECTS)
 	@echo "Linkando para criar o executavel..."
 	$(CC) $(OBJECTS) -o $@
 	@echo "Executavel '$(TARGET)' criado com sucesso."
+
+# A regra de compilação continua a mesma
+$(ODIR)/%.o: %.c
+	@echo "Compilando $<..."
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # Regra de Compilação: transforma cada arquivo .c em um arquivo .o
 $(ODIR)/%.o: %.c

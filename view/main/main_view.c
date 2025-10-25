@@ -80,7 +80,7 @@ void menuPrincipalView(Sistema *sistema) {
         case 3:
         case 4:
         case 5:
-            printf("\nModulo em construcao...\n");
+            menuImportarExportarView(sistema);
             pausar();
             break;
         case 0:
@@ -140,9 +140,9 @@ void menuImportarExportarView(Sistema *sistema) {
     do {
         limpar_tela();
         printf("+=====================================================+\n");
-        printf("|             IMPORTAR / EXPORTAR DADOS             |\n");
+        printf("|              IMPORTAR / EXPORTAR DADOS              |\n");
         printf("+=====================================================+\n");
-        printf("| Modo de Salvamento Atual: %s \n",
+        printf("| Modo de Salvamento Atual: %s           |\n",
                (modoAtual == ARQUIVO_TEXTO) ? "Arquivo Texto" :
                (modoAtual == ARQUIVO_BINARIO) ? "Arquivo Binario" : "Apenas Memoria");
         printf("+-----------------------------------------------------+\n");
@@ -165,14 +165,10 @@ void menuImportarExportarView(Sistema *sistema) {
 
         switch(opcao) {
             case 1:
-                importarDadosDeArmazenamento(sistema); // Função existente
+                importarDadosDeOutroFormatoController(sistema); // Função existente
                 pausar();
                 break;
             case 2:
-                // Precisamos criar esta função no armazenamento_controller
-                transferirDadosDeArmazenamento(sistema); // NOVA FUNÇÃO
-                pausar();
-                break;
             case 3:
             case 4:
                 printf("\nFuncao ainda nao implementada.\n");

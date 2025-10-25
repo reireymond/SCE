@@ -31,8 +31,8 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     printf("|          IMPORTAR DADOS PARA SESSAO ATUAL           |\n");
     printf("+=====================================================+\n");
     printf("| De qual formato deseja carregar os dados?           |\n");
-    printf("| [1] Arquivo de Texto (.txt)                         |\n");
-    printf("| [2] Arquivo Binario (.dat)                          |\n");
+    printf("| [1] Arquivo de Binario (.dat)                       |\n");
+    printf("| [2] Arquivo Texto (.txt)                            |\n");
     printf("+-----------------------------------------------------+\n");
     printf("| [0] Cancelar                                        |\n");
     printf("+=====================================================+\n");
@@ -46,8 +46,8 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     limpar_buffer();
 
     switch (opcao_origem) {
-        case 1: origem = ARQUIVO_TEXTO; break;
-        case 2: origem = ARQUIVO_BINARIO; break;
+        case 1: origem = ARQUIVO_BINARIO; break;
+        case 2: origem = ARQUIVO_TEXTO; break;
         case 0: printf("\nImportacao cancelada.\n"); return;
         default: printf("\nOpcao invalida!\n"); return; // Segurança extra
     }
@@ -73,7 +73,7 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     printf("Carregando dados do formato %s...\n", (origem == ARQUIVO_TEXTO) ? "Texto" : "Binario");
     // Verifica se os arquivos de origem existem (simplificado: checa se algo foi carregado)
     // Uma melhoria seria as funções 'carregar' retornarem um status (sucesso/falha/vazio)
-    int num_clientes_antes = sistema->num_clientes; // Exemplo de verificação simples
+    // int num_clientes_antes = sistema->num_clientes; // Exemplo de verificação simples
     carregarTodosOsDadosController(sistema);
     // if (num_clientes_antes == 0 && sistema->num_clientes == 0 && sistema->dados_produtora == NULL /* etc */) {
     //    printf("\nAVISO: Nenhum dado encontrado nos arquivos de origem ou erro na leitura.\n");
@@ -110,8 +110,8 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
     printf("|         TRANSFERIR/CONVERTER DADOS ARMAZENADOS        |\n");
     printf("+=====================================================+\n");
     printf("| Qual o formato de ORIGEM dos dados?                 |\n");
-    printf("| [1] Arquivo de Texto (.txt)                         |\n");
-    printf("| [2] Arquivo Binario (.dat)                          |\n");
+    printf("| [1] Arquivo de Binario (.dat)                       |\n");
+    printf("| [2] Arquivo Texto (.txt)                            |\n");
     printf("+-----------------------------------------------------+\n");
     printf("| [0] Cancelar                                        |\n");
     printf("+=====================================================+\n");
@@ -125,8 +125,8 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
     origem = (opcao_origem == 1) ? ARQUIVO_TEXTO : ARQUIVO_BINARIO;
 
     printf("\n| Qual o formato de DESTINO para salvar os dados?     |\n");
-    printf("| [1] Arquivo de Texto (.txt)                         |\n");
-    printf("| [2] Arquivo Binario (.dat)                          |\n");
+    printf("| [1] Arquivo de Binario (.dat)                       |\n");
+    printf("| [2] Arquivo Texto (.txt)                            |\n");
     printf("+-----------------------------------------------------+\n");
     printf("| [0] Cancelar                                        |\n");
     printf("+=====================================================+\n");
