@@ -60,7 +60,6 @@ void menuPrincipalView(Sistema *sistema) {
         printf("| [3] Transacoes                                      |\n");
         printf("| [4] FeedBack                                        |\n");
         printf("| [5] Importar ou Exportar Dados                      |\n");
-        printf("| [6] Edicao de Armazenamento                         |\n");
         printf("| [0] Sair                                            |\n");
         printf("+=====================================================+\n");
         printf("\nEscolha sua opcao: ");
@@ -82,8 +81,6 @@ void menuPrincipalView(Sistema *sistema) {
             printf("\nModulo em construcao...\n");
             pausar();
             break;
-        case 6:
-            // -------------------------------
         case 0:
             printf("\nSaindo do programa...\n");
             break;
