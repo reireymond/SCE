@@ -22,6 +22,6 @@ void limpar_tela() {
     #ifdef _WIN32
         system("cls");   // Windows
     #else
-        system("clear"); // Linux/macOS
+        system("clear"); // Linux/macOs
     #endif
 }

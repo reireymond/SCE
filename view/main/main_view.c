@@ -60,6 +60,7 @@ void menuPrincipalView(Sistema *sistema) {
         printf("| [3] Transacoes                                      |\n");
         printf("| [4] FeedBack                                        |\n");
         printf("| [5] Importar ou Exportar Dados                      |\n");
+        printf("| [6] Edicao de Armazenamento                         |\n");
         printf("| [0] Sair                                            |\n");
         printf("+=====================================================+\n");
         printf("\nEscolha sua opcao: ");
@@ -81,6 +82,8 @@ void menuPrincipalView(Sistema *sistema) {
             printf("\nModulo em construcao...\n");
             pausar();
             break;
+        case 6:
+            // -------------------------------
         case 0:
             printf("\nSaindo do programa...\n");
             break;
@@ -98,7 +101,6 @@ void menuGestaoDeDadosView(Sistema *sistema) {
     int opcao;
     // O loop continua até o usuário escolher a opção 0 para voltar ao menu principal.
     do {
-        limpar_tela();
         limpar_tela();
         printf("+=====================================================+\n");
         printf("|                 GESTAO DE DADOS                     |\n");
@@ -125,6 +127,35 @@ void menuGestaoDeDadosView(Sistema *sistema) {
             case 4: menuRecursosView(sistema); break;
             case 5: menuFornecedoresView(sistema); break;
             case 6: menuOperadoresView(sistema); break;
+            case 0: break;
+            default: printf("\nOpcao invalida!\n"); pausar(); break;
+        }
+    } while (opcao != 0);
+}
+
+void menuEdicaoArmazenamento(Sistema *sistema){
+    int opcao;
+    do {
+        limpar_tela();
+        printf("+=====================================================+\n");
+        printf("|             EDICAO DO ARMAZENAMENTO                 |\n");
+        printf("+=====================================================+\n");
+        printf("| [1]                                                 |\n");
+        printf("| [2]                                                 |\n");
+        printf("| [3]                                                 |\n");
+        printf("| [4]                                                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar ao Menu Principal                        |\n");
+        printf("+=====================================================+\n");
+        printf("\nEscolha uma opcao: ");
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+    switch (opcao) {
+            case 1:
+            case 2: 
+            case 3: 
+            case 4: 
             case 0: break;
             default: printf("\nOpcao invalida!\n"); pausar(); break;
         }
