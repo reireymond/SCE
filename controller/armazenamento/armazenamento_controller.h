@@ -3,6 +3,9 @@
 
 #include "model/sistema.h"
 
-void transferirDadosDeArmazenamento
+void transferirDadosDeArmazenamento(Sistema *sistema);
+
+// p/ Futuro
+// void importarDadosDeArmazenamento(Sistema *sistema);
 
 #endif

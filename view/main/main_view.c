@@ -7,6 +7,8 @@
 #include "utils/utils.h"
 // Inclui o cabeçalho do model de configuração para chamar a função 'definirModoDeArmazenamento'.
 #include "model/config_armazenamento/config_armazenamento.h"
+// I
+#include "controller/armazenamento/armazenamento_controller.h"
 
 // Inclui os cabeçalhos de todas as outras views de submenus.
 // Isso é necessário para que o menu de "Gestão de Dados" possa chamar os menus específicos
@@ -130,31 +132,61 @@ void menuGestaoDeDadosView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-void menuEdicaoArmazenamento(Sistema *sistema){
+
+void menuImportarExportarView(Sistema *sistema) {
     int opcao;
+    TipoArmazenamento modoAtual = obterModoDeArmazenamento(sistema); // Pega o modo atual
+
     do {
         limpar_tela();
         printf("+=====================================================+\n");
-        printf("|             EDICAO DO ARMAZENAMENTO                 |\n");
+        printf("|             IMPORTAR / EXPORTAR DADOS             |\n");
         printf("+=====================================================+\n");
-        printf("| [1]                                                 |\n");
-        printf("| [2]                                                 |\n");
-        printf("| [3]                                                 |\n");
-        printf("| [4]                                                 |\n");
+        printf("| Modo de Salvamento Atual: %s \n",
+               (modoAtual == ARQUIVO_TEXTO) ? "Arquivo Texto" :
+               (modoAtual == ARQUIVO_BINARIO) ? "Arquivo Binario" : "Apenas Memoria");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [1] Carregar dados (Texto/Binario) para esta sessao |\n"); // Chama importarDadosDeOutroFormatoController
+        printf("| [2] Converter arquivos (.txt <-> .dat)              |\n"); // Chama uma NOVA função (transferirDadosEntreFormatosController)
+        printf("| [3] Importar de arquivo externo (XML - futuro)      |\n"); // Função futura
+        printf("| [4] Exportar para arquivo externo (XML - futuro)    |\n"); // Função futura
         printf("+-----------------------------------------------------+\n");
         printf("| [0] Voltar ao Menu Principal                        |\n");
         printf("+=====================================================+\n");
-        printf("\nEscolha uma opcao: ");
-        scanf("%d", &opcao);
-        limpar_buffer();
+        printf("Escolha uma opcao: ");
 
-    switch (opcao) {
-            case 1:
-            case 2: 
-            case 3: 
-            case 4: 
-            case 0: break;
-            default: printf("\nOpcao invalida!\n"); pausar(); break;
+        // ... (leitura e validação da opção) ...
+        if (scanf("%d", &opcao) != 1) {
+            limpar_buffer();
+            opcao = -1; // Força opção inválida
+        } else {
+            limpar_buffer();
         }
+
+        switch(opcao) {
+            case 1:
+                importarDadosDeArmazenamento(sistema); // Função existente
+                pausar();
+                break;
+            case 2:
+                // Precisamos criar esta função no armazenamento_controller
+                transferirDadosDeArmazenamento(sistema); // NOVA FUNÇÃO
+                pausar();
+                break;
+            case 3:
+            case 4:
+                printf("\nFuncao ainda nao implementada.\n");
+                pausar();
+                break;
+            case 0: break;
+            default:
+                printf("\nOpcao invalida!\n");
+                pausar();
+                break;
+        }
+        // Atualiza o modoAtual caso a função de transferência o tenha modificado
+        // (embora a função de transferência em si não deva mudar o modo da sessão atual)
+        modoAtual = obterModoDeArmazenamento(sistema);
+
     } while (opcao != 0);
 }
