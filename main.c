@@ -5,7 +5,7 @@
 #include "model/sistema.h"
 #include "controller/main/main_controller.h"
 #include "view/main/main_view.h"
-#include "controller/login/login_controller.h" // Incluir o novo controller de login
+#include "controller/login/login_controller.h" 
 
 int main() {
     Sistema sistema;
@@ -22,7 +22,7 @@ int main() {
     if (login_sucesso) {
         menuPrincipalView(&sistema); // Menu principal do programa
     }
-    // --- Fim da Modificação ---
+    
 
     liberarTodaMemoriaController(&sistema); // Libera memória alocada
 
