@@ -1,13 +1,12 @@
-#include "armazenamento_controller.h" // Inclui o próprio header
-#include <stdio.h>                   // Para printf, scanf
-#include <stdlib.h>                  // Para malloc, free, realloc (usados internamente pelos models)
+#include "armazenamento_controller.h"
+#include <stdio.h>
+#include <stdlib.h> 
 #include <string.h>                  // Para memset
 #include "model/config_armazenamento/config_armazenamento.h" // Para obter/definir modo e TipoArmazenamento
 #include "controller/main/main_controller.h" // Para carregarTodosOsDadosController e liberarTodaMemoriaController
 #include "utils/utils.h"         // Para limpar_tela, limpar_buffer, pausar
 #include "utils/validation.h"    // Para ler_int_valido (opcional, pode usar scanf direto se preferir)
 
-// --- IMPORTANTE: Inclua TODOS os headers dos SEUS models aqui ---
 // Eles são necessários para que as funções salvar<Entidade> sejam encontradas
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
@@ -17,10 +16,7 @@
 #include "model/operador/operador_model.h"
 // Adicione outros #includes de models se você tiver mais entidades
 
-// --- Implementação das funções ---
-
 // Função para importar dados de Texto/Binário para a memória da sessão atual
-// (Código que já tínhamos desenvolvido antes)
 void importarDadosDeOutroFormatoController(Sistema *sistema) {
     int opcao_origem;
     TipoArmazenamento origem;
@@ -72,12 +68,7 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
 
     printf("Carregando dados do formato %s...\n", (origem == ARQUIVO_TEXTO) ? "Texto" : "Binario");
     // Verifica se os arquivos de origem existem (simplificado: checa se algo foi carregado)
-    // Uma melhoria seria as funções 'carregar' retornarem um status (sucesso/falha/vazio)
-    // int num_clientes_antes = sistema->num_clientes; // Exemplo de verificação simples
     carregarTodosOsDadosController(sistema);
-    // if (num_clientes_antes == 0 && sistema->num_clientes == 0 && sistema->dados_produtora == NULL /* etc */) {
-    //    printf("\nAVISO: Nenhum dado encontrado nos arquivos de origem ou erro na leitura.\n");
-    // }
 
 
     definirModoDeArmazenamento(sistema, modo_original);

@@ -1,14 +1,10 @@
 // Inclui o cabeçalho do controller principal, contendo as declarações das funções
-// que serão implementadas aqui.
 #include "main_controller.h"
-// Inclui a biblioteca padrão de entrada/saída para usar a função 'printf'.
 #include <stdio.h>
 // Inclui o cabeçalho da view principal para poder chamar a função 'menuEscolherArmazenamentoView'.
 #include "view/main/main_view.h"
 // Inclui o cabeçalho de utilitários para usar a função 'pausar'.
 #include "utils/utils.h"
-
-// Inclui todos os cabeçalhos dos 'models'. Isso é necessário para que este controller
 // possa chamar as funções de carregamento e liberação de memória de cada entidade.
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
