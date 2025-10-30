@@ -37,28 +37,28 @@ void adicionarProdutoraController(Sistema *sistema) {
 
     // Solicita e lê cada um dos campos, utilizando as funções de validação para garantir a integridade dos dados.
     printf("Nome Fantasia: ");
-    ler_string_valida(sistema->dados_produtora->nome_fantasia, sizeof(sistema->dados_produtora->nome_fantasia), VALIDATE_NOT_EMPTY);
+    ler_string_valida(sistema->dados_produtora->nome_fantasia, sizeof(sistema->dados_produtora->nome_fantasia), VALIDATE_NAO_VAZIA);
 
     printf("Razao Social: ");
-    ler_string_valida(sistema->dados_produtora->razao_social, sizeof(sistema->dados_produtora->razao_social), VALIDATE_NOT_EMPTY);
+    ler_string_valida(sistema->dados_produtora->razao_social, sizeof(sistema->dados_produtora->razao_social), VALIDATE_NAO_VAZIA);
 
     printf("Nome do Responsavel: ");
-    ler_string_valida(sistema->dados_produtora->nome_do_responsavel, sizeof(sistema->dados_produtora->nome_do_responsavel), VALIDATE_NAME);
+    ler_string_valida(sistema->dados_produtora->nome_do_responsavel, sizeof(sistema->dados_produtora->nome_do_responsavel), VALIDATE_NOME);
 
     printf("CNPJ (formato XX.XXX.XXX/XXXX-XX): ");
     ler_string_valida(sistema->dados_produtora->cnpj, sizeof(sistema->dados_produtora->cnpj), VALIDATE_CNPJ);
 
     printf("Inscricao Estadual: ");
-    ler_string_valida(sistema->dados_produtora->inscricao_estadual, sizeof(sistema->dados_produtora->inscricao_estadual), VALIDATE_NOT_EMPTY);
+    ler_string_valida(sistema->dados_produtora->inscricao_estadual, sizeof(sistema->dados_produtora->inscricao_estadual), VALIDATE_NAO_VAZIA);
 
     printf("Endereco: ");
-    ler_string_valida(sistema->dados_produtora->endereco, sizeof(sistema->dados_produtora->endereco), VALIDATE_NOT_EMPTY);
+    ler_string_valida(sistema->dados_produtora->endereco, sizeof(sistema->dados_produtora->endereco), VALIDATE_NAO_VAZIA);
 
     printf("Telefone: ");
-    ler_string_valida(sistema->dados_produtora->telefone, sizeof(sistema->dados_produtora->telefone), VALIDATE_PHONE);
+    ler_string_valida(sistema->dados_produtora->telefone, sizeof(sistema->dados_produtora->telefone), VALIDATE_TELEFONE);
 
     printf("Telefone do Responsavel: ");
-    ler_string_valida(sistema->dados_produtora->telefone_responsavel, sizeof(sistema->dados_produtora->telefone_responsavel), VALIDATE_PHONE);
+    ler_string_valida(sistema->dados_produtora->telefone_responsavel, sizeof(sistema->dados_produtora->telefone_responsavel), VALIDATE_TELEFONE);
 
     printf("E-mail: ");
     ler_string_valida(sistema->dados_produtora->email, sizeof(sistema->dados_produtora->email), VALIDATE_EMAIL);
@@ -101,15 +101,15 @@ void alterarProdutoraController(Sistema *sistema) {
         switch (opcao) {
             case 1:
                 printf("Digite o novo Nome Fantasia: ");
-                ler_string_valida(sistema->dados_produtora->nome_fantasia, sizeof(sistema->dados_produtora->nome_fantasia), VALIDATE_NOT_EMPTY);
+                ler_string_valida(sistema->dados_produtora->nome_fantasia, sizeof(sistema->dados_produtora->nome_fantasia), VALIDATE_NAO_VAZIA);
                 break;
             case 2:
                 printf("Digite a nova Razao Social: ");
-                ler_string_valida(sistema->dados_produtora->razao_social, sizeof(sistema->dados_produtora->razao_social), VALIDATE_NOT_EMPTY);
+                ler_string_valida(sistema->dados_produtora->razao_social, sizeof(sistema->dados_produtora->razao_social), VALIDATE_NAO_VAZIA);
                 break;
             case 3:
                 printf("Digite o novo Nome do Responsavel: ");
-                ler_string_valida(sistema->dados_produtora->nome_do_responsavel, sizeof(sistema->dados_produtora->nome_do_responsavel), VALIDATE_NAME);
+                ler_string_valida(sistema->dados_produtora->nome_do_responsavel, sizeof(sistema->dados_produtora->nome_do_responsavel), VALIDATE_NOME);
                 break;
             case 4:
                 printf("Digite o novo CNPJ (formato XX.XXX.XXX/XXXX-XX): ");
@@ -117,19 +117,19 @@ void alterarProdutoraController(Sistema *sistema) {
                 break;
             case 5:
                 printf("Digite a nova Inscricao Estadual: ");
-                ler_string_valida(sistema->dados_produtora->inscricao_estadual, sizeof(sistema->dados_produtora->inscricao_estadual), VALIDATE_NOT_EMPTY);
+                ler_string_valida(sistema->dados_produtora->inscricao_estadual, sizeof(sistema->dados_produtora->inscricao_estadual), VALIDATE_NAO_VAZIA);
                 break;
             case 6:
                 printf("Digite o novo Endereco: ");
-                ler_string_valida(sistema->dados_produtora->endereco, sizeof(sistema->dados_produtora->endereco), VALIDATE_NOT_EMPTY);
+                ler_string_valida(sistema->dados_produtora->endereco, sizeof(sistema->dados_produtora->endereco), VALIDATE_NAO_VAZIA);
                 break;
             case 7:
                 printf("Digite o novo Telefone: ");
-                ler_string_valida(sistema->dados_produtora->telefone, sizeof(sistema->dados_produtora->telefone), VALIDATE_PHONE);
+                ler_string_valida(sistema->dados_produtora->telefone, sizeof(sistema->dados_produtora->telefone), VALIDATE_TELEFONE);
                 break;
             case 8:
                 printf("Digite o novo Telefone do Responsavel: ");
-                ler_string_valida(sistema->dados_produtora->telefone_responsavel, sizeof(sistema->dados_produtora->telefone_responsavel), VALIDATE_PHONE);
+                ler_string_valida(sistema->dados_produtora->telefone_responsavel, sizeof(sistema->dados_produtora->telefone_responsavel), VALIDATE_TELEFONE);
                 break;
             case 9:
                 printf("Digite o novo E-mail: ");

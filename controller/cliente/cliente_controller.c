@@ -30,22 +30,22 @@ void adicionarClienteController(Sistema *sistema) {
 
     // Leitura dos dados com validação
     printf("Nome / Razao Social: ");
-    ler_string_valida(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDATE_NAO_VAZIA);
 
     printf("CPF / CNPJ: ");
     ler_string_valida(novo_cliente->cnpj, sizeof(novo_cliente->cnpj), VALIDATE_CPF_CNPJ);
 
     printf("Endereco Completo: ");
-    ler_string_valida(novo_cliente->endereco, sizeof(novo_cliente->endereco), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_cliente->endereco, sizeof(novo_cliente->endereco), VALIDATE_NAO_VAZIA);
 
     printf("Telefone: ");
-    ler_string_valida(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDATE_PHONE);
+    ler_string_valida(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDATE_TELEFONE);
 
     printf("E-mail: ");
     ler_string_valida(novo_cliente->email, sizeof(novo_cliente->email), VALIDATE_EMAIL);
 
     printf("Nome do Contato: ");
-    ler_string_valida(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDATE_NAME);
+    ler_string_valida(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDATE_NOME);
 
     // Incrementa e salva
     sistema->num_clientes++;
@@ -90,7 +90,7 @@ void alterarClienteController(Sistema *sistema) {
         switch (opcao) {
             case 1:
                 printf("Novo Nome / Razao Social: ");
-                ler_string_valida(cliente->razao_social, sizeof(cliente->razao_social), VALIDATE_NOT_EMPTY);
+                ler_string_valida(cliente->razao_social, sizeof(cliente->razao_social), VALIDATE_NAO_VAZIA);
                 break;
             case 2:
                 printf("Novo CPF / CNPJ: ");
@@ -98,11 +98,11 @@ void alterarClienteController(Sistema *sistema) {
                 break;
             case 3:
                 printf("Novo Endereco: ");
-                ler_string_valida(cliente->endereco, sizeof(cliente->endereco), VALIDATE_NOT_EMPTY);
+                ler_string_valida(cliente->endereco, sizeof(cliente->endereco), VALIDATE_NAO_VAZIA);
                 break;
             case 4:
                 printf("Novo Telefone: ");
-                ler_string_valida(cliente->telefone, sizeof(cliente->telefone), VALIDATE_PHONE);
+                ler_string_valida(cliente->telefone, sizeof(cliente->telefone), VALIDATE_TELEFONE);
                 break;
             case 5:
                 printf("Novo E-mail: ");
@@ -110,7 +110,7 @@ void alterarClienteController(Sistema *sistema) {
                 break;
             case 6:
                 printf("Novo Nome do Contato: ");
-                ler_string_valida(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), VALIDATE_NAME);
+                ler_string_valida(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), VALIDATE_NOME);
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");

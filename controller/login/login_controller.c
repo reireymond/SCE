@@ -47,13 +47,13 @@ int realizarLoginOperador(Sistema *sistema) {
         printf("|                 LOGIN DO OPERADOR                   |\n");
         printf("+=====================================================+\n");
         printf("Usuario: ");
-        ler_string_valida(usuario_digitado, sizeof(usuario_digitado), VALIDATE_NOT_EMPTY);
+        ler_string_valida(usuario_digitado, sizeof(usuario_digitado), VALIDATE_NAO_VAZIA);
 
         printf("Senha: ");
         // Para segurança básica, idealmente a senha não seria exibida.
         // Implementar um sistema de asteriscos é mais complexo e depende do SO.
         // Aqui, usamos a leitura simples por simplicidade.
-        ler_string_valida(senha_digitada, sizeof(senha_digitada), VALIDATE_NOT_EMPTY);
+        ler_string_valida(senha_digitada, sizeof(senha_digitada), VALIDATE_NAO_VAZIA);
         printf("+=====================================================+\n");
 
 

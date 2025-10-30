@@ -42,10 +42,10 @@ void adicionarRecursoController(Sistema *sistema) {
     printf("\n--- Cadastro de Novo Recurso (Codigo: %d) ---\n", novo_recurso->codigo);
     // Solicita e lê cada informação do novo recurso, validando as entradas.
     printf("Descricao: ");
-    ler_string_valida(novo_recurso->descricao, sizeof(novo_recurso->descricao), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_recurso->descricao, sizeof(novo_recurso->descricao), VALIDATE_NAO_VAZIA);
 
     printf("Categoria: ");
-    ler_string_valida(novo_recurso->categoria, sizeof(novo_recurso->categoria), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_recurso->categoria, sizeof(novo_recurso->categoria), VALIDATE_NAO_VAZIA);
 
     printf("Quantidade em Estoque: ");
     int estoque;
@@ -113,11 +113,11 @@ void alterarRecursoController(Sistema *sistema) {
         switch (opcao) {
             case 1:
                 printf("Nova Descricao: ");
-                ler_string_valida(recurso->descricao, sizeof(recurso->descricao), VALIDATE_NOT_EMPTY);
+                ler_string_valida(recurso->descricao, sizeof(recurso->descricao), VALIDATE_NAO_VAZIA);
                 break;
             case 2:
                 printf("Nova Categoria: ");
-                ler_string_valida(recurso->categoria, sizeof(recurso->categoria), VALIDATE_NOT_EMPTY);
+                ler_string_valida(recurso->categoria, sizeof(recurso->categoria), VALIDATE_NAO_VAZIA);
                 break;
             case 3:
                 printf("Nova Quantidade em Estoque: ");

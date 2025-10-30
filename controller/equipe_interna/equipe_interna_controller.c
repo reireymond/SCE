@@ -31,13 +31,13 @@ void adicionarEquipeController(Sistema *sistema) {
 
     // Entrada e validação dos dados
     printf("Nome: ");
-    ler_string_valida(novo_membro->nome, sizeof(novo_membro->nome), VALIDATE_NAME);
+    ler_string_valida(novo_membro->nome, sizeof(novo_membro->nome), VALIDATE_NOME);
 
     printf("CPF: ");
     ler_string_valida(novo_membro->cpf, sizeof(novo_membro->cpf), VALIDATE_CPF);
 
     printf("Funcao: ");
-    ler_string_valida(novo_membro->funcao, sizeof(novo_membro->funcao), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_membro->funcao, sizeof(novo_membro->funcao), VALIDATE_NAO_VAZIA);
 
     printf("Valor da diaria: R$ ");
     ler_float_positivo(&novo_membro->valor_diaria);
@@ -89,7 +89,7 @@ void alterarEquipeController(Sistema *sistema) {
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
-                ler_string_valida(membro->nome, sizeof(membro->nome), VALIDATE_NAME);
+                ler_string_valida(membro->nome, sizeof(membro->nome), VALIDATE_NOME);
                 break;
             case 2:
                 printf("Novo CPF: ");
@@ -97,7 +97,7 @@ void alterarEquipeController(Sistema *sistema) {
                 break;
             case 3:
                 printf("Nova Funcao: ");
-                ler_string_valida(membro->funcao, sizeof(membro->funcao), VALIDATE_NOT_EMPTY);
+                ler_string_valida(membro->funcao, sizeof(membro->funcao), VALIDATE_NAO_VAZIA);
                 break;
             case 4:
                 printf("Novo Valor da Diaria: R$ ");

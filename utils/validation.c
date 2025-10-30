@@ -241,7 +241,7 @@ int ler_string_valida(char *buffer, int length, ValidationType type)
         // Executa a validação apropriada com base no tipo especificado.
         switch (type)
         {
-        case VALIDATE_NOT_EMPTY:
+        case VALIDATE_NAO_VAZIA:
             valid = is_not_empty(buffer);
             if (!valid)
                 printf("Entrada invalida. O campo nao pode ser vazio. Tente novamente: ");
@@ -259,7 +259,7 @@ int ler_string_valida(char *buffer, int length, ValidationType type)
                 printf("Entrada invalida. Digite um e-mail valido. Tente novamente: ");
             break;
 
-        case VALIDATE_PHONE:
+        case  VALIDATE_TELEFONE:
             valid = is_valid_phone(buffer);
             if (!valid)
                 printf("Entrada invalida. Digite um telefone valido. Tente novamente: ");

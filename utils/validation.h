@@ -7,10 +7,10 @@
 
 // Tipos de validação para strings
 typedef enum {
-    VALIDATE_NOT_EMPTY,   // Não vazio
-    VALIDATE_NAME,        // Apenas letras e espaços
+    VALIDATE_NAO_VAZIA,   // Não vazio
+    VALIDATE_NOME,        // Apenas letras e espaços
     VALIDATE_EMAIL,       // Formato básico de e-mail
-    VALIDATE_PHONE,       // Números e caracteres de telefone
+    VALIDATE_TELEFONE,       // Números e caracteres de telefone
     VALIDATE_CPF,         // CPF válido
     VALIDATE_CNPJ,        // CNPJ válido
     VALIDATE_CPF_CNPJ     // CPF ou CNPJ válido
