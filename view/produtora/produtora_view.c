@@ -1,19 +1,13 @@
 // Inclui o cabeçalho da view da produtora, que contém as declarações das funções
-// que serão implementadas neste arquivo.
 #include "produtora_view.h"
-// Inclui a biblioteca padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
 // Inclui o cabeçalho do controller da produtora para poder chamar as funções que
-// executam as ações (adicionarProdutoraController, etc.).
 #include "controller/produtora/produtora_controller.h"
 
 // Implementação da função que exibe e gerencia o menu da produtora.
 void menuProdutoraView(Sistema *sistema) {
     int opcao;
-    // O loop 'do-while' assegura que o menu seja exibido repetidamente até que o
-    // usuário escolha a opção 0 para voltar ao menu anterior.
     do {
         // Limpa a tela antes de cada exibição do menu para manter a interface limpa.
        limpar_tela();
@@ -45,7 +39,6 @@ void menuProdutoraView(Sistema *sistema) {
             case 0: break; // A opção 0 não faz nada, o que fará com que o loop termine.
             default: printf("\nOpcao invalida!\n"); break;
         }
-        // Se a opção não for 0 (sair), o programa pausa, aguardando que o usuário
         // pressione Enter para continuar. Isso permite que o usuário veja o resultado da ação.
         if (opcao != 0) pausar();
     } while (opcao != 0);

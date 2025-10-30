@@ -1,19 +1,14 @@
 // Inclui o cabeçalho da view de fornecedor, que contém as declarações das funções
-// que serão implementadas neste arquivo.
 #include "fornecedor_view.h"
-// Inclui a biblioteca padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
 // Inclui o cabeçalho do controller de fornecedor para poder chamar as funções que executam
-// as ações (adicionarFornecedorController, etc.).
 #include "controller/fornecedor/fornecedor_controller.h"
 
 // Implementação da função que exibe e gerencia o menu de fornecedores.
 void menuFornecedoresView(Sistema *sistema) {
     int opcao;
-    // O loop 'do-while' garante que o menu seja exibido continuamente até que o
-    // usuário escolha a opção 0 para voltar ao menu anterior.
+    
     do {
         // Limpa a tela para uma apresentação mais limpa do menu.
         limpar_tela();

@@ -1,19 +1,14 @@
 // Inclui o cabeçalho da view de operador, que contém as declarações das funções
-// que serão implementadas neste arquivo.
 #include "operador_view.h"
-// Inclui a biblioteca padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
 // Inclui o cabeçalho do controller de operador para poder chamar as funções que
-// executam as ações (adicionarOperadorController, etc.).
 #include "controller/operador/operador_controller.h"
 
 // Implementação da função que exibe e gerencia o menu de operadores.
 void menuOperadoresView(Sistema *sistema) {
     int opcao;
-    // O loop 'do-while' garante que o menu seja exibido continuamente até que o
-    // usuário escolha a opção 0 para voltar ao menu anterior.
+   
     do {
         // Limpa a tela antes de exibir o menu para uma interface mais limpa.
        limpar_tela();
@@ -44,7 +39,6 @@ void menuOperadoresView(Sistema *sistema) {
             default: printf("\nOpcao invalida!\n"); break;
         }
         // Se a opção não for 0 (sair), pausa a execução para que o usuário possa
-        // ler o resultado da operação antes de o menu ser exibido novamente.
         if (opcao != 0) pausar();
     } while (opcao != 0);
 }

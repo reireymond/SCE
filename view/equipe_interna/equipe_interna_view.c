@@ -1,19 +1,14 @@
 // Inclui o cabeçalho da view da equipe interna, que contém as declarações
-// das funções implementadas neste arquivo.
 #include "equipe_interna_view.h"
-// Inclui o cabeçalho padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
 // Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
 // Inclui o cabeçalho do controller da equipe interna para poder chamar as funções que
-// executam as ações (adicionarEquipeController, etc.).
 #include "controller/equipe_interna/equipe_interna_controller.h"
 
 // Implementação da função que exibe e gerencia o menu da equipe interna.
 void menuEquipeInternaView(Sistema *sistema) {
     int opcao;
-    // O loop 'do-while' garante que o menu seja exibido continuamente até que o
-    // usuário escolha a opção 0 para voltar ao menu anterior.
     do {
         // Limpa a tela para uma apresentação mais organizada do menu.
         limpar_tela();

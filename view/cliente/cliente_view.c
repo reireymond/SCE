@@ -1,19 +1,15 @@
 // Inclui o cabeçalho da view de cliente, que contém as declarações das funções
-// que serão implementadas neste arquivo.
 #include "cliente_view.h"
-// Inclui a biblioteca padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
 // Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela', 'limpar_buffer' e 'pausar'.
 #include "utils/utils.h"
 // Inclui o cabeçalho do controller de cliente para poder chamar as funções que executam as ações
-// (adicionarClienteController, alterarClienteController, etc.).
 #include "controller/cliente/cliente_controller.h"
 
 // Implementação da função que exibe e gerencia o menu de clientes.
 void menuClientesView(Sistema *sistema) {
     int opcao;
-    // O loop 'do-while' garante que o menu seja exibido pelo menos uma vez e continue
-    // sendo exibido até que o usuário escolha a opção 0 para sair.
+   
     do {
         // Limpa a tela antes de exibir o menu para uma interface mais limpa.
       limpar_tela();
