@@ -247,7 +247,7 @@ int ler_string_valida(char *buffer, int length, ValidationType type)
                 printf("Entrada invalida. O campo nao pode ser vazio. Tente novamente: ");
             break;
 
-        case VALIDATE_NAME:
+        case VALIDATE_NOME:
             valid = is_valid_name(buffer);
             if (!valid)
                 printf("Entrada invalida. Digite um nome valido (apenas letras e espacos). Tente novamente: ");
