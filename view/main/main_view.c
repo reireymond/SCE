@@ -20,6 +20,8 @@
 #include "view/fornecedor/fornecedor_view.h"
 #include "view/operador/operador_view.h"
 
+void menuImportarExportarView(Sistema *sistema);
+
 // Implementação da função que exibe o menu de escolha do modo de armazenamento.
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
