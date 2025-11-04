@@ -20,8 +20,6 @@
 #include "view/fornecedor/fornecedor_view.h"
 #include "view/operador/operador_view.h"
 
-void menuImportarExportarView(Sistema *sistema);
-
 // Implementação da função que exibe o menu de escolha do modo de armazenamento.
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
@@ -77,7 +75,7 @@ void menuPrincipalView(Sistema *sistema) {
             // Chama a função que exibe o submenu de Gestão de Dados.
             menuGestaoDeDadosView(sistema);
             break;
-        // Os casos de 2 a 5 são módulos ainda não implementados.
+        // Os casos de 2 a 4 são módulos ainda não implementados.
         case 2:
         case 3:
         case 4:
@@ -171,6 +169,9 @@ void menuImportarExportarView(Sistema *sistema) {
                 pausar();
                 break;
             case 2:
+                transferirDadosDeArmazenamento(sistema); 
+                pausar();
+                break;
             case 3:
             case 4:
                 printf("\nFuncao ainda nao implementada.\n");
