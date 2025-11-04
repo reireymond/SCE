@@ -50,22 +50,22 @@ void adicionarFornecedorController(Sistema *sistema) {
 
     // Solicita os dados e valida as entradas.
     printf("Nome Fantasia: ");
-    ler_string_valida(novo_fornecedor->nome_fantasia, sizeof(novo_fornecedor->nome_fantasia), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_fornecedor->nome_fantasia, sizeof(novo_fornecedor->nome_fantasia), VALIDATE_NAO_VAZIA);
 
     printf("Razao Social: ");
-    ler_string_valida(novo_fornecedor->razao_social, sizeof(novo_fornecedor->razao_social), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_fornecedor->razao_social, sizeof(novo_fornecedor->razao_social), VALIDATE_NAO_VAZIA);
     
     printf("CNPJ / CPF: ");
     ler_string_valida(novo_fornecedor->cnpj, sizeof(novo_fornecedor->cnpj), VALIDATE_CPF_CNPJ);
 
     printf("Endereco: ");
-    ler_string_valida(novo_fornecedor->endereco, sizeof(novo_fornecedor->endereco), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_fornecedor->endereco, sizeof(novo_fornecedor->endereco), VALIDATE_NAO_VAZIA);
 
     printf("Telefone: ");
-    ler_string_valida(novo_fornecedor->telefone, sizeof(novo_fornecedor->telefone), VALIDATE_PHONE);
+    ler_string_valida(novo_fornecedor->telefone, sizeof(novo_fornecedor->telefone), VALIDATE_TELEFONE);
 
     printf("Tipo de Servico: ");
-    ler_string_valida(novo_fornecedor->tipo_servico, sizeof(novo_fornecedor->tipo_servico), VALIDATE_NOT_EMPTY);
+    ler_string_valida(novo_fornecedor->tipo_servico, sizeof(novo_fornecedor->tipo_servico), VALIDATE_NAO_VAZIA);
 
     // Incrementa o contador de fornecedores.
     sistema->num_fornecedores++;
@@ -120,11 +120,11 @@ void alterarFornecedorController(Sistema *sistema) {
         switch (opcao) {
             case 1:
                 printf("Novo Nome Fantasia: ");
-                ler_string_valida(fornecedor->nome_fantasia, sizeof(fornecedor->nome_fantasia), VALIDATE_NOT_EMPTY);
+                ler_string_valida(fornecedor->nome_fantasia, sizeof(fornecedor->nome_fantasia), VALIDATE_NAO_VAZIA);
                 break;
             case 2:
                 printf("Nova Razao Social: ");
-                ler_string_valida(fornecedor->razao_social, sizeof(fornecedor->razao_social), VALIDATE_NOT_EMPTY);
+                ler_string_valida(fornecedor->razao_social, sizeof(fornecedor->razao_social), VALIDATE_NAO_VAZIA);
                 break;
             case 3:
                 printf("Novo CNPJ / CPF: ");
@@ -132,15 +132,15 @@ void alterarFornecedorController(Sistema *sistema) {
                 break;
             case 4:
                 printf("Novo Endereco: ");
-                ler_string_valida(fornecedor->endereco, sizeof(fornecedor->endereco), VALIDATE_NOT_EMPTY);
+                ler_string_valida(fornecedor->endereco, sizeof(fornecedor->endereco), VALIDATE_NAO_VAZIA);
                 break;
             case 5:
                 printf("Novo Telefone: ");
-                ler_string_valida(fornecedor->telefone, sizeof(fornecedor->telefone), VALIDATE_PHONE);
+                ler_string_valida(fornecedor->telefone, sizeof(fornecedor->telefone), VALIDATE_TELEFONE);
                 break;
             case 6:
                 printf("Novo Tipo de Servico: ");
-                ler_string_valida(fornecedor->tipo_servico, sizeof(fornecedor->tipo_servico), VALIDATE_NOT_EMPTY);
+                ler_string_valida(fornecedor->tipo_servico, sizeof(fornecedor->tipo_servico), VALIDATE_NAO_VAZIA);
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");
