@@ -65,9 +65,8 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     definirModoDeArmazenamento(sistema, origem);
 
     printf("Carregando dados do formato %s...\n", (origem == ARQUIVO_TEXTO) ? "Texto" : "Binario");
-    // Verifica se os arquivos de origem existem (simplificado: checa se algo foi carregado)
+    // Verifica se os arquivos de origem existem ( checa se algo foi carregado)
     carregarTodosOsDadosController(sistema);
-
 
     definirModoDeArmazenamento(sistema, modo_original);
 
@@ -86,9 +85,6 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     }
     printf("------------------------------------------------------\n");
 }
-
-
-// --- NOVA FUNÇÃO ---
 // Função para transferir/converter dados entre os formatos Texto e Binário
 void transferirDadosDeArmazenamento(Sistema *sistema) {
     int opcao_origem, opcao_destino;
@@ -148,7 +144,7 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
         return;
     }
 
-    // --- Início da lógica de transferência ---
+    //  Início da lógica de transferência 
     printf("\nIniciando transferencia de %s para %s...\n", nome_origem, nome_destino);
 
     Sistema sistema_temp; // Estrutura temporária na memória stack
@@ -158,7 +154,6 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
     printf("Lendo dados da origem (%s)...\n", nome_origem);
     definirModoDeArmazenamento(&sistema_temp, origem);
     carregarTodosOsDadosController(&sistema_temp);
-    // Adicionar verificação se algum dado foi carregado seria ideal aqui
 
     // 2. Salvar da Memória Temporária para o Destino
     printf("Salvando dados no destino (%s)...\n", nome_destino);
@@ -170,7 +165,6 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
     salvarRecursos(&sistema_temp);
     salvarFornecedores(&sistema_temp);
     salvarOperadores(&sistema_temp);
-    // Adicione chamadas para salvar outras entidades se houver
 
     // 3. Liberar Memória da Estrutura Temporária
     printf("Limpando memoria temporaria...\n");
@@ -181,7 +175,7 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
     printf("Os arquivos no formato '%s' foram atualizados.\n", nome_destino);
     printf("------------------------------------------------------\n");
 
-    // NOTA: Esta função NÃO altera o modo de armazenamento da sessão atual (o 'sistema' principal).
+    // Esta função NÃO altera o modo de armazenamento da sessão atual (o 'sistema' principal).
     printf("O modo de salvamento da sessao atual continua: %s\n",
         (obterModoDeArmazenamento(sistema) == ARQUIVO_TEXTO) ? "Arquivo Texto" :
         (obterModoDeArmazenamento(sistema) == ARQUIVO_BINARIO) ? "Arquivo Binario" : "Apenas Memoria");
