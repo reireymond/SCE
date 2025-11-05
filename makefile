@@ -5,15 +5,27 @@ CC = gcc
 CFLAGS = -Wall -I. -g
 
 # --- Detecção de Sistema Operacional e Configuração ---
-# Por padrão, assume-se um sistema tipo Unix (Linux, macOS)
+
+# Padrão: Comandos Unix (Linux, macOS, MinGW/Git Bash)
 TARGET_EXEC = produtora
 RUN_CMD = ./bin/$(TARGET_EXEC)
+MKDIR = mkdir -p
+RM_FILES = rm -f
+RM_DIRS = rm -rf
 
 # Verifica se o sistema é Windows (rodando em um shell como MinGW ou Git Bash)
-# A função 'uname' está disponível nesses ambientes
 ifeq ($(findstring MINGW,$(shell uname -s)),MINGW)
 	TARGET_EXEC = produtora.exe
 	RUN_CMD = bin/$(TARGET_EXEC)
+    # No MinGW/Git Bash, os comandos Unix (rm -rf, mkdir -p) já funcionam.
+else ifeq ($(OS),Windows_NT)
+    # Verifica se o sistema é Windows nativo (rodando em CMD ou PowerShell)
+	TARGET_EXEC = produtora.exe
+	RUN_CMD = bin/$(TARGET_EXEC)
+    # Se for Windows nativo (CMD), usamos os comandos específicos
+	MKDIR = mkdir
+	RM_FILES = del /Q
+	RM_DIRS = rmdir /S /Q
 endif
 
 # --- Diretórios e Alvos ---
@@ -32,12 +44,10 @@ OBJECTS := $(patsubst %.c,$(ODIR)/%.o,$(notdir $(SOURCES)))
 # Regra principal: compila tudo
 all: $(TARGET)
 
-# Regra para criar os diretórios de saída (obj e bin) - Compatível com Windows
-$(ODIR):
-	@if not exist $(ODIR) mkdir $(ODIR)
-
-$(BDIR):
-	@if not exist $(BDIR) mkdir $(BDIR)
+# Regra para criar os diretórios de saída (obj e bin) - Agora multiplataforma
+$(ODIR) $(BDIR):
+	@echo "Criando diretório: $@"
+	@$(MKDIR) $@
 
 # Garante que as regras de diretório sejam executadas antes das outras
 $(TARGET): $(ODIR) $(BDIR) $(OBJECTS)
@@ -45,12 +55,8 @@ $(TARGET): $(ODIR) $(BDIR) $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
 	@echo "Executavel '$(TARGET)' criado com sucesso."
 
-# A regra de compilação continua a mesma
-$(ODIR)/%.o: %.c
-	@echo "Compilando $<..."
-	$(CC) $(CFLAGS) -c $< -o $@
-
 # Regra de Compilação: transforma cada arquivo .c em um arquivo .o
+# Esta regra foi unificada e corrigida para usar TAB
 $(ODIR)/%.o: %.c
 	@echo "Compilando $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -63,7 +69,8 @@ vpath %.c $(sort $(dir $(SOURCES)))
 # Limpa os arquivos compilados (objetos e executável)
 clean:
 	@echo "Limpando arquivos gerados..."
-	@rm -rf $(ODIR) $(BDIR)
+	# Limpa diretórios de forma recursiva usando o comando específico do SO
+	@$(RM_DIRS) $(ODIR) $(BDIR) 2> /dev/null || true
 	@echo "Limpeza concluida."
 
 # Compila e executa o programa
