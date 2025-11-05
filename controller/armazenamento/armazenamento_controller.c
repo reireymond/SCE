@@ -7,15 +7,13 @@
 #include "utils/utils.h"         // Para limpar_tela, limpar_buffer, pausar
 #include "utils/validation.h"    // Para ler_int_valido (opcional, pode usar scanf direto se preferir)
 
-// Eles são necessários para que as funções salvar<Entidade> sejam encontradas
+// Eles são necessários para que as funções salvar
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
 #include "model/equipe_interna/equipe_interna_model.h"
 #include "model/recurso/recurso_model.h"
 #include "model/fornecedor/fornecedor_model.h"
 #include "model/operador/operador_model.h"
-// Adicione outros #includes de models se você tiver mais entidades
-
 // Função para importar dados de Texto/Binário para a memória da sessão atual
 void importarDadosDeOutroFormatoController(Sistema *sistema) {
     int opcao_origem;

@@ -24,13 +24,10 @@ void salvarClientes(Sistema *sistema) {
     // Se o modo de armazenamento for ARQUIVO_BINARIO...
     if (modo == ARQUIVO_BINARIO) {
         // Abre o arquivo binário no modo de escrita binária ("wb").
-        // "w" para escrita (cria o arquivo se não existir, ou apaga o conteúdo se existir)
-        // "b" para modo binário.
         arquivo = fopen(CLIENTES_DATA_FILE, "wb");
-        // Se a abertura do arquivo for bem-sucedida...
+        // Se a abertura do arquivo for bem-sucedida
         if (arquivo) {
             // Escreve o número total de clientes no início do arquivo.
-            // Isso facilita a leitura posterior, pois saberemos quantos registros esperar.
             fwrite(&sistema->num_clientes, sizeof(int), 1, arquivo);
             // Escreve todo o array (bloco de memória) da lista de clientes de uma só vez no arquivo.
             fwrite(sistema->lista_clientes, sizeof(Cliente), sistema->num_clientes, arquivo);
@@ -39,7 +36,7 @@ void salvarClientes(Sistema *sistema) {
     } else if (modo == ARQUIVO_TEXTO) {
         // Abre o arquivo de texto no modo de escrita de texto ("w").
         arquivo = fopen(CLIENTES_TEXT_FILE, "w");
-        // Se a abertura do arquivo for bem-sucedida...
+        // Se a abertura do arquivo for bem-sucedida
         if (arquivo) {
             // Escreve o número total de clientes na primeira linha do arquivo.
             fprintf(arquivo, "%d\n", sistema->num_clientes);

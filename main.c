@@ -14,7 +14,6 @@ int main() {
     configuracaoInicialController(&sistema); // Configuração inicial do sistema
     carregarTodosOsDadosController(&sistema); // Carrega dados existentes
 
-    // --- Início da Modificação ---
     // Chama a função de login APÓS carregar os dados
     int login_sucesso = realizarLoginOperador(&sistema);
 

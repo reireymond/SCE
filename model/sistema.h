@@ -1,10 +1,8 @@
 // Impede que o cabeçalho seja incluído múltiplas vezes no mesmo arquivo,
-// o que causaria erros de compilação por redefinição de tipos.
 #ifndef SISTEMA_H
 #define SISTEMA_H
 
 // Inclui o cabeçalho de configuração de armazenamento, que define
-// a enumeração 'TipoArmazenamento' usada para controlar a persistência dos dados.
 #include "model/config_armazenamento/config_armazenamento.h"
 
 // Define a estrutura para armazenar os dados da empresa produtora de eventos.
@@ -77,8 +75,6 @@ typedef struct
 } Operador;
 
 // Estrutura central que agrega todos os dados do sistema em um único lugar.
-// Um ponteiro para esta estrutura é passado para a maioria das funções,
-// permitindo que elas acessem e modifiquem o estado completo da aplicação.
 typedef struct Sistema
 {
     // Armazena o modo de persistência de dados escolhido pelo usuário (Memória, Arquivo Texto ou Binário).
