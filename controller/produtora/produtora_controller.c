@@ -1,41 +1,35 @@
-// Inclui o cabeçalho do controller da produtora, que contém as declarações
-// das funções implementadas neste arquivo.
+// Controller da produtora
 #include "controller/produtora/produtora_controller.h"
-// Inclui cabeçalhos padrão do C para funções de entrada/saída (stdio),
-// alocação de memória (stdlib) e manipulação de strings (string).
+
+// Bibliotecas padrão do C
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// Inclui o cabeçalho do model para poder chamar as funções 'salvarProdutora'.
+
+// Model, View e utilitários do sistema
 #include "model/produtora/produtora_model.h"
-// Inclui o cabeçalho da view para poder chamar a função 'verDetalhesProdutoraView'.
 #include "view/produtora/produtora_view.h"
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_buffer' e 'limpar_tela'.
 #include "utils/utils.h"
-// Inclui o cabeçalho de validação para usar funções como 'ler_string_valida' e 'ler_float_positivo'.
 #include "utils/validation.h"
 
-// Função para adicionar os dados da produtora ao sistema.
+// Adiciona os dados da produtora ao sistema
 void adicionarProdutoraController(Sistema *sistema) {
-    // O sistema permite apenas uma produtora. Se já houver dados cadastrados,
-    // a função informa o usuário e não permite um novo cadastro.
+    // Permite apenas uma produtora cadastrada
     if (sistema->dados_produtora != NULL) {
         printf("\nUma produtora ja foi cadastrada. Exclua a existente para cadastrar uma nova.\n");
         return;
     }
 
-    // Aloca dinamicamente memória para a estrutura 'Produtora'.
+    // Aloca memória para os dados
     sistema->dados_produtora = (Produtora *)malloc(sizeof(Produtora));
-    // Se a alocação de memória falhar (retornar NULL), exibe uma mensagem de erro fatal.
     if (sistema->dados_produtora == NULL) {
         printf("Erro fatal: Nao foi possivel alocar memoria para a produtora.\n");
         return;
     }
 
-    // Apresenta ao usuário o formulário de cadastro.
     printf("\n--- Cadastro dos Dados da Produtora ---\n");
 
-    // Solicita e lê cada um dos campos, utilizando as funções de validação para garantir a integridade dos dados.
+    // Coleta os dados da produtora
     printf("Nome Fantasia: ");
     ler_string_valida(sistema->dados_produtora->nome_fantasia, sizeof(sistema->dados_produtora->nome_fantasia), VALIDATE_NAO_VAZIA);
 
@@ -66,38 +60,31 @@ void adicionarProdutoraController(Sistema *sistema) {
     printf("Margem de Lucro (%%): ");
     ler_float_positivo(&sistema->dados_produtora->margem_lucro);
 
-    // Após preencher todos os dados, chama a função do model para salvar em arquivo.
+    // Salva os dados no arquivo
     salvarProdutora(sistema);
     printf("\nDados da produtora '%s' cadastrados com sucesso!\n", sistema->dados_produtora->nome_fantasia);
 }
 
-// Função para alterar os dados da produtora já cadastrada.
+// Altera os dados da produtora
 void alterarProdutoraController(Sistema *sistema) {
-    // Se não houver dados de produtora para alterar, informa o usuário e retorna.
     if (sistema->dados_produtora == NULL) {
         printf("\nNenhuma produtora cadastrada para alterar. Por favor, adicione uma primeiro.\n");
         return;
     }
 
     int opcao;
-    // Loop do menu de alteração, que continua até o usuário escolher a opção 0 para sair.
     do {
         limpar_tela();
         printf("--- Alterar Dados da Produtora ---\n\n");
-        // Mostra os detalhes atuais da produtora para o usuário.
         verDetalhesProdutoraView(sistema);
 
-        // Apresenta o menu de opções para alteração.
         printf("\n\nQual campo deseja alterar?\n");
         printf("1. Nome Fantasia\n2. Razao Social\n3. Nome do Responsavel\n4. CNPJ\n5. Inscricao Estadual\n");
         printf("6. Endereco\n7. Telefone\n8. Telefone do Responsavel\n9. E-mail\n10. Margem de Lucro\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        
-        // Lê a opção do usuário, garantindo que seja um número válido no intervalo de 0 a 10.
         ler_int_valido(&opcao, 0, 10);
 
-        // Executa a ação correspondente à opção escolhida.
         switch (opcao) {
             case 1:
                 printf("Digite o novo Nome Fantasia: ");
@@ -142,8 +129,6 @@ void alterarProdutoraController(Sistema *sistema) {
             case 0:
                 printf("\nAlteracoes salvas!\n");
                 break;
-            // O caso 'default' não é mais estritamente necessário por causa da validação
-            // de entrada da função 'ler_int_valido', mas é uma boa prática mantê-lo.
             default:
                 printf("\nOpcao invalida!\n");
                 pausar();
@@ -151,31 +136,24 @@ void alterarProdutoraController(Sistema *sistema) {
         }
     } while (opcao != 0);
 
-    // Após o usuário sair do loop, salva todas as alterações no arquivo.
     salvarProdutora(sistema);
 }
 
-// Função para excluir os dados da produtora.
+// Exclui os dados da produtora
 void excluirProdutoraController(Sistema *sistema) {
-    // Se não houver dados cadastrados, não há o que excluir.
     if (sistema->dados_produtora == NULL) {
         printf("\nNenhuma produtora cadastrada para excluir.\n");
         return;
     }
 
     char confirmacao;
-    // Pede uma confirmação final ao usuário para evitar a exclusão acidental.
     printf("\nTem certeza que deseja excluir os dados da produtora %s? (s/n): ", sistema->dados_produtora->nome_fantasia);
     scanf(" %c", &confirmacao);
     limpar_buffer();
 
-    // Se o usuário confirmar a exclusão...
     if (confirmacao == 's' || confirmacao == 'S') {
-        // Libera a memória que foi alocada para a estrutura da produtora.
         free(sistema->dados_produtora);
-        // Define o ponteiro como nulo para indicar que os dados não existem mais.
         sistema->dados_produtora = NULL;
-        // Salva o estado "vazio", ou seja, atualiza o arquivo para refletir a exclusão.
         salvarProdutora(sistema);
         printf("\nDados da produtora excluidos com sucesso!\n");
     } else {

@@ -5,8 +5,7 @@
 #include "model/sistema.h" // Para acessar a estrutura 'Sistema' e a lista de clientes
 
 // Funções do controller para gerenciar clientes
-void adicionarClienteController(Sistema *sistema); // Adiciona um novo cliente
-void alterarClienteController(Sistema *sistema);  // Altera dados de um cliente existente
-void excluirClienteController(Sistema *sistema);  // Exclui um cliente
-
+void adicionarClienteController(Sistema *sistema);
+void alterarClienteController(Sistema *sistema);
+void excluirClienteController(Sistema *sistema);
 #endif

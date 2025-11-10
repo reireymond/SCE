@@ -1,14 +1,10 @@
 // Inclui o cabeçalho correspondente, que contém as declarações das funções
-// que serão implementadas neste arquivo.
 #include "model/equipe_interna/equipe_interna_model.h"
-// Inclui os cabeçalhos padrão do C para entrada/saída (stdio),
-// alocação de memória (stdlib) e manipulação de strings (string).
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
 
 // Define constantes para os nomes dos arquivos de persistência de dados.
-// Usar #define torna o código mais legível e fácil de manter.
 #define EQUIPE_DATA_FILE "data/equipe.dat" // Arquivo para armazenamento binário.
 #define EQUIPE_TEXT_FILE "data/equipe.txt" // Arquivo para armazenamento em texto.
 
@@ -32,7 +28,7 @@ void salvarEquipeInterna(Sistema *sistema) {
             // Em seguida, grava todo o array da lista de equipe de uma só vez.
             fwrite(sistema->lista_equipe, sizeof(EquipeInterna), sistema->num_equipe, arquivo);
         }
-    } else { // Se o modo for ARQUIVO_TEXTO...
+    } else { 
         // Abre o arquivo de texto em modo de escrita ("w").
         arquivo = fopen(EQUIPE_TEXT_FILE, "w");
         // Se o arquivo foi aberto com sucesso...
@@ -66,7 +62,6 @@ void carregarEquipeInterna(Sistema *sistema) {
     if (modo == MEMORIA) return;
 
     // Define o nome do arquivo e o modo de abertura (leitura binária "rb" ou texto "r")
-    // com base na configuração do sistema.
     const char *nomeArquivo = (modo == ARQUIVO_BINARIO) ? EQUIPE_DATA_FILE : EQUIPE_TEXT_FILE;
     const char *modoAbertura = (modo == ARQUIVO_BINARIO) ? "rb" : "r";
     // Tenta abrir o arquivo.
@@ -74,7 +69,6 @@ void carregarEquipeInterna(Sistema *sistema) {
     // Se o arquivo não existir (comum na primeira execução), a função retorna sem erro.
     if (!arquivo) return;
 
-    // Se o modo for ARQUIVO_BINARIO...
     if (modo == ARQUIVO_BINARIO) {
         // Lê a quantidade de registros do arquivo.
         fread(&sistema->num_equipe, sizeof(int), 1, arquivo);
@@ -82,7 +76,7 @@ void carregarEquipeInterna(Sistema *sistema) {
         if (sistema->num_equipe > 0) {
             // Aloca a memória necessária para a lista.
             sistema->lista_equipe = malloc(sistema->num_equipe * sizeof(EquipeInterna));
-            // Se a alocação de memória funcionar...
+            // Se a alocação de memória funcionar
             if (sistema->lista_equipe) {
                 // Lê todos os registros do arquivo para a memória de uma só vez.
                 fread(sistema->lista_equipe, sizeof(EquipeInterna), sistema->num_equipe, arquivo);
@@ -90,7 +84,7 @@ void carregarEquipeInterna(Sistema *sistema) {
                 sistema->capacidade_equipe = sistema->num_equipe;
             }
         }
-    } else { // Se o modo for ARQUIVO_TEXTO...
+    } else { 
         // Lê a quantidade de registros da primeira linha.
         fscanf(arquivo, "%d\n", &sistema->num_equipe);
         // Se houver registros para ler...
@@ -113,7 +107,7 @@ void carregarEquipeInterna(Sistema *sistema) {
             }
         }
     }
-    // Fecha o arquivo.
+    
     fclose(arquivo);
 }
 
@@ -121,7 +115,7 @@ void carregarEquipeInterna(Sistema *sistema) {
 void liberarMemoriaEquipe(Sistema *sistema) {
     // Verifica se o ponteiro da lista não é nulo para evitar erros.
     if (sistema->lista_equipe != NULL) {
-        // Libera a memória alocada com malloc/realloc.
+        // Libera a memória alocada 
         free(sistema->lista_equipe);
         // Aponta o ponteiro para NULL para evitar o uso de memória já liberada.
         sistema->lista_equipe = NULL;

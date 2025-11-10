@@ -1,25 +1,17 @@
-// Previne que este arquivo de cabeçalho seja incluído múltiplas vezes,
-// o que causaria erros de compilação por definições duplicadas.
+// Evita múltiplas inclusões deste cabeçalho
 #ifndef OPERADOR_MODEL_H
 #define OPERADOR_MODEL_H
 
-// Inclui a definição da estrutura principal 'Sistema'. As funções declaradas aqui
-// precisam de acesso a esta estrutura para manipular a lista de operadores.
+// Necessário para acessar e manipular os dados do sistema
 #include "model/sistema.h"
 
-// Declaração da função para salvar os dados dos operadores.
-// Esta função será responsável por escrever a lista de operadores no
-// modo de armazenamento configurado (seja arquivo binário ou de texto).
+// Salva a lista de operadores conforme o modo de armazenamento configurado
 void salvarOperadores(Sistema *sistema);
 
-// Declaração da função para carregar os dados dos operadores.
-// Ao iniciar o programa, esta função lê os dados de um arquivo e popula
-// a lista de operadores na memória.
+// Carrega os operadores do arquivo para a memória ao iniciar o sistema
 void carregarOperadores(Sistema *sistema);
 
-// Declaração da função para liberar a memória alocada para a lista de operadores.
-// Essencial para ser chamada ao encerrar o programa para prevenir vazamentos de memória.
+// Libera a memória usada pela lista de operadores
 void liberarMemoriaOperadores(Sistema *sistema);
 
-// Fim da diretiva de inclusão condicional.
 #endif
