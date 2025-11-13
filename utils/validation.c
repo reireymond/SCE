@@ -92,6 +92,33 @@ static int is_valid_phone(const char *str)
     return 1;
 }
 
+// Validação simples de data (formato DD/MM/AAAA)
+static int is_valid_data(const char *str) {
+    int len = strlen(str);
+    // Uma data "DD/MM/AAAA" deve ter 10 caracteres
+    if (len != 10) {
+        return 0;
+    }
+
+    // Verifica se as barras estão nas posições corretas
+    if (str[2] != '/' || str[5] != '/') {
+        return 0;
+    }
+
+    // Verifica se os outros caracteres são dígitos
+    for (int i = 0; i < len; i++) {
+        if (i == 2 || i == 5) {
+            continue; // Pula as barras
+        }
+        if (!isdigit(str[i])) {
+            return 0; // Não é um dígito
+        }
+    }
+    
+    return 1; // Formato básico válido
+}
+
+
 // função valida cpf
 
 // Realiza a validação matemática completa de um CPF.
@@ -276,10 +303,12 @@ int ler_string_valida(char *buffer, int length, ValidationType type)
             if (!valid)
                 printf("CNPJ invalido. Digite um CNPJ matematicamente valido. Tente novamente: ");
             break;
-             case VALIDATE_DATA:
-            valid = is_valid_cnpj(buffer);
+             
+        case VALIDATE_DATA:
+            // Chama a nova função de validação de data
+            valid = is_valid_data(buffer); 
             if (!valid)
-                printf("Data invalido. Digite uma data valida. Tente novamente: ");
+                printf("Data invalida. Digite uma data no formato DD/MM/AAAA. Tente novamente: ");
             break;
 
         case VALIDATE_CPF_CNPJ:

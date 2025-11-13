@@ -220,4 +220,6 @@ typedef struct Sistema
 
 } Sistema;
 
+
+// Finaliza a diretiva de pré-processador para evitar inclusão múltipla.
 #endif

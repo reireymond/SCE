@@ -78,14 +78,20 @@ void menuPrincipalView(Sistema *sistema) {
             menuGestaoDeDadosView(sistema);
             break;
         case 2:
+            // Chama a função que exibe o submenu de Eventos.
             menuEventosView(sistema);
             break;
         case 3:
+            // Chama a função que exibe o submenu de Transacoes.
             menuTransacoesView(sistema);
+            break; 
         case 4:
-        case 5:
-            menuImportarExportarView(sistema);
+            printf("\nModulo de Feedback (Relatorios) ainda nao implementado.\n");
             pausar();
+            break;
+        case 5:
+            // Chama a função que exibe o submenu de Exportacao de Dados
+            menuImportarExportarView(sistema);
             break;
         case 0:
             printf("\nSaindo do programa...\n");

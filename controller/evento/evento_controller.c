@@ -8,6 +8,7 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 #include "model/sistema.h"
+#include "view/cliente/cliente_view.h"
 
 
 // Adiciona um novo evento (equivalente a "Criar Orçamento")
@@ -27,39 +28,59 @@ void adicionarEventoController(Sistema *sistema) {
 
     // Ponteiro para o novo evento
     Evento *novo = &sistema->lista_eventos[sistema->num_eventos];
+    
+    memset(novo, 0, sizeof(Evento)); 
+
     novo->codigo = sistema->num_eventos + 1;
 
-    printf("\n--- Criacao de Novo Evento (Codigo: %d) ---\n", novo->codigo);
+    printf("\n--- Criacao de Novo Evento (Orcamento Codigo: %d) ---\n", novo->codigo);
 
-    // Entrada e validação dos dados
-    printf("Nome do Cliente: ");
-    ler_string_valida(novo->cliente, sizeof(novo->cliente), VALIDATE_NOME);
+    printf("Nome do Evento: ");
+    ler_string_valida(novo->nome_evento, sizeof(novo->nome_evento), VALIDATE_NAO_VAZIA);
 
-    printf("Descricao do Evento: ");
-    ler_string_valida(novo->descricao, sizeof(novo->descricao), VALIDATE_NAO_VAZIA);
+    // Lista clientes para o usuário escolher
+    listarClientesView(sistema);
+    if(sistema->num_clientes > 0) {
+        printf("Digite o Codigo do Cliente: ");
+        ler_int_valido(&novo->codigo_cliente, 1, 99999); // Assume um ID máximo
+    } else {
+        printf("\nNenhum cliente cadastrado. Cancele e cadastre um cliente primeiro.\n");
+        // Remove o evento que estava sendo criado (voltando o contador)
+        // (Ou poderia ter uma validação antes de começar)
+        return; // Cancela a adição
+    }
 
-    printf("Data do Evento (DD/MM/AAAA): ");
-    ler_string_valida(novo->data, sizeof(novo->data), VALIDATE_DATA);
+    printf("Data de Inicio (DD/MM/AAAA): ");
+    ler_string_valida(novo->data_inicio, sizeof(novo->data_inicio), VALIDATE_DATA);
 
-    printf("Valor Orçado: R$ ");
-    ler_float_positivo(&novo->valor_orcado);
+    printf("Data de Fim (DD/MM/AAAA): ");
+    ler_string_valida(novo->data_fim, sizeof(novo->data_fim), VALIDATE_DATA);
+
+    printf("Local do Evento: ");
+    ler_string_valida(novo->local, sizeof(novo->local), VALIDATE_NAO_VAZIA);
+
+    // Ambos começam zerados.
+    novo->custo_total_previsto = 0.0;
+    novo->valor_final_faturado = 0.0;
 
     // Status inicial do evento
-    strcpy(novo->status, "PENDENTE");
+    novo->status = ORCAMENTO;
+
+    // (Falta implementar a adição de itens ao orçamento aqui)
 
     sistema->num_eventos++;
-    salvarEventos(sistema);
+    salvarEventos(sistema); // (Função definida em evento_model.h)
 
-    printf("\nEvento '%s' criado com sucesso!\n", novo->descricao);
+    printf("\nOrcamento para '%s' criado com sucesso!\n", novo->nome_evento);
 }
 
 // Altera o status do evento (equivalente a "Aprovar")
 void alterarStatusEventoController(Sistema *sistema) {
-    listarEventosView(sistema);
+    listarEventosView(sistema); // (Função definida em evento_view.h)
     if (sistema->num_eventos == 0) return;
 
     int codigo, indice = -1;
-    printf("\nDigite o codigo do evento que deseja alterar o status: ");
+    printf("\nDigite o codigo do evento (orcamento) que deseja aprovar: ");
     scanf("%d", &codigo);
     limpar_buffer();
 
@@ -77,21 +98,34 @@ void alterarStatusEventoController(Sistema *sistema) {
 
     Evento *evento = &sistema->lista_eventos[indice];
 
-    printf("\nStatus atual: %s\n", evento->status);
-    printf("1. Aprovar Evento\n");
-    printf("2. Cancelar Evento\n");
-    printf("Escolha: ");
+    printf("\nStatus atual: ");
+    switch(evento->status) {
+        case ORCAMENTO: printf("Orcamento\n"); break;
+        case APROVADO: printf("Aprovado\n"); break;
+        case FINALIZADO: printf("Finalizado\n"); break;
+    }
 
-    int opcao;
-    ler_int_valido(&opcao, 1, 2);
+    if (evento->status == ORCAMENTO) {
+        printf("1. Aprovar Orcamento\n");
+        printf("0. Cancelar\n");
+        printf("Escolha: ");
+        int opcao;
+        ler_int_valido(&opcao, 0, 1);
 
-    if (opcao == 1)
-        strcpy(evento->status, "APROVADO");
-    else
-        strcpy(evento->status, "CANCELADO");
-
-    salvarEventos(sistema);
-    printf("\nStatus do evento atualizado para '%s'!\n", evento->status);
+        if (opcao == 1) {
+            // (Falta lógica de verificação de estoque e alocação de recursos)
+            evento->status = APROVADO;
+            salvarEventos(sistema);
+            printf("\nEvento APROVADO com sucesso!\n");
+        } else {
+            printf("\nAlteracao cancelada.\n");
+        }
+    } else if (evento->status == APROVADO) {
+         printf("\nEste evento ja esta APROVADO.\n");
+         printf("Use a opcao 'Finalizar Evento' (3) para encerra-lo.\n");
+    } else { // FINALIZADO
+         printf("\nEste evento esta FINALIZADO e nao pode ter seu status alterado.\n");
+    }
 }
 
 // Finaliza um evento (equivalente a "Finalizar e Faturar")
@@ -118,18 +152,23 @@ void finalizarEventoController(Sistema *sistema) {
 
     Evento *evento = &sistema->lista_eventos[indice];
 
-    if (strcmp(evento->status, "APROVADO") != 0) {
-        printf("\nSomente eventos aprovados podem ser finalizados!\n");
+    if (evento->status != APROVADO) {
+        printf("\nSomente eventos APROVADOS podem ser finalizados!\n");
+        if(evento->status == ORCAMENTO) printf("Este evento ainda e um orcamento.\n");
+        if(evento->status == FINALIZADO) printf("Este evento ja esta finalizado.\n");
         return;
     }
 
+    printf("\nCusto Total Previsto do Evento: R$ %.2f\n", evento->custo_total_previsto);
     printf("Digite o valor final faturado (R$): ");
-    ler_float_positivo(&evento->valor_final);
+    ler_float_positivo(&evento->valor_final_faturado); 
 
-    strcpy(evento->status, "FINALIZADO");
+    evento->status = FINALIZADO;
+
+    // (Falta lógica de devolução de recursos ao estoque)
 
     salvarEventos(sistema);
-    printf("\nEvento '%s' finalizado com sucesso!\n", evento->descricao);
+    printf("\nEvento '%s' finalizado com sucesso!\n", evento->nome_evento);
 }
 
 // Detalha um evento (equivalente a "Ver Itens de um Evento")
@@ -157,12 +196,28 @@ void detalharEventoController(Sistema *sistema) {
     Evento *evento = &sistema->lista_eventos[indice];
 
     printf("\n--- Detalhes do Evento #%d ---\n", evento->codigo);
-    printf("Cliente: %s\n", evento->cliente);
-    printf("Descricao: %s\n", evento->descricao);
-    printf("Data: %s\n", evento->data);
-    printf("Valor Orcado: R$ %.2f\n", evento->valor_orcado);
-    printf("Status: %s\n", evento->status);
+    printf("Nome do Evento: %s\n", evento->nome_evento);
+    
+    // (Idealmente, buscaria o nome do cliente pelo código)
+    printf("Cliente (Codigo): %d\n", evento->codigo_cliente);
+    
+    printf("Local: %s\n", evento->local);
+    printf("Data Inicio: %s\n", evento->data_inicio);
+    printf("Data Fim: %s\n", evento->data_fim);
 
-    if (strcmp(evento->status, "FINALIZADO") == 0)
-        printf("Valor Final: R$ %.2f\n", evento->valor_final);
+    printf("Status: ");
+    switch(evento->status) {
+        case ORCAMENTO: printf("Orcamento\n"); break;
+        case APROVADO: printf("Aprovado\n"); break;
+        case FINALIZADO: printf("Finalizado\n"); break;
+    }
+
+    printf("Custo Total Previsto: R$ %.2f\n", evento->custo_total_previsto);
+
+    if (evento->status == FINALIZADO) {
+        printf("Valor Final Faturado: R$ %.2f\n", evento->valor_final_faturado);
+    }
+    
+    // (Falta implementar a listagem dos itens, equipe e serviços)
+    printf("\n(Detalhes de itens, equipe e servicos ainda nao implementados.)\n");
 }
