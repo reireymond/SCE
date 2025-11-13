@@ -118,7 +118,107 @@ typedef struct Sistema
     // Capacidade total do array 'lista_operadores'.
     int capacidade_operadores;
 
+    // Ponteiro para a lista dinâmica de eventos/orçamentos
+    Evento *lista_eventos;
+    int num_eventos;
+    int capacidade_eventos;
+
+    // Ponteiro para a lista dinâmica de transações financeiras
+    Transacao *lista_transacoes;
+    int num_transacoes;
+    int capacidade_transacoes;
+
+    // Saldo de caixa atual
+    float saldo_caixa;
+
 } Sistema;
+
+// Enum para o status do evento
+typedef enum {
+    ORCAMENTO,
+    APROVADO,
+    FINALIZADO
+} StatusEvento;
+
+// Enum para tipos de transação
+typedef enum {
+    CONTA_A_RECEBER,
+    CONTA_A_PAGAR,
+    MOVIMENTACAO_CAIXA
+} TipoTransacao;
+
+// Enum para status da transação
+typedef enum {
+    PENDENTE,
+    PAGA
+} StatusTransacao;
+
+// Struct para armazenar um recurso alocado em um evento
+typedef struct {
+    int codigo_recurso;
+    int quantidade;
+    float custo_locacao_momento; // Preço no momento do orçamento
+} ItemRecursoEvento;
+
+// Struct para armazenar um membro da equipe alocado
+typedef struct {
+    int codigo_equipe;
+    float custo_diaria_momento; // Custo no momento do orçamento
+} ItemEquipeEvento;
+
+// Struct para armazenar um serviço de fornecedor contratado
+typedef struct {
+    int codigo_fornecedor;
+    char descricao_servico[150]; // Descrição do serviço contratado
+    float custo_contratado;
+} ItemFornecedorEvento;
+
+// Define a estrutura principal para um Evento (que começa como Orçamento)
+typedef struct {
+    int codigo;
+    char nome_evento[150];
+    int codigo_cliente;
+    StatusEvento status; // ORCAMENTO, APROVADO, FINALIZADO
+
+    char data_inicio[11]; // Formato "dd/mm/aaaa"
+    char data_fim[11];    // Formato "dd/mm/aaaa"
+    char local[150];
+
+    // Listas dinâmicas dos itens alocados
+    ItemRecursoEvento *lista_recursos_alocados;
+    int num_recursos_alocados;
+    int capacidade_recursos_alocados;
+
+    ItemEquipeEvento *lista_equipe_alocada;
+    int num_equipe_alocada;
+    int capacidade_equipe_alocada;
+
+    ItemFornecedorEvento *lista_servicos_contratados;
+    int num_servicos_contratados;
+    int capacidade_servicos_contratados;
+
+    // Custos e Faturamento
+    float custo_total_previsto; // Soma de todos os custos
+    float valor_final_faturado; // Valor a ser cobrado do cliente
+
+} Evento;
+
+// Define a estrutura para uma transação financeira
+typedef struct {
+    int codigo;
+    TipoTransacao tipo;     // CONTA_A_RECEBER, CONTA_A_PAGAR, MOVIMENTACAO_CAIXA
+    StatusTransacao status; // PENDENTE, PAGA
+    char descricao[150];
+    float valor;
+    char data_vencimento[11]; // "dd/mm/aaaa"
+    char data_pagamento[11];  // "dd/mm/aaaa" (preenchido na baixa)
+
+    // Códigos para vincular a transação (ex: ao cliente ou fornecedor)
+    int codigo_cliente_ref;
+    int codigo_fornecedor_ref;
+    int codigo_evento_ref;
+
+} Transacao;
 
 // Finaliza a diretiva de pré-processador para evitar inclusão múltipla.
 #endif
