@@ -19,6 +19,8 @@
 #include "view/recurso/recurso_view.h"
 #include "view/fornecedor/fornecedor_view.h"
 #include "view/operador/operador_view.h"
+#include "view/evento/evento_view.h"
+#include "view/transacao/transacao_view.h"
 
 // Implementação da função que exibe o menu de escolha do modo de armazenamento.
 void menuEscolherArmazenamentoView(Sistema *sistema) {
@@ -75,9 +77,11 @@ void menuPrincipalView(Sistema *sistema) {
             // Chama a função que exibe o submenu de Gestão de Dados.
             menuGestaoDeDadosView(sistema);
             break;
-        // Os casos de 2 a 4 são módulos ainda não implementados.
         case 2:
+            menuEventosView(sistema);
+            break;
         case 3:
+            menuTransacoesView(sistema);
         case 4:
         case 5:
             menuImportarExportarView(sistema);

@@ -15,6 +15,8 @@
 #include "model/recurso/recurso_model.h"
 #include "model/fornecedor/fornecedor_model.h"
 #include "model/operador/operador_model.h"
+#include "model/evento/evento_model.h"
+#include "model/transacao/transacao_model.h"
 
 
 // Define o tipo de armazenamento inicial (memória, texto ou binário)
@@ -31,6 +33,9 @@ void carregarTodosOsDadosController(Sistema *sistema) {
     carregarRecursos(sistema);
     carregarFornecedores(sistema);
     carregarOperadores(sistema);
+    carregarEventos(sistema);
+    carregarTransacoes(sistema);
+    carregarCaixa(sistema);
 }
 
 
@@ -42,4 +47,6 @@ void liberarTodaMemoriaController(Sistema *sistema) {
     liberarMemoriaRecursos(sistema);
     liberarMemoriaFornecedores(sistema);
     liberarMemoriaOperadores(sistema);
+    liberarMemoriaEventos(sistema);
+    liberarMemoriaTransacoes(sistema);
 }
