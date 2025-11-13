@@ -5,7 +5,6 @@
       "name": "Debug (gdb)",
       "type": "cppdbg",
       "request": "launch",
-      "produtora.exe",
       "program": "${workspaceFolder}/bin/produtora.exe",
       "args": [],
       "stopAtEntry": false,

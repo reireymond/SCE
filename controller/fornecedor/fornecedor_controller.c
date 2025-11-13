@@ -1,84 +1,61 @@
-// Inclui o cabeçalho do controller de fornecedor, que contém as declarações
-// das funções que são implementadas neste arquivo.
+// Controller de fornecedor
 #include "fornecedor_controller.h"
-
-// Inclui cabeçalhos padrão do C para entrada/saída, alocação de memória e manipulação de strings.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Inclui o cabeçalho do model para permitir a persistência dos dados (armazenamento em arquivo).
+// Model (salvar e carregar dados)
 #include "model/fornecedor/fornecedor_model.h"
-
-// Inclui o cabeçalho da view de fornecedor para exibir informações na tela.
+// View (exibição e interação com o usuário)
 #include "view/fornecedor/fornecedor_view.h"
-
-// Inclui o cabeçalho de utilitários com funções auxiliares como limpar_buffer().
+// Utilitários gerais
 #include "utils/utils.h"
-
-// Inclui o cabeçalho de validação, com funções que verificam formato e conteúdo dos dados digitados.
+// Validação de dados
 #include "utils/validation.h"
 
-//cadastrar um novo fornecedor no sistema.
 
+// Cadastra um novo fornecedor no sistema
 void adicionarFornecedorController(Sistema *sistema) {
-    // Verifica se o vetor de fornecedores atingiu sua capacidade máxima.
     if (sistema->num_fornecedores == sistema->capacidade_fornecedores) {
-        // Se ainda não há capacidade definida, começa com 10. Caso contrário, dobra o tamanho.
         int nova_capacidade = (sistema->capacidade_fornecedores == 0) ? 10 : sistema->capacidade_fornecedores * 2;
-
-        // Realoca a memória para armazenar mais fornecedores.
         Fornecedor *temp = realloc(sistema->lista_fornecedores, nova_capacidade * sizeof(Fornecedor));
 
-        // Se a realocação falhar, exibe erro e interrompe o processo.
         if (temp == NULL) {
             printf("\nErro de alocacao de memoria para fornecedores!\n");
             return;
         }
 
-        // Atualiza o ponteiro e a capacidade do sistema.
         sistema->lista_fornecedores = temp;
         sistema->capacidade_fornecedores = nova_capacidade;
     }
 
-    // Cria um novo fornecedor na próxima posição livre.
     Fornecedor *novo_fornecedor = &sistema->lista_fornecedores[sistema->num_fornecedores];
-    novo_fornecedor->codigo = sistema->num_fornecedores + 1; // Código sequencial automático.
+    novo_fornecedor->codigo = sistema->num_fornecedores + 1;
 
-    // Exibe o cabeçalho do formulário de cadastro.
     printf("\n--- Cadastro de Novo Fornecedor (Codigo: %d) ---\n", novo_fornecedor->codigo);
 
-    // Solicita os dados e valida as entradas.
     printf("Nome Fantasia: ");
     ler_string_valida(novo_fornecedor->nome_fantasia, sizeof(novo_fornecedor->nome_fantasia), VALIDATE_NAO_VAZIA);
-
     printf("Razao Social: ");
     ler_string_valida(novo_fornecedor->razao_social, sizeof(novo_fornecedor->razao_social), VALIDATE_NAO_VAZIA);
-    
     printf("CNPJ / CPF: ");
     ler_string_valida(novo_fornecedor->cnpj, sizeof(novo_fornecedor->cnpj), VALIDATE_CPF_CNPJ);
-
     printf("Endereco: ");
     ler_string_valida(novo_fornecedor->endereco, sizeof(novo_fornecedor->endereco), VALIDATE_NAO_VAZIA);
-
     printf("Telefone: ");
     ler_string_valida(novo_fornecedor->telefone, sizeof(novo_fornecedor->telefone), VALIDATE_TELEFONE);
-
     printf("Tipo de Servico: ");
     ler_string_valida(novo_fornecedor->tipo_servico, sizeof(novo_fornecedor->tipo_servico), VALIDATE_NAO_VAZIA);
 
-    // Incrementa o contador de fornecedores.
     sistema->num_fornecedores++;
-
-    // Persiste os dados atualizados no arquivo.
     salvarFornecedores(sistema);
     printf("\nFornecedor '%s' cadastrado com sucesso!\n", novo_fornecedor->nome_fantasia);
 }
 
-//permitir a edição de dados de um fornecedor existente.
 
+// Permite alterar dados de um fornecedor existente
 void alterarFornecedorController(Sistema *sistema) {
-    listarFornecedoresView(sistema); // Mostra a lista de fornecedores.
+    listarFornecedoresView(sistema);
     if (sistema->num_fornecedores == 0) return;
 
     int codigo, indice = -1;
@@ -86,7 +63,6 @@ void alterarFornecedorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o fornecedor correspondente ao código informado.
     for (int i = 0; i < sistema->num_fornecedores; i++) {
         if (sistema->lista_fornecedores[i].codigo == codigo) {
             indice = i;
@@ -99,21 +75,13 @@ void alterarFornecedorController(Sistema *sistema) {
         return;
     }
 
-    // Ponteiro para o fornecedor que será alterado.
     Fornecedor *fornecedor = &sistema->lista_fornecedores[indice];
     int opcao;
 
-    // Menu de edição.
     do {
         limpar_tela();
         printf("--- Alterando Fornecedor: %s ---\n", fornecedor->nome_fantasia);
-        printf("1. Alterar Nome Fantasia\n");
-        printf("2. Alterar Razao Social\n");
-        printf("3. Alterar CNPJ / CPF\n");
-        printf("4. Alterar Endereco\n");
-        printf("5. Alterar Telefone\n");
-        printf("6. Alterar Tipo de Servico\n");
-        printf("0. Salvar e Voltar\n");
+        printf("1. Nome Fantasia\n2. Razao Social\n3. CNPJ / CPF\n4. Endereco\n5. Telefone\n6. Tipo de Servico\n0. Salvar e Voltar\n");
         printf("Escolha: ");
         ler_int_valido(&opcao, 0, 6);
 
@@ -148,11 +116,11 @@ void alterarFornecedorController(Sistema *sistema) {
         }
     } while (opcao != 0);
 
-    salvarFornecedores(sistema); // Persiste as alterações.
+    salvarFornecedores(sistema);
 }
 
-//  remover um fornecedor cadastrado do sistema.
 
+// Remove um fornecedor cadastrado
 void excluirFornecedorController(Sistema *sistema) {
     listarFornecedoresView(sistema);
     if (sistema->num_fornecedores == 0) return;
@@ -162,7 +130,6 @@ void excluirFornecedorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o fornecedor pelo código informado.
     for (int i = 0; i < sistema->num_fornecedores; i++) {
         if (sistema->lista_fornecedores[i].codigo == codigo) {
             char confirmacao;
@@ -171,11 +138,10 @@ void excluirFornecedorController(Sistema *sistema) {
             limpar_buffer();
 
             if (confirmacao == 's' || confirmacao == 'S') {
-                // Substitui o fornecedor excluído pelo último da lista.
                 sistema->lista_fornecedores[i] = sistema->lista_fornecedores[sistema->num_fornecedores - 1];
                 sistema->num_fornecedores--;
-                printf("\nFornecedor excluido com sucesso!\n");
                 salvarFornecedores(sistema);
+                printf("\nFornecedor excluido com sucesso!\n");
             } else {
                 printf("\nExclusao cancelada.\n");
             }

@@ -9,4 +9,4 @@ void menuOperadoresView(Sistema *sistema);
 // Exibe a lista de todos os operadores cadastrados
 void listarOperadoresView(Sistema *sistema);
 
-#endif // OPERADOR_VIEW_H
+#endif 

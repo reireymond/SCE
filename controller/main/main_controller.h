@@ -6,8 +6,8 @@
 
 // Controller para gerenciar a inicialização e o ciclo de vida dos dados do sistema
 
-void configuracaoInicialController(Sistema *sistema); // Configura o programa e escolhe modo de armazenamento
-void carregarTodosOsDadosController(Sistema *sistema); // Carrega todos os dados de clientes, fornecedores, etc.
-void liberarTodaMemoriaController(Sistema *sistema);   // Libera toda a memória alocada dinamicamente
+void configuracaoInicialController(Sistema *sistema);
+void carregarTodosOsDadosController(Sistema *sistema);
+void liberarTodaMemoriaController(Sistema *sistema);
 
-#endif // MAIN_CONTROLLER_H
+#endif

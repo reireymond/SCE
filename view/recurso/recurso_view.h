@@ -9,4 +9,4 @@ void menuRecursosView(Sistema *sistema);
 // Lista todos os recursos cadastrados de forma organizada
 void listarRecursosView(Sistema *sistema);
 
-#endif // RECURSO_VIEW_H
+#endif 

@@ -5,8 +5,8 @@
 #include "model/sistema.h" // Para acessar a estrutura 'Sistema' e a lista de operadores
 
 // Funções do controller para gerenciar operadores
-void adicionarOperadorController(Sistema *sistema); // Adiciona um novo operador
-void alterarOperadorController(Sistema *sistema);  // Altera dados de um operador existente
-void excluirOperadorController(Sistema *sistema);  // Exclui um operador
+void adicionarOperadorController(Sistema *sistema);
+void alterarOperadorController(Sistema *sistema); 
+void excluirOperadorController(Sistema *sistema);
 
-#endif // OPERADOR_CONTROLLER_H
+#endif 

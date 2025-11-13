@@ -2,9 +2,9 @@
 #include "operador_controller.h"
 
 // Bibliotecas padrão
-#include <stdio.h>   // Entrada/saída
-#include <stdlib.h>  // Alocação de memória
-#include <string.h>  // Manipulação de strings
+#include <stdio.h>   
+#include <stdlib.h>  
+#include <string.h>  
 
 // Model e view do operador
 #include "model/operador/operador_model.h"

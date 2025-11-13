@@ -5,8 +5,8 @@
 #include "model/sistema.h" // Para acessar a estrutura 'Sistema' e a lista de recursos
 
 // Funções do controller para gerenciar recursos (equipamentos)
-void adicionarRecursoController(Sistema *sistema); // Adiciona um novo recurso
-void alterarRecursoController(Sistema *sistema);  // Altera dados de um recurso existente
-void excluirRecursoController(Sistema *sistema);  // Remove um recurso do sistema
+void adicionarRecursoController(Sistema *sistema);
+void alterarRecursoController(Sistema *sistema); 
+void excluirRecursoController(Sistema *sistema);  
 
-#endif // RECURSO_CONTROLLER_H
+#endif 
