@@ -2,13 +2,10 @@
 #include "validation.h"
 // Inclui o cabeçalho de utilitários para usar funções como 'limpar_buffer'.
 #include "utils.h"
-// Inclui a biblioteca padrão para funções como 'atoi' (converter string para inteiro).
 #include <stdlib.h>
 
 
-//Funções de validação específicas (privadas para este arquivo) 
-
-
+//Funções de validação específicas 
 static void extrair_apenas_numeros(const char *str_in, char *str_out)
 {
     // 'j' será o índice para a string de saída.
@@ -118,10 +115,7 @@ static int is_valid_data(const char *str) {
     return 1; // Formato básico válido
 }
 
-
-// função valida cpf
-
-// Realiza a validação matemática completa de um CPF.
+// Realiza a validação matemática do CPF.
 
 static int is_valid_cpf(const char *cpf_str)
 {
