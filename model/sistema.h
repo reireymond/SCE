@@ -74,65 +74,6 @@ typedef struct
     char senha[50];    
 } Operador;
 
-// Estrutura central que agrega todos os dados do sistema em um único lugar.
-typedef struct Sistema
-{
-    // Armazena o modo de persistência de dados escolhido pelo usuário (Memória, Arquivo Texto ou Binário).
-    TipoArmazenamento modo_de_armazenamento;
-
-    // Ponteiro para os dados da produtora. Apenas uma produtora pode ser cadastrada.
-    Produtora *dados_produtora;
-
-    // Ponteiro para a lista dinâmica de clientes cadastrados.
-    Cliente *lista_clientes;
-    // Número atual de clientes na lista.
-    int num_clientes;
-    // Capacidade total do array 'lista_clientes', usada para gerenciar o crescimento da lista.
-    int capacidade_clientes;
-
-    // Ponteiro para a lista dinâmica de membros da equipe.
-    EquipeInterna *lista_equipe;
-    // Número atual de membros na lista.
-    int num_equipe;
-    // Capacidade total do array 'lista_equipe'.
-    int capacidade_equipe;
-
-    // Ponteiro para a lista dinâmica de recursos e equipamentos.
-    Recurso *lista_recursos;
-    // Número atual de recursos na lista.
-    int num_recursos;
-    // Capacidade total do array 'lista_recursos'.
-    int capacidade_recursos;
-
-    // Ponteiro para a lista dinâmica de fornecedores e parceiros.
-    Fornecedor *lista_fornecedores;
-    // Número atual de fornecedores na lista.
-    int num_fornecedores;
-    // Capacidade total do array 'lista_fornecedores'.
-    int capacidade_fornecedores;
-
-    // Ponteiro para a lista dinâmica de operadores do sistema.
-    Operador *lista_operadores;
-    // Número atual de operadores na lista.
-    int num_operadores;
-    // Capacidade total do array 'lista_operadores'.
-    int capacidade_operadores;
-
-    // Ponteiro para a lista dinâmica de eventos/orçamentos
-    Evento *lista_eventos;
-    int num_eventos;
-    int capacidade_eventos;
-
-    // Ponteiro para a lista dinâmica de transações financeiras
-    Transacao *lista_transacoes;
-    int num_transacoes;
-    int capacidade_transacoes;
-
-    // Saldo de caixa atual
-    float saldo_caixa;
-
-} Sistema;
-
 // Enum para o status do evento
 typedef enum {
     ORCAMENTO,
@@ -220,5 +161,63 @@ typedef struct {
 
 } Transacao;
 
-// Finaliza a diretiva de pré-processador para evitar inclusão múltipla.
+// Estrutura central que agrega todos os dados do sistema em um único lugar.
+typedef struct Sistema
+{
+    // Armazena o modo de persistência de dados escolhido pelo usuário (Memória, Arquivo Texto ou Binário).
+    TipoArmazenamento modo_de_armazenamento;
+
+    // Ponteiro para os dados da produtora. Apenas uma produtora pode ser cadastrada.
+    Produtora *dados_produtora;
+
+    // Ponteiro para a lista dinâmica de clientes cadastrados.
+    Cliente *lista_clientes;
+    // Número atual de clientes na lista.
+    int num_clientes;
+    // Capacidade total do array 'lista_clientes', usada para gerenciar o crescimento da lista.
+    int capacidade_clientes;
+
+    // Ponteiro para a lista dinâmica de membros da equipe.
+    EquipeInterna *lista_equipe;
+    // Número atual de membros na lista.
+    int num_equipe;
+    // Capacidade total do array 'lista_equipe'.
+    int capacidade_equipe;
+
+    // Ponteiro para a lista dinâmica de recursos e equipamentos.
+    Recurso *lista_recursos;
+    // Número atual de recursos na lista.
+    int num_recursos;
+    // Capacidade total do array 'lista_recursos'.
+    int capacidade_recursos;
+
+    // Ponteiro para a lista dinâmica de fornecedores e parceiros.
+    Fornecedor *lista_fornecedores;
+    // Número atual de fornecedores na lista.
+    int num_fornecedores;
+    // Capacidade total do array 'lista_fornecedores'.
+    int capacidade_fornecedores;
+
+    // Ponteiro para a lista dinâmica de operadores do sistema.
+    Operador *lista_operadores;
+    // Número atual de operadores na lista.
+    int num_operadores;
+    // Capacidade total do array 'lista_operadores'.
+    int capacidade_operadores;
+
+    // Ponteiro para a lista dinâmica de eventos/orçamentos
+    Evento *lista_eventos;
+    int num_eventos;
+    int capacidade_eventos;
+
+    // Ponteiro para a lista dinâmica de transações financeiras
+    Transacao *lista_transacoes;
+    int num_transacoes;
+    int capacidade_transacoes;
+
+    // Saldo de caixa atual
+    float saldo_caixa;
+
+} Sistema;
+
 #endif

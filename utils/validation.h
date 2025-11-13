@@ -13,7 +13,8 @@ typedef enum {
     VALIDATE_TELEFONE,       // Números e caracteres de telefone
     VALIDATE_CPF,         // CPF válido
     VALIDATE_CNPJ,        // CNPJ válido
-    VALIDATE_CPF_CNPJ     // CPF ou CNPJ válido
+    VALIDATE_CPF_CNPJ,    // CPF ou CNPJ válido
+    VALIDATE_DATA // DATA válida
 } ValidationType;
 
 // Lê e valida uma string conforme o tipo

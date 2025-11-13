@@ -276,6 +276,11 @@ int ler_string_valida(char *buffer, int length, ValidationType type)
             if (!valid)
                 printf("CNPJ invalido. Digite um CNPJ matematicamente valido. Tente novamente: ");
             break;
+             case VALIDATE_DATA:
+            valid = is_valid_cnpj(buffer);
+            if (!valid)
+                printf("Data invalido. Digite uma data valida. Tente novamente: ");
+            break;
 
         case VALIDATE_CPF_CNPJ:
             extrair_apenas_numeros(buffer, numeros_limpos);
