@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Eventos
+# Sistema de Gerenciamento de Eventos (SGE)
 
 ![Status do Projeto](https://img.shields.io/badge/status-em%20desenvolvimento-yellowgreen)
 ![Linguagem](https://img.shields.io/badge/C-C99-blue.svg)
@@ -21,7 +21,7 @@
 
 ## 📖 Sobre o Projeto
 
-O **SCE** é um sistema de controle gerencial desenvolvido para uma Produtora de Eventos fictícia. O objetivo é centralizar e automatizar todas as operações do negócio, desde o cadastro inicial de clientes e fornecedores até o faturamento final de um evento e a análise de relatórios gerenciais.
+O **SGE** é um sistema de controle gerencial desenvolvido para uma Produtora de Eventos fictícia. O objetivo é centralizar e automatizar todas as operações do negócio, desde o cadastro inicial de clientes e fornecedores até o faturamento final de um evento e a análise de relatórios gerenciais.
 
 Este projeto está sendo construído como requisito avaliativo para a disciplina de **Algoritmos II** no curso de Ciência da Computação do **IFMG - Campus Formiga**, sob a orientação do Prof. Manoel Pereira Junior.
 
@@ -77,10 +77,10 @@ Atualmente, os seguintes métodos de persistência são suportados:
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/reireymond/SCE.git
+git clone https://github.com/reireymond/EventMananger.git
 
 # 2. Navegue até o diretório do projeto
-cd SCE
+cd EventMananger
 
 # 3. Compile o projeto
 # No Linux, use o comando 'make'
@@ -91,10 +91,10 @@ mingw32-make
 
 # 4. Execute o programa
 # No Linux
-./sce
+./produtora
 
 # No Windows
-sce.exe
+Produtora.exe
 
 ```
 
