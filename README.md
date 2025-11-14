@@ -1,4 +1,4 @@
-# Sistema de Controle de Eventos (SCE)
+# Sistema de Gerenciamento de Eventos
 
 ![Status do Projeto](https://img.shields.io/badge/status-em%20desenvolvimento-yellowgreen)
 ![Linguagem](https://img.shields.io/badge/C-C99-blue.svg)
