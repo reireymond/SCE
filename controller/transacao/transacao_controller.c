@@ -1,0 +1,53 @@
+#include "view/transacao/transacao_view.h"
+#include <stdio.h>
+#include "utils/utils.h"
+// Inclui o controller para chamar as ações de transação
+#include "controller/transacao/transacao_controller.h"
+
+void menuTransacoesView(Sistema *sistema) {
+    int opcao;
+    do {
+        limpar_tela();
+        printf("+=====================================================+\n");
+        printf("|                   MENU TRANSACOES                   |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Lancar Aquisicao (Compras de Equipamentos)      |\n");
+        printf("| [2] Gerenciar Contas a Receber                      |\n");
+        printf("| [3] Gerenciar Contas a Pagar                        |\n");
+        printf("| [4] Ver Saldo do Caixa                              |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+
+        scanf("%d", &opcao);
+        limpar_buffer();
+
+        switch (opcao) {
+            case 1:
+                // Chama a função para registrar compra de novos equipamentos
+                lancarAquisicaoController(sistema);
+                break;
+            case 2:
+                // Chama a função para listar e baixar contas a receber
+                gerenciarContasReceberController(sistema);
+                break;
+            case 3:
+                // Chama a função para listar e pagar contas a pagar
+                gerenciarContasPagarController(sistema);
+                break;
+            case 4:
+                // Exibe o saldo atual do caixa
+                verSaldoCaixaController(sistema);
+                break;
+            case 0:
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+        if (opcao != 0) pausar();
+
+    } while (opcao != 0);
+}
