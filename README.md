@@ -107,11 +107,11 @@ Produtora.exe
 
 O código fonte está organizado da seguinte maneira para garantir a modularidade e a fácil manutenção:
 
-* `main.c`: Ponto de entrada do programa, contém o loop principal e o menu inicial.
-* `menus.h` / `menus.c`: Contém as funções responsáveis por exibir todos os menus da interface do usuário.
-* `funcoes.h` / `funcoes.c`: Contém a lógica de negócios e as funcionalidades de cada módulo do sistema.
-* `structs.h`: Define todas as estruturas de dados (structs) utilizadas no projeto.
-* `persistencia.h` / `persistencia_*.c`: Arquivos responsáveis pela camada de abstração e implementações de persistência.
+* `main.c`: Ponto de entrada e loop principal.
+* `model/`: Definições das estruturas (structs) e funções de persistência (salvar/carregar).
+* `view/`: Menus e interfaces de interação com o usuário (printf/scanf).
+* `controller/`: Regras de negócio, validações lógicas e orquestração entre Model e View.
+* `utils/`: Bibliotecas auxiliares para validação de dados (CPF, CNPJ, Datas) e interface.
 * `Makefile`: Arquivo com as regras para compilar o projeto de forma automatizada.
 
 ## 👤 Autores
