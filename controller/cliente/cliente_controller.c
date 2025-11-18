@@ -7,9 +7,9 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-// Função que adiciona um novo cliente ao sistema
+// Adiciona um cliente novo
 void adicionarClienteController(Sistema *sistema) {
-    // Expande a lista se atingir a capacidade máxima
+    // Aumenta a lista se tiver cheia
     if (sistema->num_clientes == sistema->capacidade_clientes) {
         int nova_capacidade = (sistema->capacidade_clientes == 0) ? 10 : sistema->capacidade_clientes * 2;
         Cliente *temp = realloc(sistema->lista_clientes, nova_capacidade * sizeof(Cliente));
@@ -22,13 +22,13 @@ void adicionarClienteController(Sistema *sistema) {
         sistema->capacidade_clientes = nova_capacidade;
     }
 
-    // Posição do novo cliente
+    // Pega a posicao vazia
     Cliente *novo_cliente = &sistema->lista_clientes[sistema->num_clientes];
     novo_cliente->codigo = sistema->num_clientes + 1;
 
     printf("\n--- Cadastro de Novo Cliente (Codigo: %d) ---\n", novo_cliente->codigo);
 
-    // Leitura dos dados com validação
+    // Pede os dados
     printf("Nome / Razao Social: ");
     ler_texto_valido(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDAR_NAO_VAZIO);
 
@@ -47,13 +47,13 @@ void adicionarClienteController(Sistema *sistema) {
     printf("Nome do Contato: ");
     ler_texto_valido(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDAR_NOME);
 
-    // Incrementa e salva
+    // Salva e avisa
     sistema->num_clientes++;
     salvarClientes(sistema);
     printf("\nCliente '%s' cadastrado com sucesso!\n", novo_cliente->razao_social);
 }
 
-// Função para alterar os dados de um cliente existente
+// Altera um cliente
 void alterarClienteController(Sistema *sistema) {
     listarClientesView(sistema);
     if (sistema->num_clientes == 0) return;
@@ -63,7 +63,7 @@ void alterarClienteController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o cliente pelo código
+    // Procura o cliente
     for (int i = 0; i < sistema->num_clientes; i++) {
         if (sistema->lista_clientes[i].codigo == codigo) {
             indice_cliente = i;
@@ -79,7 +79,7 @@ void alterarClienteController(Sistema *sistema) {
     Cliente *cliente = &sistema->lista_clientes[indice_cliente];
     int opcao;
 
-    // Menu de alteração
+    // Menu pra alterar
     do {
         limpar_tela();
         printf("--- Alterando Cliente: %s ---\n\n", cliente->razao_social);
@@ -121,7 +121,7 @@ void alterarClienteController(Sistema *sistema) {
     salvarClientes(sistema);
 }
 
-// Função para excluir um cliente
+// Exclui um cliente
 void excluirClienteController(Sistema *sistema) {
     listarClientesView(sistema);
     if (sistema->num_clientes == 0) return;
@@ -131,7 +131,7 @@ void excluirClienteController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o cliente pelo código
+    // Procura o cliente
     for (int i = 0; i < sistema->num_clientes; i++) {
         if (sistema->lista_clientes[i].codigo == codigo) {
             char confirmacao;
@@ -140,7 +140,7 @@ void excluirClienteController(Sistema *sistema) {
             limpar_buffer();
 
             if (confirmacao == 's' || confirmacao == 'S') {
-                // Substitui o cliente pelo último e reduz o total
+                // Substitui pelo ultimo e diminui o contador
                 sistema->lista_clientes[i] = sistema->lista_clientes[sistema->num_clientes - 1];
                 sistema->num_clientes--;
                 salvarClientes(sistema);

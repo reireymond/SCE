@@ -14,9 +14,9 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-// Adiciona um novo operador
+// Adiciona um operador novo
 void adicionarOperadorController(Sistema *sistema) {
-    // Expande capacidade da lista se necessário
+    // Aumenta a lista se tiver cheia
     if (sistema->num_operadores == sistema->capacidade_operadores) {
         int nova_capacidade = (sistema->capacidade_operadores == 0) ? 10 : sistema->capacidade_operadores * 2;
         Operador *temp = realloc(sistema->lista_operadores, nova_capacidade * sizeof(Operador));
@@ -46,7 +46,7 @@ void adicionarOperadorController(Sistema *sistema) {
     printf("\nOperador '%s' cadastrado com sucesso!\n", novo_operador->usuario);
 }
 
-// Altera os dados de um operador existente
+// Altera um operador
 void alterarOperadorController(Sistema *sistema) {
     listarOperadoresView(sistema);
     if (sistema->num_operadores == 0) return;
@@ -56,7 +56,7 @@ void alterarOperadorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura operador pelo código
+    // Procura o operador
     for (int i = 0; i < sistema->num_operadores; i++) {
         if (sistema->lista_operadores[i].codigo == codigo) {
             indice = i;
@@ -110,7 +110,7 @@ void excluirOperadorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura operador pelo código
+    // Procura o operador
     for (int i = 0; i < sistema->num_operadores; i++) {
         if (sistema->lista_operadores[i].codigo == codigo) {
             char confirmacao;
@@ -119,7 +119,7 @@ void excluirOperadorController(Sistema *sistema) {
             limpar_buffer();
 
             if (confirmacao == 's' || confirmacao == 'S') {
-                // Substitui pelo último operador da lista
+                // Substitui pelo ultimo
                 sistema->lista_operadores[i] = sistema->lista_operadores[sistema->num_operadores - 1];
                 sistema->num_operadores--;
                 salvarOperadores(sistema);

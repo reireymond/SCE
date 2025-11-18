@@ -121,8 +121,8 @@ typedef struct {
     int codigo_cliente;
     StatusEvento status; // ORCAMENTO, APROVADO, FINALIZADO
 
-    char data_inicio[11]; // Formato "dd/mm/aaaa"
-    char data_fim[11];    // Formato "dd/mm/aaaa"
+    char data_inicio[15]; // Formato "dd/mm/aaaa"
+    char data_fim[15];    // Formato "dd/mm/aaaa"
     char local[150];
 
     // Listas dinâmicas dos itens alocados
@@ -151,8 +151,8 @@ typedef struct {
     StatusTransacao status; // PENDENTE, PAGA
     char descricao[150];
     float valor;
-    char data_vencimento[11]; // "dd/mm/aaaa"
-    char data_pagamento[11];  // "dd/mm/aaaa" (preenchido na baixa)
+    char data_vencimento[15]; // "dd/mm/aaaa"
+    char data_pagamento[15];  // "dd/mm/aaaa" (preenchido na baixa)
 
     // Códigos para vincular a transação (ex: ao cliente ou fornecedor)
     int codigo_cliente_ref;
