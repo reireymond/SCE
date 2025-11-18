@@ -1,7 +1,6 @@
 #include "view/evento/evento_view.h"
 #include <stdio.h>
 #include "utils/utils.h"
-// Inclui o controller para chamar as ações 
 #include "controller/evento/evento_controller.h"
 
 void menuEventosView(Sistema *sistema) {
@@ -12,10 +11,11 @@ void menuEventosView(Sistema *sistema) {
         printf("|          MENU ORCAMENTOS E GESTAO DE EVENTOS        |\n");
         printf("+=====================================================+\n");
         printf("| [1] Criar Novo Orcamento                            |\n");
-        printf("| [2] Aprovar Orcamento (Iniciar Evento)              |\n");
-        printf("| [3] Finalizar e Faturar Evento                      |\n");
-        printf("| [4] Ver Detalhes do Evento (Itens/Custos)           |\n");
-        printf("| [5] Listar Todos os Eventos                         |\n");
+        printf("| [2] Editar Orcamento (Nao Aprovado)                 |\n");
+        printf("| [3] Aprovar Orcamento (Iniciar Evento)              |\n");
+        printf("| [4] Finalizar e Faturar Evento                      |\n");
+        printf("| [5] Ver Detalhes do Evento (Itens/Custos)           |\n");
+        printf("| [6] Listar Todos os Eventos                         |\n");
         printf("+-----------------------------------------------------+\n");
         printf("| [0] Voltar                                          |\n");
         printf("+=====================================================+\n");
@@ -29,16 +29,20 @@ void menuEventosView(Sistema *sistema) {
                 adicionarEventoController(sistema); 
                 break;
             case 2: 
-                alterarStatusEventoController(sistema); 
+                editarEventoController(sistema); // Nova função adicionada
                 break;
             case 3: 
-                finalizarEventoController(sistema); 
+                alterarStatusEventoController(sistema); 
                 break;
             case 4: 
-                detalharEventoController(sistema); 
+                finalizarEventoController(sistema); 
                 break;
             case 5: 
+                detalharEventoController(sistema); 
+                break;
+            case 6: 
                 listarEventosView(sistema); 
+                pausar(); // Pausa aqui para ver a lista antes de limpar a tela
                 break;
             case 0: 
                 break;
@@ -47,7 +51,8 @@ void menuEventosView(Sistema *sistema) {
                 break;
         }
 
-        if (opcao != 0) pausar();
+        // Pausa geral para opções que não sejam sair ou listar (listar já tem pausa interna ou acima)
+        if (opcao != 0 && opcao != 6) pausar();
         
     } while (opcao != 0);
 }
@@ -67,7 +72,6 @@ void listarEventosView(Sistema *sistema) {
     for (int i = 0; i < sistema->num_eventos; i++) {
         Evento *e = &sistema->lista_eventos[i];
         
-        // Converte o Enum de status para uma string legível
         char statusStr[20];
         switch(e->status) {
             case ORCAMENTO: sprintf(statusStr, "Orcamento"); break;
@@ -76,8 +80,6 @@ void listarEventosView(Sistema *sistema) {
             default: sprintf(statusStr, "Desconhecido"); break;
         }
 
-        // Exibe os dados formatados em colunas
-      
         printf("| %03d  | %-30s | %-10s | %-12s | %-20d |\n", 
                e->codigo, 
                e->nome_evento, 

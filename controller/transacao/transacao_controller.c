@@ -7,34 +7,38 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-// Funcao auxiliar para criar e salvar uma transacao
-void adicionarTransacao(Sistema *s, TipoTransacao tipo, char *desc, float valor, char *venc) {
-    if (s->num_transacoes == s->capacidade_transacoes) {
-        int nova_cap = (s->capacidade_transacoes == 0) ? 10 : s->capacidade_transacoes * 2;
-        s->lista_transacoes = realloc(s->lista_transacoes, nova_cap * sizeof(Transacao));
-        s->capacidade_transacoes = nova_cap;
+// Função genérica para salvar qualquer transação no sistema
+void registrarTransacao(Sistema *sistema, Transacao t) {
+    if (sistema->num_transacoes == sistema->capacidade_transacoes) {
+        int nova_cap = (sistema->capacidade_transacoes == 0) ? 10 : sistema->capacidade_transacoes * 2;
+        sistema->lista_transacoes = realloc(sistema->lista_transacoes, nova_cap * sizeof(Transacao));
+        sistema->capacidade_transacoes = nova_cap;
     }
 
-    Transacao *t = &s->lista_transacoes[s->num_transacoes];
-    t->codigo = s->num_transacoes + 1;
-    t->tipo = tipo;
-    t->status = PENDENTE;
-    t->valor = valor;
-    strcpy(t->descricao, desc);
-    strcpy(t->data_vencimento, venc);
-    strcpy(t->data_pagamento, ""); // Ainda nao pago
+    // Define o código sequencial
+    t.codigo = sistema->num_transacoes + 1;
     
-    s->num_transacoes++;
-    salvarTransacoes(s);
+    // Adiciona à lista
+    sistema->lista_transacoes[sistema->num_transacoes] = t;
+    sistema->num_transacoes++;
+    
+    salvarTransacoes(sistema);
 }
 
 void lancarAquisicaoController(Sistema *sistema) {
+    // Verifica se tem produtora cadastrada para pegar a margem
+    if (sistema->dados_produtora == NULL) {
+        printf("\nErro: Cadastre a Produtora primeiro para definir a margem de lucro.\n");
+        pausar();
+        return;
+    }
+
     limpar_tela();
-    printf("=== REGISTAR COMPRA (NOTA FISCAL) ===\n");
+    printf("=== REGISTRAR COMPRA (NOTA FISCAL) ===\n");
 
     float frete_total, imposto_total;
     int total_itens_nota;
-    float valor_total_produtos = 0; // Acumulador para a divida
+    float valor_total_produtos = 0; 
 
     printf("Valor TOTAL do Frete (R$): ");
     ler_float_positivo(&frete_total);
@@ -73,31 +77,80 @@ void lancarAquisicaoController(Sistema *sistema) {
         printf("Custo Unitario (R$): ");
         ler_float_positivo(&novo->preco_custo);
 
-        // Soma ao total para criar a conta a pagar depois
+        // Soma ao total
         valor_total_produtos += (novo->preco_custo * novo->quantidade_estoque);
 
         // CALCULO DO PRECO DE LOCACAO (Regra do PDF)
         float custo_final = novo->preco_custo + frete_por_unidade + imposto_por_unidade;
-        float margem = (sistema->dados_produtora != NULL) ? sistema->dados_produtora->margem_lucro : 20.0;
+        float margem = sistema->dados_produtora->margem_lucro;
         
         novo->valor_locacao = custo_final * (1 + (margem / 100.0));
 
         printf("--> Valor Locacao Calculado: R$ %.2f\n", novo->valor_locacao);
 
         sistema->num_recursos++;
-        salvarRecursos(sistema); 
-
+        
         printf("\nMais itens na nota? (1-Sim, 0-Nao): ");
         scanf("%d", &continuar);
         limpar_buffer();
     }
+    salvarRecursos(sistema); 
 
-    // Gera a conta a pagar total
-    float total_final = valor_total_produtos + frete_total + imposto_total;
-    adicionarTransacao(sistema, CONTA_A_PAGAR, "Compra Equipamentos (Nota Fiscal)", total_final, "30/12/2025");
+    // --- Lógica de Pagamento (Entrada + Parcelas) ---
+    float total_final_nota = valor_total_produtos + frete_total + imposto_total;
+    printf("\nTotal Geral da Nota: R$ %.2f\n", total_final_nota);
     
-    printf("\nTransacao de R$ %.2f registada em Contas a Pagar!\n", total_final);
-    printf("Estoque atualizado.\n");
+    float entrada = 0;
+    printf("Valor da Entrada (0 se for tudo a prazo): ");
+    ler_float_positivo(&entrada);
+
+    // Se tiver entrada, desconta do caixa agora
+    if (entrada > 0) {
+        if (entrada > sistema->saldo_caixa) {
+            printf("ALERTA: Saldo de caixa insuficiente (Atual: %.2f), mas registrando saida mesmo assim.\n", sistema->saldo_caixa);
+        }
+        sistema->saldo_caixa -= entrada;
+        
+        // Registra movimentação da entrada no histórico
+        Transacao t_entrada;
+        memset(&t_entrada, 0, sizeof(Transacao));
+        t_entrada.tipo = MOVIMENTACAO_CAIXA;
+        t_entrada.status = PAGA;
+        t_entrada.valor = entrada * -1; // Valor negativo pois é saída de dinheiro
+        strcpy(t_entrada.descricao, "Entrada - Compra Equipamentos");
+        strcpy(t_entrada.data_pagamento, "HOJE"); 
+        registrarTransacao(sistema, t_entrada);
+    }
+
+    float restante = total_final_nota - entrada;
+    
+    if (restante > 0) {
+        int parcelas;
+        printf("Numero de parcelas para o restante (R$ %.2f): ", restante);
+        ler_inteiro_valido(&parcelas, 1, 48);
+
+        float valor_parcela = restante / parcelas;
+        char data_venc[12]; 
+
+        for (int i = 1; i <= parcelas; i++) {
+            printf("Data vencimento parcela %d/%d (DD/MM/AAAA): ", i, parcelas);
+            ler_texto_valido(data_venc, 12, VALIDAR_DATA);
+
+            Transacao t_parc;
+            memset(&t_parc, 0, sizeof(Transacao));
+            t_parc.tipo = CONTA_A_PAGAR;
+            t_parc.status = PENDENTE;
+            t_parc.valor = valor_parcela;
+            sprintf(t_parc.descricao, "Compra Equip. (Parc %d/%d)", i, parcelas);
+            strcpy(t_parc.data_vencimento, data_venc);
+            
+            registrarTransacao(sistema, t_parc);
+        }
+    } else {
+        printf("Compra quitada integralmente na entrada.\n");
+    }
+    
+    printf("\nAquisicao registrada e estoque atualizado!\n");
 }
 
 void verSaldoCaixaController(Sistema *sistema) {
@@ -113,7 +166,7 @@ void gerenciarContasReceberController(Sistema *sistema) {
     for(int i=0; i < sistema->num_transacoes; i++) {
         Transacao *t = &sistema->lista_transacoes[i];
         if(t->tipo == CONTA_A_RECEBER) {
-            printf("#%d | %s | R$ %.2f | %s\n", t->codigo, t->descricao, t->valor, 
+            printf("#%d | %s | R$ %.2f | Venc: %s | %s\n", t->codigo, t->descricao, t->valor, t->data_vencimento,
                    t->status == PAGA ? "PAGO" : "PENDENTE");
         }
     }
@@ -127,7 +180,14 @@ void gerenciarContasReceberController(Sistema *sistema) {
         if(sistema->lista_transacoes[i].codigo == cod && sistema->lista_transacoes[i].tipo == CONTA_A_RECEBER) {
             if(sistema->lista_transacoes[i].status == PENDENTE) {
                 sistema->lista_transacoes[i].status = PAGA;
+                // Pega data atual ficticia ou pede
+                strcpy(sistema->lista_transacoes[i].data_pagamento, "DATA_ATUAL"); 
+                
                 sistema->saldo_caixa += sistema->lista_transacoes[i].valor;
+                
+                // Gera registro de entrada no caixa se quiser historico detalhado
+                // mas aqui so atualizamos o status e o saldo
+                
                 salvarTransacoes(sistema);
                 printf("Recebido! Saldo atual: %.2f\n", sistema->saldo_caixa);
             } else {
@@ -145,7 +205,7 @@ void gerenciarContasPagarController(Sistema *sistema) {
     for(int i=0; i < sistema->num_transacoes; i++) {
         Transacao *t = &sistema->lista_transacoes[i];
         if(t->tipo == CONTA_A_PAGAR) {
-            printf("#%d | %s | R$ %.2f | %s\n", t->codigo, t->descricao, t->valor, 
+            printf("#%d | %s | R$ %.2f | Venc: %s | %s\n", t->codigo, t->descricao, t->valor, t->data_vencimento,
                    t->status == PAGA ? "PAGO" : "PENDENTE");
         }
     }
@@ -160,6 +220,8 @@ void gerenciarContasPagarController(Sistema *sistema) {
             if(sistema->lista_transacoes[i].status == PENDENTE) {
                 if(sistema->saldo_caixa >= sistema->lista_transacoes[i].valor) {
                     sistema->lista_transacoes[i].status = PAGA;
+                    strcpy(sistema->lista_transacoes[i].data_pagamento, "DATA_ATUAL");
+                    
                     sistema->saldo_caixa -= sistema->lista_transacoes[i].valor;
                     salvarTransacoes(sistema);
                     printf("Pago! Saldo atual: %.2f\n", sistema->saldo_caixa);
