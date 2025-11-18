@@ -29,7 +29,7 @@ void menuEventosView(Sistema *sistema) {
                 adicionarEventoController(sistema); 
                 break;
             case 2: 
-                editarEventoController(sistema); // Nova função adicionada
+                editarEventoController(sistema); 
                 break;
             case 3: 
                 alterarStatusEventoController(sistema); 
@@ -42,7 +42,7 @@ void menuEventosView(Sistema *sistema) {
                 break;
             case 6: 
                 listarEventosView(sistema); 
-                pausar(); // Pausa aqui para ver a lista antes de limpar a tela
+                pausar(); 
                 break;
             case 0: 
                 break;
@@ -51,7 +51,6 @@ void menuEventosView(Sistema *sistema) {
                 break;
         }
 
-        // Pausa geral para opções que não sejam sair ou listar (listar já tem pausa interna ou acima)
         if (opcao != 0 && opcao != 6) pausar();
         
     } while (opcao != 0);
