@@ -5,25 +5,25 @@
 #include <string.h>
 #include <ctype.h>
 
-// Tipos de validação para strings
+// Tipos de validação (Nomes traduzidos e simplificados)
 typedef enum {
-    VALIDATE_NAO_VAZIA,   // Não vazio
-    VALIDATE_NOME,        // Apenas letras e espaços
-    VALIDATE_EMAIL,       // Formato básico de e-mail
-    VALIDATE_TELEFONE,       // Números e caracteres de telefone
-    VALIDATE_CPF,         // CPF válido
-    VALIDATE_CNPJ,        // CNPJ válido
-    VALIDATE_CPF_CNPJ,    // CPF ou CNPJ válido
-    VALIDATE_DATA // DATA válida
-} ValidationType;
+    VALIDAR_NAO_VAZIO,   // Texto obrigatorio
+    VALIDAR_NOME,        // Apenas letras
+    VALIDAR_EMAIL,       // Tem @
+    VALIDAR_TELEFONE,    // Numeros e tracos
+    VALIDAR_CPF,         // Matematica do CPF
+    VALIDAR_CNPJ,        // Matematica do CNPJ
+    VALIDAR_CPF_CNPJ,    // Tenta um, se falhar tenta o outro
+    VALIDAR_DATA         // Formato DD/MM/AAAA
+} TipoValidacao;
 
-// Lê e valida uma string conforme o tipo
-int ler_string_valida(char *buffer, int length, ValidationType type);
+// Lê string do teclado e valida
+int ler_texto_valido(char *buffer, int tamanho, TipoValidacao tipo);
 
-// Lê float positivo
-int ler_float_positivo(float *value);
+// Lê numero decimal positivo
+int ler_float_positivo(float *valor);
 
-// Lê inteiro dentro de um intervalo
-int ler_int_valido(int *value, int min, int max);
+// Lê numero inteiro dentro de um intervalo (minimo e maximo)
+int ler_inteiro_valido(int *valor, int min, int max);
 
 #endif
