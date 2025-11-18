@@ -31,13 +31,13 @@ void adicionarEquipeController(Sistema *sistema) {
 
     // Entrada e validação dos dados
     printf("Nome: ");
-    ler_string_valida(novo_membro->nome, sizeof(novo_membro->nome), VALIDATE_NOME);
+    ler_texto_valido(novo_membro->nome, sizeof(novo_membro->nome), VALIDAR_NOME);
 
     printf("CPF: ");
-    ler_string_valida(novo_membro->cpf, sizeof(novo_membro->cpf), VALIDATE_CPF);
+    ler_texto_valido(novo_membro->cpf, sizeof(novo_membro->cpf), VALIDAR_CPF);
 
     printf("Funcao: ");
-    ler_string_valida(novo_membro->funcao, sizeof(novo_membro->funcao), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_membro->funcao, sizeof(novo_membro->funcao), VALIDAR_NAO_VAZIO);
 
     printf("Valor da diaria: R$ ");
     ler_float_positivo(&novo_membro->valor_diaria);
@@ -84,20 +84,20 @@ void alterarEquipeController(Sistema *sistema) {
         printf("4. Alterar Valor da Diaria\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        ler_int_valido(&opcao, 0, 4);
+        ler_inteiro_valido(&opcao, 0, 4);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
-                ler_string_valida(membro->nome, sizeof(membro->nome), VALIDATE_NOME);
+                ler_texto_valido(membro->nome, sizeof(membro->nome), VALIDAR_NOME);
                 break;
             case 2:
                 printf("Novo CPF: ");
-                ler_string_valida(membro->cpf, sizeof(membro->cpf), VALIDATE_CPF);
+                ler_texto_valido(membro->cpf, sizeof(membro->cpf), VALIDAR_CPF);
                 break;
             case 3:
                 printf("Nova Funcao: ");
-                ler_string_valida(membro->funcao, sizeof(membro->funcao), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(membro->funcao, sizeof(membro->funcao), VALIDAR_NAO_VAZIO);
                 break;
             case 4:
                 printf("Novo Valor da Diaria: R$ ");

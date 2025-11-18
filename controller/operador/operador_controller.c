@@ -33,13 +33,13 @@ void adicionarOperadorController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Operador (Codigo: %d) ---\n", novo_operador->codigo);
     printf("Nome: ");
-    ler_string_valida(novo_operador->nome, sizeof(novo_operador->nome), VALIDATE_NOME);
+    ler_texto_valido(novo_operador->nome, sizeof(novo_operador->nome), VALIDAR_NOME);
 
     printf("Usuario: ");
-    ler_string_valida(novo_operador->usuario, sizeof(novo_operador->usuario), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_operador->usuario, sizeof(novo_operador->usuario), VALIDAR_NAO_VAZIO);
 
     printf("Senha: ");
-    ler_string_valida(novo_operador->senha, sizeof(novo_operador->senha), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_operador->senha, sizeof(novo_operador->senha), VALIDAR_NAO_VAZIO);
 
     sistema->num_operadores++;
     salvarOperadores(sistema);
@@ -75,20 +75,20 @@ void alterarOperadorController(Sistema *sistema) {
         limpar_tela();
         printf("--- Alterando Operador: %s ---\n", operador->usuario);
         printf("1. Alterar Nome\n2. Alterar Usuario\n3. Alterar Senha\n0. Salvar e Voltar\nEscolha: ");
-        ler_int_valido(&opcao, 0, 3);
+        ler_inteiro_valido(&opcao, 0, 3);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
-                ler_string_valida(operador->nome, sizeof(operador->nome), VALIDATE_NOME);
+                ler_texto_valido(operador->nome, sizeof(operador->nome), VALIDAR_NOME);
                 break;
             case 2:
                 printf("Novo Usuario: ");
-                ler_string_valida(operador->usuario, sizeof(operador->usuario), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(operador->usuario, sizeof(operador->usuario), VALIDAR_NAO_VAZIO);
                 break;
             case 3:
                 printf("Nova Senha: ");
-                ler_string_valida(operador->senha, sizeof(operador->senha), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(operador->senha, sizeof(operador->senha), VALIDAR_NAO_VAZIO);
                 printf("Senha alterada.\n");
                 break;
             case 0:

@@ -30,22 +30,22 @@ void adicionarClienteController(Sistema *sistema) {
 
     // Leitura dos dados com validação
     printf("Nome / Razao Social: ");
-    ler_string_valida(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDAR_NAO_VAZIO);
 
     printf("CPF / CNPJ: ");
-    ler_string_valida(novo_cliente->cnpj, sizeof(novo_cliente->cnpj), VALIDATE_CPF_CNPJ);
+    ler_texto_valido(novo_cliente->cnpj, sizeof(novo_cliente->cnpj), VALIDAR_CPF_CNPJ);
 
     printf("Endereco Completo: ");
-    ler_string_valida(novo_cliente->endereco, sizeof(novo_cliente->endereco), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_cliente->endereco, sizeof(novo_cliente->endereco), VALIDAR_NAO_VAZIO);
 
     printf("Telefone: ");
-    ler_string_valida(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDATE_TELEFONE);
+    ler_texto_valido(novo_cliente->telefone, sizeof(novo_cliente->telefone), VALIDAR_TELEFONE);
 
     printf("E-mail: ");
-    ler_string_valida(novo_cliente->email, sizeof(novo_cliente->email), VALIDATE_EMAIL);
+    ler_texto_valido(novo_cliente->email, sizeof(novo_cliente->email), VALIDAR_EMAIL);
 
     printf("Nome do Contato: ");
-    ler_string_valida(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDATE_NOME);
+    ler_texto_valido(novo_cliente->nome_do_contato, sizeof(novo_cliente->nome_do_contato), VALIDAR_NOME);
 
     // Incrementa e salva
     sistema->num_clientes++;
@@ -85,32 +85,32 @@ void alterarClienteController(Sistema *sistema) {
         printf("--- Alterando Cliente: %s ---\n\n", cliente->razao_social);
         printf("1. Nome / Razao Social\n2. CPF / CNPJ\n3. Endereco\n4. Telefone\n5. E-mail\n6. Nome do Contato\n");
         printf("0. Salvar e Voltar\nEscolha: ");
-        ler_int_valido(&opcao, 0, 6);
+        ler_inteiro_valido(&opcao, 0, 6);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome / Razao Social: ");
-                ler_string_valida(cliente->razao_social, sizeof(cliente->razao_social), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(cliente->razao_social, sizeof(cliente->razao_social), VALIDAR_NAO_VAZIO);
                 break;
             case 2:
                 printf("Novo CPF / CNPJ: ");
-                ler_string_valida(cliente->cnpj, sizeof(cliente->cnpj), VALIDATE_CPF_CNPJ);
+                ler_texto_valido(cliente->cnpj, sizeof(cliente->cnpj), VALIDAR_CPF_CNPJ);
                 break;
             case 3:
                 printf("Novo Endereco: ");
-                ler_string_valida(cliente->endereco, sizeof(cliente->endereco), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(cliente->endereco, sizeof(cliente->endereco), VALIDAR_NAO_VAZIO);
                 break;
             case 4:
                 printf("Novo Telefone: ");
-                ler_string_valida(cliente->telefone, sizeof(cliente->telefone), VALIDATE_TELEFONE);
+                ler_texto_valido(cliente->telefone, sizeof(cliente->telefone), VALIDAR_TELEFONE);
                 break;
             case 5:
                 printf("Novo E-mail: ");
-                ler_string_valida(cliente->email, sizeof(cliente->email), VALIDATE_EMAIL);
+                ler_texto_valido(cliente->email, sizeof(cliente->email), VALIDAR_EMAIL);
                 break;
             case 6:
                 printf("Novo Nome do Contato: ");
-                ler_string_valida(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), VALIDATE_NOME);
+                ler_texto_valido(cliente->nome_do_contato, sizeof(cliente->nome_do_contato), VALIDAR_NOME);
                 break;
             case 0:
                 printf("\nAlteracoes salvas!\n");

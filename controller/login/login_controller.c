@@ -4,7 +4,7 @@
 #include "model/sistema.h"
 #include "controller/operador/operador_controller.h" // Para adicionar o primeiro operador
 #include "utils/utils.h"         // Para limpar_buffer, limpar_tela
-#include "utils/validation.h"    // Para ler_string_valida
+#include "utils/validation.h"    // Para ler_texto_valido
 
 // Função auxiliar para buscar um operador pelo usuário (pode ser movida para operador_controller se preferir)
 static Operador* buscarOperadorPorUsuario(Sistema *sistema, const char *usuario) {
@@ -47,13 +47,13 @@ int realizarLoginOperador(Sistema *sistema) {
         printf("|                 LOGIN DO OPERADOR                   |\n");
         printf("+=====================================================+\n");
         printf("Usuario: ");
-        ler_string_valida(usuario_digitado, sizeof(usuario_digitado), VALIDATE_NAO_VAZIA);
+        ler_texto_valido(usuario_digitado, sizeof(usuario_digitado), VALIDAR_NAO_VAZIO);
 
         printf("Senha: ");
         // Para segurança básica, idealmente a senha não seria exibida.
         // Implementar um sistema de asteriscos é mais complexo e depende do SO.
         // Aqui, usamos a leitura simples por simplicidade.
-        ler_string_valida(senha_digitada, sizeof(senha_digitada), VALIDATE_NAO_VAZIA);
+        ler_texto_valido(senha_digitada, sizeof(senha_digitada), VALIDAR_NAO_VAZIO);
         printf("+=====================================================+\n");
 
 

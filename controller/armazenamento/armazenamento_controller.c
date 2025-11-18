@@ -5,7 +5,7 @@
 #include "model/config_armazenamento/config_armazenamento.h" // Para obter/definir modo e TipoArmazenamento
 #include "controller/main/main_controller.h" // Para carregarTodosOsDadosController e liberarTodaMemoriaController
 #include "utils/utils.h"         // Para limpar_tela, limpar_buffer, pausar
-#include "utils/validation.h"    // Para ler_int_valido (opcional, pode usar scanf direto se preferir)
+#include "utils/validation.h"    // Para ler_inteiro_valido (opcional, pode usar scanf direto se preferir)
 
 // Eles são necessários para que as funções salvar
 #include "model/produtora/produtora_model.h"
