@@ -1,12 +1,12 @@
-// Inclui o cabeçalho da view da equipe interna, que contém as declarações
+// da view da equipe interna, que contém as declarações
 #include "equipe_interna_view.h"
 #include <stdio.h>
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela' e 'pausar'.
+// de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
-// Inclui o cabeçalho do controller da equipe interna para poder chamar as funções que
+// do controller da equipe interna para poder chamar as funções que
 #include "controller/equipe_interna/equipe_interna_controller.h"
 
-// Implementação da função que exibe e gerencia o menu da equipe interna.
+// exibe e gerencia o menu da equipe interna.
 void menuEquipeInternaView(Sistema *sistema) {
     int opcao;
     do {
@@ -27,7 +27,7 @@ void menuEquipeInternaView(Sistema *sistema) {
 
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
-        // Limpa o buffer de entrada para evitar que o '\n' afete a próxima leitura.
+        // 
         limpar_buffer();
 
         // Um 'switch' direciona o fluxo do programa com base na opção do usuário.
@@ -46,7 +46,7 @@ void menuEquipeInternaView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Implementação da função que exibe a lista de membros da equipe.
+// exibe a lista de membros da equipe.
 void listarEquipeInternaView(Sistema *sistema) {
     // Verifica se há membros cadastrados. Se não houver, exibe uma mensagem informativa.
     if (sistema->num_equipe == 0) {

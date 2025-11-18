@@ -20,7 +20,7 @@ void adicionarProdutoraController(Sistema *sistema) {
         return;
     }
 
-    // Aloca memória para os dados
+    // Cria espaco na memoria para os dados
     sistema->dados_produtora = (Produtora *)malloc(sizeof(Produtora));
     if (sistema->dados_produtora == NULL) {
         printf("Erro fatal: Nao foi possivel alocar memoria para a produtora.\n");

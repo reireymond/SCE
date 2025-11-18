@@ -1,16 +1,16 @@
-// Inclui o cabeçalho da view de operador, que contém as declarações das funções
+// da view de operador, que contém as declarações das funções
 #include "operador_view.h"
 #include <stdio.h>
 #include "utils/utils.h"
-// Inclui o cabeçalho do controller de operador para poder chamar as funções que
+// do controller de operador para poder chamar as funções que
 #include "controller/operador/operador_controller.h"
 
-// Implementação da função que exibe e gerencia o menu de operadores.
+// exibe e gerencia o menu de operadores.
 void menuOperadoresView(Sistema *sistema) {
     int opcao;
    
     do {
-        // Limpa a tela antes de exibir o menu para uma interface mais limpa.
+        // Limpa a tela antes de exibir o menu antes.
        limpar_tela();
         printf("+=====================================================+\n");
         printf("|             MENU OPERADORES DO SISTEMA              |\n");
@@ -25,7 +25,7 @@ void menuOperadoresView(Sistema *sistema) {
         printf("Escolha uma opcao: ");
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
-        // Limpa o buffer de entrada para remover o '\n' deixado pelo scanf.
+        // 
         limpar_buffer();
 
         // Um 'switch' direciona o fluxo do programa com base na opção do usuário.
@@ -43,7 +43,7 @@ void menuOperadoresView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Implementação da função que exibe a lista de operadores.
+// exibe a lista de operadores.
 void listarOperadoresView(Sistema *sistema) {
     // Verifica se há operadores cadastrados. Se não houver, exibe uma mensagem.
     if (sistema->num_operadores == 0) {

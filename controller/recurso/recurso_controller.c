@@ -60,7 +60,7 @@ void alterarRecursoController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o recurso pelo código
+    // Procura o recurso pelo codigo
     for (int i = 0; i < sistema->num_recursos; i++) {
         if (sistema->lista_recursos[i].codigo == codigo) {
             indice = i;

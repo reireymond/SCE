@@ -1,11 +1,11 @@
-// Inclui o cabeçalho da view da produtora, que contém as declarações das funções
+// da view da produtora, que contém as declarações das funções
 #include "produtora_view.h"
 #include <stdio.h>
 #include "utils/utils.h"
-// Inclui o cabeçalho do controller da produtora para poder chamar as funções que
+// do controller da produtora para poder chamar as funções que
 #include "controller/produtora/produtora_controller.h"
 
-// Implementação da função que exibe e gerencia o menu da produtora.
+// exibe e gerencia o menu da produtora.
 void menuProdutoraView(Sistema *sistema) {
     int opcao;
     do {
@@ -24,7 +24,7 @@ void menuProdutoraView(Sistema *sistema) {
         printf("Escolha uma opcao: ");
         // Lê a opção numérica do usuário.
         scanf("%d", &opcao);
-        // Limpa o buffer de entrada para evitar que o caractere de nova linha ('\n')
+        // 
         // afete as leituras subsequentes.
         limpar_buffer();
 
@@ -44,7 +44,7 @@ void menuProdutoraView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Implementação da função que exibe os detalhes da produtora.
+// exibe os detalhes da produtora.
 void verDetalhesProdutoraView(Sistema *sistema) {
     // Verifica se os dados da produtora já foram cadastrados.
     // Se o ponteiro for nulo, significa que não há nada para mostrar.

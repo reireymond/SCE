@@ -1,4 +1,4 @@
-// Inclui o cabeçalho do model da produtora, com as declarações das funções implementadas aqui
+// do model da produtora, com as declarações das funções implementadas aqui
 #include "model/produtora/produtora_model.h"
 // Bibliotecas padrão para manipulação de arquivos, memória e strings
 #include <stdio.h>
@@ -63,7 +63,7 @@ void carregarProdutora(Sistema *sistema) {
     if (produtora_existe) {
         sistema->dados_produtora = malloc(sizeof(Produtora));
         if (!sistema->dados_produtora) {
-            printf("Erro de alocação de memória.\n");
+            printf("Erro de alocacao de memória.\n");
             fclose(arquivo);
             return;
         }
@@ -87,7 +87,7 @@ void carregarProdutora(Sistema *sistema) {
     fclose(arquivo);
 }
 
-// Libera a memória alocada para os dados da produtora
+// Limpa a memoria alocada para os dados da produtora
 void liberarMemoriaProdutora(Sistema *sistema) {
     if (sistema->dados_produtora) {
         free(sistema->dados_produtora);

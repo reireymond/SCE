@@ -14,7 +14,7 @@
 #include "model/recurso/recurso_model.h"
 #include "model/fornecedor/fornecedor_model.h"
 #include "model/operador/operador_model.h"
-// Função para importar dados de Texto/Binário para a memória da sessão atual
+// importar dados de Texto/Binário para a memória da sessão atual
 void importarDadosDeOutroFormatoController(Sistema *sistema) {
     int opcao_origem;
     TipoArmazenamento origem;
@@ -85,7 +85,7 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     }
     printf("------------------------------------------------------\n");
 }
-// Função para transferir/converter dados entre os formatos Texto e Binário
+// transferir/converter dados entre os formatos Texto e Binário
 void transferirDadosDeArmazenamento(Sistema *sistema) {
     int opcao_origem, opcao_destino;
     TipoArmazenamento origem, destino;

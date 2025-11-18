@@ -1,10 +1,10 @@
-// Inclui o cabeçalho correspondente, que contém as declarações das funções
+// correspondente, que contém as declarações das funções
 #include "model/equipe_interna/equipe_interna_model.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h> 
 
-// Define constantes para os nomes dos arquivos de persistência de dados.
+// Define constantes para os nomes dos arquivos de salvamento de dados.
 #define EQUIPE_DATA_FILE "data/equipe.dat" // Arquivo para armazenamento binário.
 #define EQUIPE_TEXT_FILE "data/equipe.txt" // Arquivo para armazenamento em texto.
 
@@ -17,7 +17,7 @@ void salvarEquipeInterna(Sistema *sistema) {
 
     // Inicializa o ponteiro de arquivo como nulo.
     FILE *arquivo = NULL;
-    // Verifica qual o modo de persistência configurado.
+    // Verifica qual o modo de salvamento configurado.
     if (modo == ARQUIVO_BINARIO) {
         // Abre o arquivo binário em modo de escrita ("wb").
         arquivo = fopen(EQUIPE_DATA_FILE, "wb");
@@ -76,7 +76,7 @@ void carregarEquipeInterna(Sistema *sistema) {
         if (sistema->num_equipe > 0) {
             // Aloca a memória necessária para a lista.
             sistema->lista_equipe = malloc(sistema->num_equipe * sizeof(EquipeInterna));
-            // Se a alocação de memória funcionar
+            // Se a alocacao de memória funcionar
             if (sistema->lista_equipe) {
                 // Lê todos os registros do arquivo para a memória de uma só vez.
                 fread(sistema->lista_equipe, sizeof(EquipeInterna), sistema->num_equipe, arquivo);
@@ -115,7 +115,7 @@ void carregarEquipeInterna(Sistema *sistema) {
 void liberarMemoriaEquipe(Sistema *sistema) {
     // Verifica se o ponteiro da lista não é nulo para evitar erros.
     if (sistema->lista_equipe != NULL) {
-        // Libera a memória alocada 
+        // Limpa a memoria alocada 
         free(sistema->lista_equipe);
         // Aponta o ponteiro para NULL para evitar o uso de memória já liberada.
         sistema->lista_equipe = NULL;

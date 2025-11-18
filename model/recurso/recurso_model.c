@@ -80,7 +80,7 @@ void carregarRecursos(Sistema *sistema) {
     fclose(arquivo);
 }
 
-// Libera a memória alocada para os recursos
+// Limpa a memoria alocada para os recursos
 void liberarMemoriaRecursos(Sistema *sistema) {
     if (sistema->lista_recursos != NULL) {
         free(sistema->lista_recursos);

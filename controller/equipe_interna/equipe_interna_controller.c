@@ -1,4 +1,4 @@
-// Inclui o cabeçalho do controller, com as declarações das funções deste módulo
+// do controller, com as declarações das funções deste módulo
 #include "equipe_interna_controller.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,7 +58,7 @@ void alterarEquipeController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o membro pelo código
+    // Procura o membro pelo codigo
     for (int i = 0; i < sistema->num_equipe; i++) {
         if (sistema->lista_equipe[i].codigo == codigo) {
             indice = i;
@@ -122,7 +122,7 @@ void excluirEquipeController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura o membro pelo código
+    // Procura o membro pelo codigo
     for (int i = 0; i < sistema->num_equipe; i++) {
         if (sistema->lista_equipe[i].codigo == codigo) {
             char confirmacao;

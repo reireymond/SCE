@@ -1,11 +1,10 @@
-// Impede que o cabeçalho seja incluído múltiplas vezes no mesmo arquivo,
+// Impede incluir o arquivo mais de uma vez
 #ifndef SISTEMA_H
 #define SISTEMA_H
 
-// Inclui o cabeçalho de configuração de armazenamento, que define
 #include "model/config_armazenamento/config_armazenamento.h"
 
-// Define a estrutura para armazenar os dados da empresa produtora de eventos.
+// Dados da produtora de eventos
 typedef struct
 {
     char nome_fantasia[100];       
@@ -20,7 +19,7 @@ typedef struct
     float margem_lucro;            
 } Produtora;
 
-// Define a estrutura para armazenar os dados de um cliente.
+// Dados de um cliente
 typedef struct
 {
     int codigo;                    
@@ -32,7 +31,7 @@ typedef struct
     char nome_do_contato[100];     
 } Cliente;
 
-// Define a estrutura para armazenar os dados de um membro da equipe interna da produtora.
+// Dados de um membro da equipe interna
 typedef struct
 {
     int codigo;          
@@ -42,7 +41,7 @@ typedef struct
     float valor_diaria;  
 } EquipeInterna;
 
-// Define a estrutura para armazenar os dados de um recurso ou equipamento da produtora.
+// Dados de um recurso ou equipamento
 typedef struct
 {
     int codigo;                 
@@ -53,7 +52,7 @@ typedef struct
     float valor_locacao;        
 } Recurso;
 
-// Define a estrutura para armazenar os dados de um fornecedor ou parceiro terceirizado.
+// Dados de um fornecedor
 typedef struct
 {
     int codigo;                 
@@ -65,7 +64,7 @@ typedef struct
     char tipo_servico[100];    
 } Fornecedor;
 
-// Define a estrutura para armazenar os dados de um operador que utilizará o sistema.
+// Dados de um operador do sistema
 typedef struct
 {
     int codigo;       
@@ -74,21 +73,21 @@ typedef struct
     char senha[50];    
 } Operador;
 
-// Enum para o status do evento
+// Status do evento
 typedef enum {
     ORCAMENTO,
     APROVADO,
     FINALIZADO
 } StatusEvento;
 
-// Enum para tipos de transação
+// Tipos de transacao
 typedef enum {
     CONTA_A_RECEBER,
     CONTA_A_PAGAR,
     MOVIMENTACAO_CAIXA
 } TipoTransacao;
 
-// Enum para status da transação
+// Status da transacao
 typedef enum {
     PENDENTE,
     PAGA
@@ -161,61 +160,51 @@ typedef struct {
 
 } Transacao;
 
-// Estrutura central que agrega todos os dados do sistema em um único lugar.
+// Estrutura central com todos os dados do sistema
 typedef struct Sistema
 {
-    // Armazena o modo de persistência de dados escolhido pelo usuário (Memória, Arquivo Texto ou Binário).
+    // Como os dados vao ser salvos (memoria, arquivo texto ou binario)
     TipoArmazenamento modo_de_armazenamento;
 
-    // Ponteiro para os dados da produtora. Apenas uma produtora pode ser cadastrada.
+    // Dados da produtora (so tem uma)
     Produtora *dados_produtora;
 
-    // Ponteiro para a lista dinâmica de clientes cadastrados.
+    // Lista de clientes
     Cliente *lista_clientes;
-    // Número atual de clientes na lista.
     int num_clientes;
-    // Capacidade total do array 'lista_clientes', usada para gerenciar o crescimento da lista.
     int capacidade_clientes;
 
-    // Ponteiro para a lista dinâmica de membros da equipe.
+    // Lista de equipe interna
     EquipeInterna *lista_equipe;
-    // Número atual de membros na lista.
     int num_equipe;
-    // Capacidade total do array 'lista_equipe'.
     int capacidade_equipe;
 
-    // Ponteiro para a lista dinâmica de recursos e equipamentos.
+    // Lista de recursos
     Recurso *lista_recursos;
-    // Número atual de recursos na lista.
     int num_recursos;
-    // Capacidade total do array 'lista_recursos'.
     int capacidade_recursos;
 
-    // Ponteiro para a lista dinâmica de fornecedores e parceiros.
+    // Lista de fornecedores
     Fornecedor *lista_fornecedores;
-    // Número atual de fornecedores na lista.
     int num_fornecedores;
-    // Capacidade total do array 'lista_fornecedores'.
     int capacidade_fornecedores;
 
-    // Ponteiro para a lista dinâmica de operadores do sistema.
+    // Lista de operadores
     Operador *lista_operadores;
-    // Número atual de operadores na lista.
     int num_operadores;
-    // Capacidade total do array 'lista_operadores'.
     int capacidade_operadores;
 
-    // Ponteiro para a lista dinâmica de eventos/orçamentos
+    // Lista de eventos
     Evento *lista_eventos;
     int num_eventos;
     int capacidade_eventos;
 
-    // Ponteiro para a lista dinâmica de transações financeiras
+    // Lista de transacoes financeiras
     Transacao *lista_transacoes;
     int num_transacoes;
     int capacidade_transacoes;
 
-    // Saldo de caixa atual
+    // Saldo do caixa
     float saldo_caixa;
 
 } Sistema;

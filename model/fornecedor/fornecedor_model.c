@@ -1,4 +1,4 @@
-// Inclui o cabeçalho do model de fornecedor (declarações das funções implementadas aqui)
+// do model de fornecedor (declarações das funções implementadas aqui)
 #include "model/fornecedor/fornecedor_model.h"
 
 // Bibliotecas padrão para arquivos, memória e strings
@@ -82,7 +82,7 @@ void carregarFornecedores(Sistema *sistema) {
     fclose(arquivo);
 }
 
-// Libera a memória da lista de fornecedores
+// Limpa a memoria da lista de fornecedores
 void liberarMemoriaFornecedores(Sistema *sistema) {
     if (sistema->lista_fornecedores != NULL) {
         free(sistema->lista_fornecedores);
