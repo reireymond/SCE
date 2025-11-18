@@ -29,7 +29,6 @@ void lancarAquisicaoController(Sistema *sistema) {
     // Verifica se tem produtora cadastrada para pegar a margem
     if (sistema->dados_produtora == NULL) {
         printf("\nErro: Cadastre a Produtora primeiro para definir a margem de lucro.\n");
-        pausar();
         return;
     }
 
@@ -157,7 +156,6 @@ void verSaldoCaixaController(Sistema *sistema) {
     limpar_tela();
     printf("=== FLUXO DE CAIXA ===\n");
     printf("Saldo Disponivel: R$ %.2f\n", sistema->saldo_caixa);
-    pausar();
 }
 
 void gerenciarContasReceberController(Sistema *sistema) {
