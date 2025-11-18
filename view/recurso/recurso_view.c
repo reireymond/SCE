@@ -1,15 +1,15 @@
-// Inclui o cabeçalho da view de recurso, que contém as declarações das funções
+// da view de recurso, que contém as declarações das funções
 // que serão implementadas neste arquivo.
 #include "recurso_view.h"
 // Inclui a biblioteca padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela' e 'pausar'.
+// de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
-// Inclui o cabeçalho do controller de recurso para poder chamar as funções que executam
+// do controller de recurso para poder chamar as funções que executam
 // as ações (adicionarRecursoController, etc.).
 #include "controller/recurso/recurso_controller.h"
 
-// Implementação da função que exibe e gerencia o menu de recursos e equipamentos.
+// exibe e gerencia o menu de recursos e equipamentos.
 void menuRecursosView(Sistema *sistema) {
     int opcao;
     // O loop 'do-while' garante que o menu seja exibido continuamente até que o
@@ -32,7 +32,7 @@ void menuRecursosView(Sistema *sistema) {
 
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
-        // Limpa o buffer de entrada para remover o '\n' deixado pelo scanf.
+        // 
         limpar_buffer();
 
         // Um 'switch' direciona o fluxo do programa com base na opção do usuário.
@@ -51,7 +51,7 @@ void menuRecursosView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Implementação da função que exibe a lista de recursos e equipamentos.
+// exibe a lista de recursos e equipamentos.
 void listarRecursosView(Sistema *sistema) {
     // Verifica se há recursos cadastrados. Se não houver, exibe uma mensagem.
     if (sistema->num_recursos == 0) {

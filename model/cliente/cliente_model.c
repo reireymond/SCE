@@ -1,33 +1,31 @@
-// Inclui o cabeçalho do model de cliente (declarações das funções)
 #include "model/cliente/cliente_model.h"
-// Inclui bibliotecas padrão para arquivos, memória e strings
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Caminhos dos arquivos de dados
+// Onde salvar os arquivos
 #define CLIENTES_DATA_FILE "data/clientes.dat"
 #define CLIENTES_TEXT_FILE "data/clientes.txt"
 
-// Salva os dados dos clientes (binário ou texto)
+// Salva os clientes no arquivo
 void salvarClientes(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
-    if (modo == MEMORIA) return; // Se só estiver em memória, sai
+    if (modo == MEMORIA) return; // Se for so memoria, nao faz nada
 
     FILE *arquivo = NULL;
 
     if (modo == ARQUIVO_BINARIO) {
-        arquivo = fopen(CLIENTES_DATA_FILE, "wb"); // Abre para escrita binária
+        arquivo = fopen(CLIENTES_DATA_FILE, "wb"); // Abre pra escrever binario
         if (arquivo) {
-            fwrite(&sistema->num_clientes, sizeof(int), 1, arquivo); // Escreve quantidade
-            fwrite(sistema->lista_clientes, sizeof(Cliente), sistema->num_clientes, arquivo); // Escreve todos os clientes
+            fwrite(&sistema->num_clientes, sizeof(int), 1, arquivo); // Escreve quantos tem
+            fwrite(sistema->lista_clientes, sizeof(Cliente), sistema->num_clientes, arquivo); // Escreve todos
         }
     } else if (modo == ARQUIVO_TEXTO) {
-        arquivo = fopen(CLIENTES_TEXT_FILE, "w"); // Abre para escrita texto
+        arquivo = fopen(CLIENTES_TEXT_FILE, "w"); // Abre pra escrever texto
         if (arquivo) {
-            fprintf(arquivo, "%d\n", sistema->num_clientes); // Primeira linha: total de clientes
+            fprintf(arquivo, "%d\n", sistema->num_clientes); // Primeira linha: total
             for (int i = 0; i < sistema->num_clientes; i++) {
-                // Escreve os dados formatados
+                // Escreve os dados
                 fprintf(arquivo, "%d\n%s\n%s\n%s\n%s\n%s\n%s\n",
                         sistema->lista_clientes[i].codigo,
                         sistema->lista_clientes[i].razao_social,
@@ -44,7 +42,7 @@ void salvarClientes(Sistema *sistema) {
     else perror("Erro ao abrir arquivo para salvar clientes");
 }
 
-// Carrega os dados dos clientes do arquivo (binário ou texto)
+// Carrega os clientes do arquivo
 void carregarClientes(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -54,10 +52,10 @@ void carregarClientes(Sistema *sistema) {
     const char *modoAbertura = (modo == ARQUIVO_BINARIO) ? "rb" : "r";
 
     arquivo = fopen(nomeArquivo, modoAbertura);
-    if (arquivo == NULL) return; // Se ainda não existir, não faz nada
+    if (arquivo == NULL) return; // Arquivo ainda nao existe
 
     if (modo == ARQUIVO_BINARIO) {
-        fread(&sistema->num_clientes, sizeof(int), 1, arquivo); // Lê total de clientes
+        fread(&sistema->num_clientes, sizeof(int), 1, arquivo); // Le quantos tem
         if (sistema->num_clientes > 0) {
             sistema->lista_clientes = malloc(sistema->num_clientes * sizeof(Cliente));
             if (sistema->lista_clientes == NULL) {
@@ -66,18 +64,18 @@ void carregarClientes(Sistema *sistema) {
                 fclose(arquivo);
                 return;
             }
-            fread(sistema->lista_clientes, sizeof(Cliente), sistema->num_clientes, arquivo); // Lê todos os clientes
+            fread(sistema->lista_clientes, sizeof(Cliente), sistema->num_clientes, arquivo); // Le todos
             sistema->capacidade_clientes = sistema->num_clientes;
         }
     } else {
-        fscanf(arquivo, "%d\n", &sistema->num_clientes); // Lê quantidade de clientes
+        fscanf(arquivo, "%d\n", &sistema->num_clientes); // Le total
         if (sistema->num_clientes > 0) {
             sistema->lista_clientes = malloc(sistema->num_clientes * sizeof(Cliente));
             sistema->capacidade_clientes = sistema->num_clientes;
             for (int i = 0; i < sistema->num_clientes; i++) {
                 Cliente *c = &sistema->lista_clientes[i];
                 fscanf(arquivo, "%d\n", &c->codigo);
-                // Lê campos de texto e remove '\n'
+                // Le os textos e tira o \n
                 fgets(c->razao_social, sizeof(c->razao_social), arquivo); c->razao_social[strcspn(c->razao_social, "\n")] = 0;
                 fgets(c->cnpj, sizeof(c->cnpj), arquivo); c->cnpj[strcspn(c->cnpj, "\n")] = 0;
                 fgets(c->endereco, sizeof(c->endereco), arquivo); c->endereco[strcspn(c->endereco, "\n")] = 0;
@@ -91,7 +89,7 @@ void carregarClientes(Sistema *sistema) {
     fclose(arquivo);
 }
 
-// Libera a memória alocada para a lista de clientes
+// Limpa a memoria dos clientes
 void liberarMemoriaClientes(Sistema *sistema) {
     if (sistema->lista_clientes != NULL) {
         free(sistema->lista_clientes);

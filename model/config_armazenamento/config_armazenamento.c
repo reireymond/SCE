@@ -1,4 +1,4 @@
-// Inclui o cabeçalho correspondente, garantindo que as funções estejam de acordo com suas declarações.
+// correspondente, garantindo que as funções estejam de acordo com suas declarações.
 #include "model/config_armazenamento/config_armazenamento.h"
 // Inclui a estrutura 'Sistema' para acessar e modificar seus campos.
 #include "model/sistema.h"

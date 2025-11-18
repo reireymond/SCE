@@ -1,0 +1,26 @@
+# Arquivos de compilacao
+*.o
+*.exe
+*.bin
+
+# Diretorios de compilacao
+obj/
+bin/
+
+# Configuracoes de IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Arquivos temporarios
+*.tmp
+*.log
+*~
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de dados (mas mantem a pasta)
+data/*.txt
+data/*.dat

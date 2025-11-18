@@ -43,7 +43,7 @@ void lancarAquisicaoController(Sistema *sistema) {
     ler_float_positivo(&imposto_total);
 
     printf("Quantidade TOTAL de itens comprados: ");
-    ler_int_valido(&total_itens_nota, 1, 10000);
+    ler_inteiro_valido(&total_itens_nota, 1, 10000);
 
     // Calculo do rateio (quanto de frete/imposto cada unidade paga)
     float frete_por_unidade = frete_total / total_itens_nota;
@@ -65,11 +65,11 @@ void lancarAquisicaoController(Sistema *sistema) {
 
         printf("\n--- Novo Item da Nota --- \n");
         printf("Descricao: ");
-        ler_string_valida(novo->descricao, sizeof(novo->descricao), VALIDATE_NAO_VAZIA);
+        ler_texto_valido(novo->descricao, sizeof(novo->descricao), VALIDAR_NAO_VAZIO);
         printf("Categoria: ");
-        ler_string_valida(novo->categoria, sizeof(novo->categoria), VALIDATE_NAO_VAZIA);
+        ler_texto_valido(novo->categoria, sizeof(novo->categoria), VALIDAR_NAO_VAZIO);
         printf("Quantidade: ");
-        ler_int_valido(&novo->quantidade_estoque, 1, 1000);
+        ler_inteiro_valido(&novo->quantidade_estoque, 1, 1000);
         printf("Custo Unitario (R$): ");
         ler_float_positivo(&novo->preco_custo);
 

@@ -1,4 +1,4 @@
-// Inclui o cabeçalho do model de operador
+// do model de operador
 #include "model/operador/operador_model.h"
 // Bibliotecas padrão para arquivos, memória e strings
 #include <stdio.h>
@@ -88,7 +88,7 @@ void carregarOperadores(Sistema *sistema) {
     fclose(arquivo);
 }
 
-// Libera a memória alocada para a lista de operadores
+// Limpa a memoria alocada para a lista de operadores
 void liberarMemoriaOperadores(Sistema *sistema) {
     if (sistema->lista_operadores) {
         free(sistema->lista_operadores);

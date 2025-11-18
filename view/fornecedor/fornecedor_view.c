@@ -1,11 +1,11 @@
-// Inclui o cabeçalho da view de fornecedor, que contém as declarações das funções
+// da view de fornecedor, que contém as declarações das funções
 #include "fornecedor_view.h"
 #include <stdio.h>
 #include "utils/utils.h"
-// Inclui o cabeçalho do controller de fornecedor para poder chamar as funções que executam
+// do controller de fornecedor para poder chamar as funções que executam
 #include "controller/fornecedor/fornecedor_controller.h"
 
-// Implementação da função que exibe e gerencia o menu de fornecedores.
+// exibe e gerencia o menu de fornecedores.
 void menuFornecedoresView(Sistema *sistema) {
     int opcao;
     
@@ -25,7 +25,7 @@ void menuFornecedoresView(Sistema *sistema) {
         printf("Escolha uma opcao: ");
         // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
-        // Limpa o buffer de entrada para evitar problemas na próxima leitura.
+        // 
         limpar_buffer();
 
         // Um 'switch' direciona o fluxo do programa com base na opção do usuário.
@@ -44,7 +44,7 @@ void menuFornecedoresView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Implementação da função que exibe a lista de fornecedores.
+// exibe a lista de fornecedores.
 void listarFornecedoresView(Sistema *sistema) {
     // Verifica se há fornecedores cadastrados. Se não houver, exibe uma mensagem.
     if (sistema->num_fornecedores == 0) {

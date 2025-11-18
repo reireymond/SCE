@@ -1,11 +1,11 @@
-// Inclui o cabeçalho da view principal, que contém as declarações das
+// da view principal, que contém as declarações das
 // funções que serão implementadas neste arquivo.
 #include "main_view.h"
 // Inclui a biblioteca padrão de entrada/saída para usar 'printf' e 'scanf'.
 #include <stdio.h>
-// Inclui o cabeçalho de utilitários para usar funções como 'limpar_tela', 'pausar', etc.
+// de utilitários para usar funções como 'limpar_tela', 'pausar', etc.
 #include "utils/utils.h"
-// Inclui o cabeçalho do model de configuração para chamar a função 'definirModoDeArmazenamento'.
+// do model de configuração para chamar a função 'definirModoDeArmazenamento'.
 #include "model/config_armazenamento/config_armazenamento.h"
 // I
 #include "controller/armazenamento/armazenamento_controller.h"
@@ -22,7 +22,7 @@
 #include "view/evento/evento_view.h"
 #include "view/transacao/transacao_view.h"
 
-// Implementação da função que exibe o menu de escolha do modo de armazenamento.
+// exibe o menu de escolha do modo de armazenamento.
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
     printf("+=====================================================+\n");
@@ -50,7 +50,7 @@ void menuEscolherArmazenamentoView(Sistema *sistema) {
     }
 }
 
-// Implementação da função que exibe o menu principal e controla a navegação.
+// exibe o menu principal e controla a navegação.
 void menuPrincipalView(Sistema *sistema) {
     int opcao;
     // O loop continua exibindo o menu até que o usuário escolha a opção 0 para sair.
@@ -105,7 +105,7 @@ void menuPrincipalView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Implementação da função que exibe o menu de Gestão de Dados.
+// exibe o menu de Gestão de Dados.
 void menuGestaoDeDadosView(Sistema *sistema) {
     int opcao;
     // O loop continua até o usuário escolher a opção 0 para voltar ao menu principal.

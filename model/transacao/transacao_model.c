@@ -1,6 +1,7 @@
 #include "model/transacao/transacao_model.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "model/config_armazenamento/config_armazenamento.h"
 
 // Nomes dos arquivos

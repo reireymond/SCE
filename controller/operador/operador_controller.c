@@ -14,9 +14,9 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-// Adiciona um novo operador
+// Adiciona um operador novo
 void adicionarOperadorController(Sistema *sistema) {
-    // Expande capacidade da lista se necessário
+    // Aumenta a lista se tiver cheia
     if (sistema->num_operadores == sistema->capacidade_operadores) {
         int nova_capacidade = (sistema->capacidade_operadores == 0) ? 10 : sistema->capacidade_operadores * 2;
         Operador *temp = realloc(sistema->lista_operadores, nova_capacidade * sizeof(Operador));
@@ -33,20 +33,20 @@ void adicionarOperadorController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Operador (Codigo: %d) ---\n", novo_operador->codigo);
     printf("Nome: ");
-    ler_string_valida(novo_operador->nome, sizeof(novo_operador->nome), VALIDATE_NOME);
+    ler_texto_valido(novo_operador->nome, sizeof(novo_operador->nome), VALIDAR_NOME);
 
     printf("Usuario: ");
-    ler_string_valida(novo_operador->usuario, sizeof(novo_operador->usuario), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_operador->usuario, sizeof(novo_operador->usuario), VALIDAR_NAO_VAZIO);
 
     printf("Senha: ");
-    ler_string_valida(novo_operador->senha, sizeof(novo_operador->senha), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_operador->senha, sizeof(novo_operador->senha), VALIDAR_NAO_VAZIO);
 
     sistema->num_operadores++;
     salvarOperadores(sistema);
     printf("\nOperador '%s' cadastrado com sucesso!\n", novo_operador->usuario);
 }
 
-// Altera os dados de um operador existente
+// Altera um operador
 void alterarOperadorController(Sistema *sistema) {
     listarOperadoresView(sistema);
     if (sistema->num_operadores == 0) return;
@@ -56,7 +56,7 @@ void alterarOperadorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura operador pelo código
+    // Procura o operador
     for (int i = 0; i < sistema->num_operadores; i++) {
         if (sistema->lista_operadores[i].codigo == codigo) {
             indice = i;
@@ -75,20 +75,20 @@ void alterarOperadorController(Sistema *sistema) {
         limpar_tela();
         printf("--- Alterando Operador: %s ---\n", operador->usuario);
         printf("1. Alterar Nome\n2. Alterar Usuario\n3. Alterar Senha\n0. Salvar e Voltar\nEscolha: ");
-        ler_int_valido(&opcao, 0, 3);
+        ler_inteiro_valido(&opcao, 0, 3);
 
         switch (opcao) {
             case 1:
                 printf("Novo Nome: ");
-                ler_string_valida(operador->nome, sizeof(operador->nome), VALIDATE_NOME);
+                ler_texto_valido(operador->nome, sizeof(operador->nome), VALIDAR_NOME);
                 break;
             case 2:
                 printf("Novo Usuario: ");
-                ler_string_valida(operador->usuario, sizeof(operador->usuario), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(operador->usuario, sizeof(operador->usuario), VALIDAR_NAO_VAZIO);
                 break;
             case 3:
                 printf("Nova Senha: ");
-                ler_string_valida(operador->senha, sizeof(operador->senha), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(operador->senha, sizeof(operador->senha), VALIDAR_NAO_VAZIO);
                 printf("Senha alterada.\n");
                 break;
             case 0:
@@ -110,7 +110,7 @@ void excluirOperadorController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Procura operador pelo código
+    // Procura o operador
     for (int i = 0; i < sistema->num_operadores; i++) {
         if (sistema->lista_operadores[i].codigo == codigo) {
             char confirmacao;
@@ -119,7 +119,7 @@ void excluirOperadorController(Sistema *sistema) {
             limpar_buffer();
 
             if (confirmacao == 's' || confirmacao == 'S') {
-                // Substitui pelo último operador da lista
+                // Substitui pelo ultimo
                 sistema->lista_operadores[i] = sistema->lista_operadores[sistema->num_operadores - 1];
                 sistema->num_operadores--;
                 salvarOperadores(sistema);

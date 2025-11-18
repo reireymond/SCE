@@ -4,7 +4,7 @@
 #include <string.h>
 #include "model/config_armazenamento/config_armazenamento.h"
 
-// Define os nomes dos arquivos de persistência
+// Define os nomes dos arquivos de salvamento
 #define EVENTOS_DATA_FILE "data/eventos.dat"
 #define EVENTOS_TEXT_FILE "data/eventos.txt"
 
@@ -320,7 +320,7 @@ void carregarEventos(Sistema *sistema)
 }
 
 /**
- * Libera a memória alocada para a lista de eventos.
+ * Limpa a memoria alocada para a lista de eventos.
  * Precisa iterar e liberar as sub-listas de cada evento primeiro.
  */
 void liberarMemoriaEventos(Sistema *sistema)

@@ -34,20 +34,20 @@ void adicionarEventoController(Sistema *sistema) {
 
     printf("\n--- Novo Orcamento ---\n");
     printf("Nome do Evento: ");
-    ler_string_valida(novo->nome_evento, sizeof(novo->nome_evento), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo->nome_evento, sizeof(novo->nome_evento), VALIDAR_NAO_VAZIO);
 
     listarClientesView(sistema);
     printf("Codigo do Cliente: ");
-    ler_int_valido(&novo->codigo_cliente, 1, 99999);
+    ler_inteiro_valido(&novo->codigo_cliente, 1, 99999);
 
     printf("Data Inicio (DD/MM/AAAA): ");
-    ler_string_valida(novo->data_inicio, sizeof(novo->data_inicio), VALIDATE_DATA);
+    ler_texto_valido(novo->data_inicio, sizeof(novo->data_inicio), VALIDAR_DATA);
 
     printf("Data Fim (DD/MM/AAAA): ");
-    ler_string_valida(novo->data_fim, sizeof(novo->data_fim), VALIDATE_DATA);
+    ler_texto_valido(novo->data_fim, sizeof(novo->data_fim), VALIDAR_DATA);
 
     printf("Local: ");
-    ler_string_valida(novo->local, sizeof(novo->local), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo->local, sizeof(novo->local), VALIDAR_NAO_VAZIO);
 
     // 1. Adicionar Recursos
     int op = 0;
@@ -112,7 +112,7 @@ void adicionarEventoController(Sistema *sistema) {
         char desc[100];
         printf("Codigo do Fornecedor: "); scanf("%d", &cod);
         limpar_buffer();
-        printf("Descricao do Servico: "); ler_string_valida(desc, 100, VALIDATE_NAO_VAZIA);
+        printf("Descricao do Servico: "); ler_texto_valido(desc, 100, VALIDAR_NAO_VAZIO);
         printf("Valor contratado: "); ler_float_positivo(&valor);
 
         novo->lista_servicos_contratados = realloc(novo->lista_servicos_contratados, (novo->num_servicos_contratados + 1) * sizeof(ItemFornecedorEvento));

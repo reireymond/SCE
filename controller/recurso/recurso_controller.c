@@ -29,14 +29,14 @@ void adicionarRecursoController(Sistema *sistema) {
 
     printf("\n--- Cadastro de Novo Recurso (Codigo: %d) ---\n", novo_recurso->codigo);
     printf("Descricao: ");
-    ler_string_valida(novo_recurso->descricao, sizeof(novo_recurso->descricao), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_recurso->descricao, sizeof(novo_recurso->descricao), VALIDAR_NAO_VAZIO);
 
     printf("Categoria: ");
-    ler_string_valida(novo_recurso->categoria, sizeof(novo_recurso->categoria), VALIDATE_NAO_VAZIA);
+    ler_texto_valido(novo_recurso->categoria, sizeof(novo_recurso->categoria), VALIDAR_NAO_VAZIO);
 
     printf("Quantidade em Estoque: ");
     int estoque;
-    ler_int_valido(&estoque, 0, 9999);
+    ler_inteiro_valido(&estoque, 0, 9999);
     novo_recurso->quantidade_estoque = estoque;
 
     printf("Preco de Custo (unitario): R$ ");
@@ -60,7 +60,7 @@ void alterarRecursoController(Sistema *sistema) {
     scanf("%d", &codigo);
     limpar_buffer();
 
-    // Busca o recurso pelo código
+    // Procura o recurso pelo codigo
     for (int i = 0; i < sistema->num_recursos; i++) {
         if (sistema->lista_recursos[i].codigo == codigo) {
             indice = i;
@@ -85,22 +85,22 @@ void alterarRecursoController(Sistema *sistema) {
         printf("5. Alterar Valor da Locacao\n");
         printf("0. Salvar e Voltar\n");
         printf("Escolha: ");
-        ler_int_valido(&opcao, 0, 5);
+        ler_inteiro_valido(&opcao, 0, 5);
 
         // Executa a opção escolhida
         switch (opcao) {
             case 1:
                 printf("Nova Descricao: ");
-                ler_string_valida(recurso->descricao, sizeof(recurso->descricao), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(recurso->descricao, sizeof(recurso->descricao), VALIDAR_NAO_VAZIO);
                 break;
             case 2:
                 printf("Nova Categoria: ");
-                ler_string_valida(recurso->categoria, sizeof(recurso->categoria), VALIDATE_NAO_VAZIA);
+                ler_texto_valido(recurso->categoria, sizeof(recurso->categoria), VALIDAR_NAO_VAZIO);
                 break;
             case 3:
                 printf("Nova Quantidade em Estoque: ");
                 int estoque;
-                ler_int_valido(&estoque, 0, 9999);
+                ler_inteiro_valido(&estoque, 0, 9999);
                 recurso->quantidade_estoque = estoque;
                 break;
             case 4:
