@@ -1,25 +1,19 @@
-// Include do cabeçalho correspondente
 #include "view/main/main_view.h"
-
-// Bibliotecas padrão
 #include <stdio.h>
-
-// Utilitários e Controllers
 #include "utils/utils.h"
 #include "model/config_armazenamento/config_armazenamento.h"
 #include "controller/armazenamento/armazenamento_controller.h"
 
-// Views dos Submenus (IMPORTANTE: Verifique se todas estão aqui)
+// Includes das outras Views
 #include "view/produtora/produtora_view.h"
 #include "view/cliente/cliente_view.h"
 #include "view/equipe_interna/equipe_interna_view.h"
 #include "view/recurso/recurso_view.h"
 #include "view/fornecedor/fornecedor_view.h"
 #include "view/operador/operador_view.h"
-#include "view/evento/evento_view.h"      // <--- Essencial para corrigir o erro do menuEventosView
+#include "view/evento/evento_view.h"      
 #include "view/transacao/transacao_view.h"
 
-// Exibe o menu de escolha do modo de armazenamento
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
     printf("+=====================================================+\n");
@@ -45,7 +39,6 @@ void menuEscolherArmazenamentoView(Sistema *sistema) {
     }
 }
 
-// Exibe o menu principal
 void menuPrincipalView(Sistema *sistema) {
     int opcao;
     do {
@@ -65,35 +58,21 @@ void menuPrincipalView(Sistema *sistema) {
         limpar_buffer();
 
         switch (opcao) {
-        case 1:
-            menuGestaoDeDadosView(sistema);
-            break;
-        case 2:
-            menuEventosView(sistema); // Agora deve funcionar com o include correto
-            break;
-        case 3:
-            menuTransacoesView(sistema);
-            break; 
+        case 1: menuGestaoDeDadosView(sistema); break;
+        case 2: menuEventosView(sistema); break;
+        case 3: menuTransacoesView(sistema); break; 
         case 4:
             printf("\nModulo de Feedback (Relatorios) ainda nao implementado.\n");
             pausar();
             break;
-        case 5:
-            menuImportarExportarView(sistema); // Agora a declaração existe no .h
-            break;
-        case 0:
-            printf("\nSaindo do programa...\n");
-            break;
-        default:
-            printf("\nOpcao invalida! Tente novamente.\n");
-            pausar();
-            break;
+        case 5: menuImportarExportarView(sistema); break;
+        case 0: printf("\nSaindo do programa...\n"); break;
+        default: printf("\nOpcao invalida! Tente novamente.\n"); pausar(); break;
         }
 
     } while (opcao != 0);
 }
 
-// Exibe o menu de Gestão de Dados
 void menuGestaoDeDadosView(Sistema *sistema) {
     int opcao;
     do {
@@ -127,7 +106,6 @@ void menuGestaoDeDadosView(Sistema *sistema) {
     } while (opcao != 0);
 }
 
-// Exibe o menu de Importação/Exportação
 void menuImportarExportarView(Sistema *sistema) {
     int opcao;
     TipoArmazenamento modoAtual;
@@ -159,24 +137,11 @@ void menuImportarExportarView(Sistema *sistema) {
         }
 
         switch(opcao) {
-            case 1:
-                importarDadosDeOutroFormatoController(sistema);
-                pausar();
-                break;
-            case 2:
-                transferirDadosDeArmazenamento(sistema); 
-                pausar();
-                break;
-            case 3:
-            case 4:
-                printf("\nFuncao ainda nao implementada.\n");
-                pausar();
-                break;
+            case 1: importarDadosDeOutroFormatoController(sistema); pausar(); break;
+            case 2: transferirDadosDeArmazenamento(sistema); pausar(); break;
+            case 3: case 4: printf("\nFuncao ainda nao implementada.\n"); pausar(); break;
             case 0: break;
-            default:
-                printf("\nOpcao invalida!\n");
-                pausar();
-                break;
+            default: printf("\nOpcao invalida!\n"); pausar(); break;
         }
     } while (opcao != 0);
 }
