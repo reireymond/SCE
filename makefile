@@ -1,81 +1,51 @@
-# Nome do compilador (funciona tanto para gcc no Linux quanto no MinGW)
+# Makefile Simples para Windows (Junior)
+
+# Compilador
 CC = gcc
 
-# Flags de compilação
+# Opcoes (Wall mostra avisos, -g ajuda a debugar, -I. procura headers na pasta atual)
 CFLAGS = -Wall -I. -g
 
-# --- Detecção de Sistema Operacional e Configuração ---
+# Nome do programa final
+TARGET = produtora.exe
 
-# Padrão: Comandos Unix (Linux, macOS, MinGW/Git Bash)
-TARGET_EXEC = produtora
-RUN_CMD = ./bin/$(TARGET_EXEC)
-MKDIR = mkdir -p
-RM_FILES = rm -f
-RM_DIRS = rm -rf
-
-# Verifica se o sistema é Windows (rodando em um shell como MinGW ou Git Bash)
-ifeq ($(findstring MINGW,$(shell uname -s)),MINGW)
-	TARGET_EXEC = produtora.exe
-	RUN_CMD = bin/$(TARGET_EXEC)
-    # No MinGW/Git Bash, os comandos Unix (rm -rf, mkdir -p) já funcionam.
-else ifeq ($(OS),Windows_NT)
-    # Verifica se o sistema é Windows nativo (rodando em CMD ou PowerShell)
-	TARGET_EXEC = produtora.exe
-	RUN_CMD = bin/$(TARGET_EXEC)
-    # Se for Windows nativo (CMD), usamos os comandos específicos
-	MKDIR = mkdir
-	RM_FILES = del /Q
-	RM_DIRS = rmdir /S /Q
-endif
-
-# --- Diretórios e Alvos ---
+# Pastas
 ODIR = obj
 BDIR = bin
-TARGET = $(BDIR)/$(TARGET_EXEC)
 
-# Encontra todos os arquivos .c recursivamente
-SOURCES := $(wildcard controller/*/*.c model/*/*.c view/*/*.c utils/*.c main.c)
+# Acha todos os arquivos .c automaticamente
+SOURCES = $(wildcard controller/*/*.c model/*/*.c view/*/*.c utils/*.c main.c)
 
-# Cria a lista de arquivos objeto (.o) a partir dos arquivos de código fonte
-OBJECTS := $(patsubst %.c,$(ODIR)/%.o,$(notdir $(SOURCES)))
+# Cria lista de arquivos .o (objetos)
+OBJECTS = $(patsubst %.c,$(ODIR)/%.o,$(notdir $(SOURCES)))
 
-# --- Regras de Compilação ---
+# Regra principal
+all: criar_pastas $(BDIR)/$(TARGET)
 
-# Regra principal: compila tudo
-all: $(TARGET)
+# Cria as pastas se nao existirem (comando Windows)
+criar_pastas:
+	@if not exist $(ODIR) mkdir $(ODIR)
+	@if not exist $(BDIR) mkdir $(BDIR)
 
-# Regra para criar os diretórios de saída (obj e bin) - Agora multiplataforma
-$(ODIR) $(BDIR):
-	@echo "Criando diretório: $@"
-	@$(MKDIR) $@
-
-# Garante que as regras de diretório sejam executadas antes das outras
-$(TARGET): $(ODIR) $(BDIR) $(OBJECTS)
-	@echo "Linkando para criar o executavel..."
+# Linka tudo e cria o executavel
+$(BDIR)/$(TARGET): $(OBJECTS)
+	@echo Criando executavel...
 	$(CC) $(OBJECTS) -o $@
-	@echo "Executavel '$(TARGET)' criado com sucesso."
+	@echo Sucesso! Execute: $(BDIR)\$(TARGET)
 
-# Regra de Compilação: transforma cada arquivo .c em um arquivo .o
-# Esta regra foi unificada e corrigida para usar TAB
+# Compila cada arquivo .c individualmente
+# Precisamos dizer pro make onde achar os .c usando VPATH
+VPATH = controller/armazenamento:controller/cliente:controller/equipe_interna:controller/evento:controller/fornecedor:controller/login:controller/main:controller/operador:controller/produtora:controller/recurso:controller/transacao:model/cliente:model/config_armazenamento:model/equipe_interna:model/evento:model/fornecedor:model/operador:model/produtora:model/recurso:model/transacao:view/cliente:view/equipe_interna:view/evento:view/fornecedor:view/main:view/operador:view/produtora:view/recurso:view/transacao:utils
+
 $(ODIR)/%.o: %.c
-	@echo "Compilando $<..."
+	@echo Compilando $<...
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# VPATH informa ao 'make' onde encontrar os arquivos de código fonte
-vpath %.c $(sort $(dir $(SOURCES)))
-
-# --- Comandos Adicionais ---
-
-# Limpa os arquivos compilados (objetos e executável)
+# Limpa tudo (comando Windows)
 clean:
-	@echo "Limpando arquivos gerados..."
-	# Limpa diretórios de forma recursiva usando o comando específico do SO
-	@$(RM_DIRS) $(ODIR) $(BDIR) 2> /dev/null || true
-	@echo "Limpeza concluida."
+	@if exist $(ODIR) rmdir /s /q $(ODIR)
+	@if exist $(BDIR) rmdir /s /q $(BDIR)
+	@echo Limpo.
 
-# Compila e executa o programa
 run: all
-	$(RUN_CMD)
-
-# Alvos que não são arquivos reais, para evitar conflitos
-.PHONY: all clean run
+	$(BDIR)\$(TARGET)

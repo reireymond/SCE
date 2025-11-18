@@ -6,7 +6,4 @@
 void importarDadosDeOutroFormatoController(Sistema *sistema);
 void transferirDadosDeArmazenamento(Sistema *sistema);
 
-// p/ Futuro
-// void importarDadosDeArmazenamento(Sistema *sistema);
-
 #endif

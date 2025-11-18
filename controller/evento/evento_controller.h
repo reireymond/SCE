@@ -4,10 +4,7 @@
 #include "model/sistema.h"
 
 void adicionarEventoController(Sistema *sistema);
-void editarEventoController(Sistema *sistema);
-void alterarStatusEventoController(Sistema *sistema);
-void cancelarEventoController(Sistema *sistema); // NOVO
-void finalizarEventoController(Sistema *sistema);
-void detalharEventoController(Sistema *sistema);
+void alterarStatusEventoController(Sistema *sistema); // Aprovar
+void finalizarEventoController(Sistema *sistema);     // Fechar e cobrar
 
 #endif
