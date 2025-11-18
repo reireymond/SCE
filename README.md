@@ -29,31 +29,36 @@ Este projeto está sendo construído como requisito avaliativo para a disciplina
 
 O sistema está organizado nos seguintes módulos:
 
-#### Módulo de Cadastros e Gestão de Dados
-- [x] Cadastro completo da Produtora, Clientes e Fornecedores.
-- [x] Gestão da Equipe Interna (funcionários) e seus respectivos custos.
-- [x] Controle de Recursos e Equipamentos (estoque, preço de custo e locação).
-- [x] Cadastro de Operadores do sistema com usuário e senha.
+#### 1. Módulo de Cadastros e Gestão de Dados
+- [x] **Produtora:** Cadastro dos dados da empresa e margem de lucro padrão.
+- [x] **Clientes:** Gestão completa (CRUD) de clientes.
+- [x] **Equipe Interna:** Cadastro de funcionários e valor da diária.
+- [x] **Recursos e Equipamentos:** Controle de estoque, preço de custo e valor de locação.
+- [x] **Fornecedores:** Cadastro de parceiros terceirizados.
+- [x] **Operadores:** Controle de acesso com usuário e senha.
 
-#### Módulo de Orçamentos e Gestão de Eventos
-- [ ] Criação e gerenciamento de orçamentos detalhados para clientes.
-- [ ] Sistema de aprovação de eventos com alocação de recursos.
-- [ ] Controle inteligente para evitar alocação de um mesmo recurso para múltiplos eventos na mesma data.
-- [ ] Finalização e faturamento do evento, com consolidação de todos os custos.
+#### 2. Módulo de Orçamentos e Gestão de Eventos
+- [x] **Criação de Orçamentos:** Alocação provisória de recursos, equipe e serviços externos.
+- [x] **Aprovação de Eventos:**
+  - [x] Verificação automática de conflito de datas (recursos indisponíveis no período).
+  - [x] Reserva efetiva de estoque após aprovação.
+- [x] **Finalização:** Encerramento do evento, liberação dos recursos de volta ao estoque e faturamento final.
 
-#### Módulo de Transações
-- [ ] Lançamento de custos individuais em cada evento.
-- [ ] Controle de Caixa (pagamentos à vista).
-- [ ] Gestão de Contas a Receber e Contas a Pagar.
-- [ ] Módulo de Aquisição de Equipamentos, com cálculo automático de preço de locação baseado em nota fiscal.
+#### 3. Módulo de Transações
+- [x] **Aquisição de Equipamentos (Nota Fiscal):**
+  - [x] Entrada de produtos com cálculo automático de rateio de frete e impostos.
+  - [x] Precificação automática da locação baseada na margem de lucro e custos.
+- [x] **Contas a Receber:** Gerenciamento de faturas geradas pelos eventos finalizados.
+- [x] **Contas a Pagar:** Controle de pagamentos a fornecedores e aquisições parceladas.
+- [x] **Fluxo de Caixa:** Controle de saldo disponível e baixas de pagamentos/recebimentos.
 
-#### Módulo de Feedback e Relatórios
-- [ ] Emissão de relatórios em tela ou exportados para arquivo `.csv`.
-- [ ] Relatórios de Clientes, Eventos, Equipamentos, Contas a Pagar/Receber, e mais.
-- [ ] Filtros personalizáveis para todos os relatórios (por data, cliente, status, etc.).
+#### 4. Módulo de Feedback e Relatórios
+- [ ] Relatórios em tela e exportação para arquivo `.csv`.
+- [ ] Listagens filtradas (Clientes, Eventos, Cronograma de Alocação, Contas a Pagar/Receber).
 
-#### Módulo de Importação/Exportação de Dados
-- [ ] Ferramentas para importar e exportar dados de tabelas específicas em formato `.xml`.
+#### 5. Módulo de Importação/Exportação de Dados
+- [ ] Importação e exportação de dados específicos em formato `.xml` (Requisito final).
+- [x] Conversão interna entre formatos de persistência (Binário <-> Texto).
 
 ## 🏛️ Arquitetura de Persistência
 
