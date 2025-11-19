@@ -24,8 +24,13 @@ void salvarEventos(Sistema *sistema) {
             fwrite(e->nome_evento, sizeof(char), 150, f);
             fwrite(&e->codigo_cliente, sizeof(int), 1, f);
             fwrite(&e->status, sizeof(StatusEvento), 1, f);
+            
+            // [NOVO] Salvando datas e horas
             fwrite(e->data_inicio, sizeof(char), 15, f);
+            fwrite(e->hora_inicio, sizeof(char), 6, f); 
             fwrite(e->data_fim, sizeof(char), 15, f);
+            fwrite(e->hora_fim, sizeof(char), 6, f);    
+            
             fwrite(e->local, sizeof(char), 150, f);
             fwrite(&e->custo_total_previsto, sizeof(float), 1, f);
             fwrite(&e->valor_final_faturado, sizeof(float), 1, f);
@@ -41,9 +46,12 @@ void salvarEventos(Sistema *sistema) {
         fprintf(f, "%d\n", sistema->num_eventos);
         for(int i=0; i<sistema->num_eventos; i++) {
             Evento *e = &sistema->lista_eventos[i];
-            fprintf(f, "%d\n%s\n%d\n%d\n%s\n%s\n%s\n%.2f\n%.2f\n",
+            // [NOVO] Adicionei os %s para as horas no printf do arquivo
+            fprintf(f, "%d\n%s\n%d\n%d\n%s\n%s\n%s\n%s\n%s\n%.2f\n%.2f\n",
                 e->codigo, e->nome_evento, e->codigo_cliente, e->status,
-                e->data_inicio, e->data_fim, e->local,
+                e->data_inicio, e->hora_inicio, 
+                e->data_fim, e->hora_fim,       
+                e->local,
                 e->custo_total_previsto, e->valor_final_faturado);
             
             fprintf(f, "%d\n", e->num_recursos_alocados);
@@ -78,8 +86,13 @@ void carregarEventos(Sistema *sistema) {
                 fread(e->nome_evento, sizeof(char), 150, f);
                 fread(&e->codigo_cliente, sizeof(int), 1, f);
                 fread(&e->status, sizeof(StatusEvento), 1, f);
+                
+                // [NOVO] Lendo datas e horas binarias
                 fread(e->data_inicio, sizeof(char), 15, f);
+                fread(e->hora_inicio, sizeof(char), 6, f); 
                 fread(e->data_fim, sizeof(char), 15, f);
+                fread(e->hora_fim, sizeof(char), 6, f);    
+                
                 fread(e->local, sizeof(char), 150, f);
                 fread(&e->custo_total_previsto, sizeof(float), 1, f);
                 fread(&e->valor_final_faturado, sizeof(float), 1, f);
@@ -107,8 +120,13 @@ void carregarEventos(Sistema *sistema) {
                 fscanf(f, "%d\n", &e->codigo);
                 fgets(e->nome_evento, 150, f); e->nome_evento[strcspn(e->nome_evento, "\n")] = 0;
                 fscanf(f, "%d\n%d\n", &e->codigo_cliente, (int*)&e->status);
+                
+                // [NOVO] Lendo datas e horas texto
                 fgets(e->data_inicio, 15, f); e->data_inicio[strcspn(e->data_inicio, "\n")] = 0;
+                fgets(e->hora_inicio, 6, f); e->hora_inicio[strcspn(e->hora_inicio, "\n")] = 0; 
                 fgets(e->data_fim, 15, f); e->data_fim[strcspn(e->data_fim, "\n")] = 0;
+                fgets(e->hora_fim, 6, f); e->hora_fim[strcspn(e->hora_fim, "\n")] = 0; 
+                
                 fgets(e->local, 150, f); e->local[strcspn(e->local, "\n")] = 0;
                 fscanf(f, "%f\n%f\n", &e->custo_total_previsto, &e->valor_final_faturado);
 
