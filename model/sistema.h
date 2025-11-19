@@ -87,7 +87,9 @@ typedef struct {
     StatusEvento status;
 
     char data_inicio[15];
+    char hora_inicio[6]; // [NOVO] Ex: "14:00"
     char data_fim[15];
+    char hora_fim[6];    // [NOVO] Ex: "18:00"
     char local[150];
 
     // Listas dinamicas dentro do evento
