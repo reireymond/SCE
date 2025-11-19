@@ -47,8 +47,10 @@ void listarEventosView(Sistema *sistema) {
         else if(e->status == 1) sprintf(status_texto, "Aprovado");
         else sprintf(status_texto, "Finalizado");
         
-        // Mostra a hora de inicio tambem pra ficar mais completo
-        printf("#%d | %s | Inicio: %s as %s | Status: %s\n", 
-               e->codigo, e->nome_evento, e->data_inicio, e->hora_inicio, status_texto);
+        printf("#%d | %s \n", e->codigo, e->nome_evento);
+        printf("    Inicio: %s as %s\n", e->data_inicio, e->hora_inicio);
+        printf("    Fim:    %s as %s\n", e->data_fim, e->hora_fim);
+        printf("    Status: %s\n", status_texto);
+        printf("------------------------------------------------------\n");
     }
 }

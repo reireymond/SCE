@@ -1,7 +1,7 @@
 #ifndef SISTEMA_H
 #define SISTEMA_H
 
-// Tipos de armazenamento
+// --- TIPOS DE ARMAZENAMENTO ---
 typedef enum { MEMORIA, ARQUIVO_TEXTO, ARQUIVO_BINARIO } TipoArmazenamento;
 
 // --- STATUS E ENUMS ---
@@ -89,7 +89,7 @@ typedef struct {
     char data_inicio[15];
     char hora_inicio[6];
     char data_fim[15];
-    char hora_fim[6]; 
+    char hora_fim[6];
     char local[150];
 
     // Listas dinamicas dentro do evento
