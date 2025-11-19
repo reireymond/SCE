@@ -8,12 +8,12 @@ void menuEventosView(Sistema *sistema) {
     do {
         limpar_tela();
         printf("+=========================================+\n");
-        printf("|       GESTAO DE EVENTOS                 |\n");
+        printf("|       GESTAO DE EVENTOS E ORCAMENTOS    |\n");
         printf("+=========================================+\n");
         printf("| [1] Criar Novo Orcamento                |\n");
-        printf("| [2] Aprovar Evento                      |\n");
-        printf("| [3] Finalizar Evento                    |\n");
-        printf("| [4] Listar Eventos                      |\n");
+        printf("| [2] Aprovar Evento (Verificar Estoque)  |\n");
+        printf("| [3] Finalizar Evento (Cobrar Cliente)   |\n");
+        printf("| [4] Listar Todos os Eventos             |\n");
         printf("| [0] Voltar                              |\n");
         printf("+=========================================+\n");
         printf("Opcao: ");
@@ -26,7 +26,7 @@ void menuEventosView(Sistema *sistema) {
             case 3: finalizarEventoController(sistema); break;
             case 4: listarEventosView(sistema); break;
             case 0: break;
-            default: printf("Invalido!\n"); break;
+            default: printf("Opcao invalida!\n"); break;
         }
         if (opcao != 0) pausar();
     } while (opcao != 0);
@@ -34,16 +34,20 @@ void menuEventosView(Sistema *sistema) {
 
 void listarEventosView(Sistema *sistema) {
     if (sistema->num_eventos == 0) {
-        printf("Nenhum evento.\n"); return;
+        printf("Nenhum evento cadastrado.\n"); 
+        return;
     }
     printf("\n--- Lista de Eventos ---\n");
     for (int i = 0; i < sistema->num_eventos; i++) {
         Evento *e = &sistema->lista_eventos[i];
-        char st[20];
-        if(e->status == 0) sprintf(st, "Orcamento");
-        else if(e->status == 1) sprintf(st, "Aprovado");
-        else sprintf(st, "Finalizado");
+        char status_texto[20];
         
-        printf("#%d | %s | %s | %s\n", e->codigo, e->nome_evento, e->data_inicio, st);
+        // Traduz o status pra texto
+        if(e->status == 0) sprintf(status_texto, "Orcamento");
+        else if(e->status == 1) sprintf(status_texto, "Aprovado");
+        else sprintf(status_texto, "Finalizado");
+        
+        printf("#%d | %s | Inicio: %s | Status: %s\n", e->codigo, e->nome_evento, e->data_inicio, status_texto);
+        printf("    -> Custo Previsto: R$ %.2f\n", e->custo_total_previsto);
     }
 }
