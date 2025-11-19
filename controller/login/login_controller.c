@@ -2,39 +2,37 @@
 #include <stdio.h>
 #include <string.h>
 #include "model/sistema.h"
-#include "controller/operador/operador_controller.h" // Para adicionar o primeiro operador
-#include "utils/utils.h"         // Para limpar_buffer, limpar_tela
-#include "utils/validation.h"    // Para ler_texto_valido
+#include "controller/operador/operador_controller.h" 
+#include "utils/utils.h"      
+#include "utils/validation.h"   
 
-// Função auxiliar para buscar um operador pelo usuário (pode ser movida para operador_controller se preferir)
+// Busca simples do operador
 static Operador* buscarOperadorPorUsuario(Sistema *sistema, const char *usuario) {
     for (int i = 0; i < sistema->num_operadores; i++) {
-        // strcmp retorna 0 se as strings forem iguais
         if (strcmp(sistema->lista_operadores[i].usuario, usuario) == 0) {
-            return &sistema->lista_operadores[i]; // Retorna o ponteiro para o operador encontrado
+            return &sistema->lista_operadores[i]; 
         }
     }
-    return NULL; // Retorna NULL se não encontrar
+    return NULL; 
 }
 
 int realizarLoginOperador(Sistema *sistema) {
-    // Caso 1: Nenhum operador cadastrado, força o cadastro do primeiro
+    // Se nao tiver ninguem cadastrado, obriga a criar o primeiro (Admin)
     if (sistema->num_operadores == 0) {
         limpar_tela();
         printf("+=====================================================+\n");
-        printf("|                PRIMEIRO ACESSO AO SISTEMA             |\n");
+        printf("|           PRIMEIRO ACESSO - CADASTRO                |\n");
         printf("+=====================================================+\n");
-        printf("| Nenhum operador encontrado. Cadastre o primeiro:    |\n");
+        printf("| Nenhum operador encontrado. Cadastre o primeiro.    |\n");
         printf("+=====================================================+\n\n");
-        adicionarOperadorController(sistema); // Chama a função existente para cadastrar
-        printf("\nPrimeiro operador cadastrado com sucesso!\n");
-        printf("Por favor, realize o login com as credenciais criadas.\n");
+        
+        // Isso chama o cadastro (que agora vai estar rapido tambem)
+        adicionarOperadorController(sistema); 
+        
+        printf("\nPrimeiro operador criado! Agora faca o login.\n");
         pausar();
-        // Após cadastrar, o sistema deve prosseguir para a tela de login normal
-        // (o fluxo continua abaixo)
     }
 
-    // Caso 2: Já existem operadores, solicita login
     char usuario_digitado[50];
     char senha_digitada[50];
     Operador *operador_encontrado;
@@ -46,24 +44,23 @@ int realizarLoginOperador(Sistema *sistema) {
         printf("+=====================================================+\n");
         printf("|                 LOGIN DO OPERADOR                   |\n");
         printf("+=====================================================+\n");
+        
+        // Fluxo rapido: Pergunta -> Digita -> Enter -> Proximo
         printf("Usuario: ");
         ler_texto_valido(usuario_digitado, sizeof(usuario_digitado), VALIDAR_NAO_VAZIO);
 
         printf("Senha: ");
-        // Para segurança básica, idealmente a senha não seria exibida.
-        // Implementar um sistema de asteriscos é mais complexo e depende do SO.
-        // Aqui, usamos a leitura simples por simplicidade.
         ler_texto_valido(senha_digitada, sizeof(senha_digitada), VALIDAR_NAO_VAZIO);
+        
         printf("+=====================================================+\n");
-
 
         operador_encontrado = buscarOperadorPorUsuario(sistema, usuario_digitado);
 
-        // Verifica se o operador foi encontrado E se a senha confere
+        // Verifica login
         if (operador_encontrado != NULL && strcmp(operador_encontrado->senha, senha_digitada) == 0) {
-            printf("\nLogin realizado com sucesso! Bem-vindo, %s.\n", operador_encontrado->nome);
+            printf("\nLogin realizado! Bem-vindo, %s.\n", operador_encontrado->nome);
             pausar();
-            return 1; // Sucesso no login
+            return 1; // Sucesso
         } else {
             tentativas++;
             printf("\nUsuario ou senha incorretos! Tentativa %d de %d.\n", tentativas, MAX_TENTATIVAS);
@@ -73,7 +70,7 @@ int realizarLoginOperador(Sistema *sistema) {
         }
     }
 
-    printf("\nNumero maximo de tentativas excedido. Encerrando o programa.\n");
+    printf("\nMuitas tentativas erradas. O sistema vai fechar.\n");
     pausar();
-    return 0; // Falha no login após tentativas
+    return 0; // Falha
 }

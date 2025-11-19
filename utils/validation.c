@@ -6,8 +6,6 @@
 
 // Funcao simples pra ler texto e nao deixar vazio
 int ler_texto_valido(char *buffer, int tamanho, TipoValidacao tipo) {
-    // Limpa buffer antes de ler pra garantir
-    limpar_buffer(); 
     fgets(buffer, tamanho, stdin);
     
     // Tira o \n do final

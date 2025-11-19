@@ -17,14 +17,15 @@
 void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
     limpar_tela();
-    printf("+=========================================+\n");
-    printf("|      ONDE SALVAR OS DADOS?              |\n");
-    printf("+=========================================+\n");
-    printf("| [1] Arquivo Binario (.dat - Padrao)     |\n");
-    printf("| [2] Arquivo Texto (.txt)                |\n");
-    printf("| [3] Apenas Memoria (Nao salva)          |\n");
-    printf("+=========================================+\n");
-    printf("Opcao: ");
+    printf("+=====================================================+\n");
+    printf("|              ONDE SALVAR OS DADOS?                  |\n");
+    printf("+=====================================================+\n");
+    printf("| [1] Arquivo Binario (.dat - Recomendado)            |\n");
+    printf("| [2] Arquivo Texto (.txt)                            |\n");
+    printf("| [3] Apenas Memoria (Nao salva ao fechar)            |\n");
+    printf("+=====================================================+\n");
+    printf("Escolha uma opcao: ");
+    
     scanf("%d", &opcao);
     limpar_buffer();
 
@@ -37,18 +38,20 @@ void menuGestaoDeDadosView(Sistema *sistema) {
     int opcao;
     do {
         limpar_tela();
-        printf("+=========================================+\n");
-        printf("|           CADASTROS E DADOS             |\n");
-        printf("+=========================================+\n");
-        printf("| [1] Produtora                           |\n");
-        printf("| [2] Clientes                            |\n");
-        printf("| [3] Equipe Interna                      |\n");
-        printf("| [4] Recursos (Equipamentos)             |\n");
-        printf("| [5] Fornecedores                        |\n");
-        printf("| [6] Operadores                          |\n");
-        printf("| [0] Voltar                              |\n");
-        printf("+=========================================+\n");
-        printf("Opcao: ");
+        printf("+=====================================================+\n");
+        printf("|               MENU CADASTROS E DADOS                |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Produtora (Dados da Empresa)                    |\n");
+        printf("| [2] Clientes                                        |\n");
+        printf("| [3] Equipe Interna (Funcionarios)                   |\n");
+        printf("| [4] Recursos (Equipamentos e Estoque)               |\n");
+        printf("| [5] Fornecedores e Parceiros                        |\n");
+        printf("| [6] Operadores do Sistema                           |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+        
         scanf("%d", &opcao);
         limpar_buffer();
 
@@ -60,7 +63,7 @@ void menuGestaoDeDadosView(Sistema *sistema) {
             case 5: menuFornecedoresView(sistema); break;
             case 6: menuOperadoresView(sistema); break;
             case 0: break;
-            default: printf("Invalido.\n"); pausar(); break;
+            default: printf("Opcao invalida.\n"); pausar(); break;
         }
     } while (opcao != 0);
 }
@@ -69,14 +72,16 @@ void menuImportarExportarView(Sistema *sistema) {
     int opcao;
     do {
         limpar_tela();
-        printf("+=========================================+\n");
-        printf("|          IMPORTAR / EXPORTAR            |\n");
-        printf("+=========================================+\n");
-        printf("| [1] Importar Dados (Carregar)           |\n");
-        printf("| [2] Converter (Binario <-> Texto)       |\n");
-        printf("| [0] Voltar                              |\n");
-        printf("+=========================================+\n");
-        printf("Opcao: ");
+        printf("+=====================================================+\n");
+        printf("|              MENU IMPORTAR / EXPORTAR               |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Importar Dados (Substitui atuais)               |\n");
+        printf("| [2] Converter Arquivos (Binario <-> Texto)          |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+        
         scanf("%d", &opcao);
         limpar_buffer();
 
@@ -84,7 +89,7 @@ void menuImportarExportarView(Sistema *sistema) {
             case 1: importarDadosDeOutroFormatoController(sistema); pausar(); break;
             case 2: transferirDadosDeArmazenamento(sistema); pausar(); break;
             case 0: break;
-            default: printf("Invalido.\n"); pausar(); break;
+            default: printf("Opcao invalida.\n"); pausar(); break;
         }
     } while (opcao != 0);
 }
@@ -93,17 +98,19 @@ void menuPrincipalView(Sistema *sistema) {
     int opcao;
     do {
         limpar_tela();
-        printf("+=========================================+\n");
-        printf("|          SISTEMA DE EVENTOS             |\n");
-        printf("+=========================================+\n");
-        printf("| [1] Gestao de Dados                     |\n");
-        printf("| [2] Eventos (Orcamentos)                |\n");
-        printf("| [3] Financeiro (Transacoes)             |\n");
-        printf("| [4] Relatorios (Futuro)                 |\n");
-        printf("| [5] Importar/Exportar                   |\n");
-        printf("| [0] Sair                                |\n");
-        printf("+=========================================+\n");
-        printf("Opcao: ");
+        printf("+=====================================================+\n");
+        printf("|             SISTEMA DE GESTAO DE EVENTOS            |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Gestao de Cadastros (Clientes, Equipe...)       |\n");
+        printf("| [2] Eventos (Orcamentos e Aprovacao)                |\n");
+        printf("| [3] Financeiro (Caixa e Contas)                     |\n");
+        printf("| [4] Relatorios (Em breve)                           |\n");
+        printf("| [5] Importar/Exportar Dados                         |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Sair do Sistema                                 |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+        
         scanf("%d", &opcao);
         limpar_buffer();
 
@@ -113,8 +120,8 @@ void menuPrincipalView(Sistema *sistema) {
             case 3: menuTransacoesView(sistema); break;
             case 4: printf("Disponivel na proxima entrega.\n"); pausar(); break;
             case 5: menuImportarExportarView(sistema); break;
-            case 0: printf("Saindo...\n"); break;
-            default: printf("Invalido.\n"); pausar(); break;
+            case 0: printf("Saindo do sistema... Ate logo!\n"); break;
+            default: printf("Opcao invalida.\n"); pausar(); break;
         }
     } while (opcao != 0);
 }

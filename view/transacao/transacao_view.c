@@ -7,16 +7,18 @@ void menuTransacoesView(Sistema *sistema) {
     int opcao;
     do {
         limpar_tela();
-        printf("+=====================================+\n");
-        printf("|      MENU FINANCEIRO / COMPRAS      |\n");
-        printf("+=====================================+\n");
-        printf("| [1] Registrar Compra de Equipamento |\n");
-        printf("| [2] Gerenciar Contas a Receber      |\n");
-        printf("| [3] Gerenciar Contas a Pagar        |\n");
-        printf("| [4] Ver Saldo do Caixa              |\n");
-        printf("| [0] Voltar                          |\n");
-        printf("+=====================================+\n");
-        printf("Opcao: ");
+        printf("+=====================================================+\n");
+        printf("|               MENU FINANCEIRO / COMPRAS             |\n");
+        printf("+=====================================================+\n");
+        printf("| [1] Registrar Compra (Nota Fiscal)                  |\n");
+        printf("| [2] Gerenciar Contas a Receber                      |\n");
+        printf("| [3] Gerenciar Contas a Pagar                        |\n");
+        printf("| [4] Ver Saldo do Caixa                              |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [0] Voltar                                          |\n");
+        printf("+=====================================================+\n");
+        printf("Escolha uma opcao: ");
+        
         scanf("%d", &opcao);
         limpar_buffer();
 

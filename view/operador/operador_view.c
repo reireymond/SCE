@@ -1,16 +1,11 @@
-// da view de operador, que contém as declarações das funções
 #include "operador_view.h"
 #include <stdio.h>
 #include "utils/utils.h"
-// do controller de operador para poder chamar as funções que
 #include "controller/operador/operador_controller.h"
 
-// exibe e gerencia o menu de operadores.
 void menuOperadoresView(Sistema *sistema) {
     int opcao;
-   
     do {
-        // Limpa a tela antes de exibir o menu antes.
        limpar_tela();
         printf("+=====================================================+\n");
         printf("|             MENU OPERADORES DO SISTEMA              |\n");
@@ -23,49 +18,32 @@ void menuOperadoresView(Sistema *sistema) {
         printf("| [0] Voltar                                          |\n");
         printf("+=====================================================+\n");
         printf("Escolha uma opcao: ");
-        // Lê a opção digitada pelo usuário.
+        
         scanf("%d", &opcao);
-        // 
         limpar_buffer();
 
-        // Um 'switch' direciona o fluxo do programa com base na opção do usuário.
         switch (opcao) {
-            // Cada caso chama a função do controller correspondente para executar a ação.
             case 1: adicionarOperadorController(sistema); break;
             case 2: alterarOperadorController(sistema); break;
             case 3: listarOperadoresView(sistema); break;
             case 4: excluirOperadorController(sistema); break;
-            case 0: break; // A opção 0 simplesmente encerra o loop.
+            case 0: break;
             default: printf("\nOpcao invalida!\n"); break;
         }
-        // Se a opção não for 0 (sair), pausa a execução para que o usuário possa
         if (opcao != 0) pausar();
     } while (opcao != 0);
 }
 
-// exibe a lista de operadores.
 void listarOperadoresView(Sistema *sistema) {
-    // Verifica se há operadores cadastrados. Se não houver, exibe uma mensagem.
     if (sistema->num_operadores == 0) {
         printf("\nNenhum operador cadastrado.\n");
-        return; // Retorna para a função anterior (o menu).
+        return;
     }
-    // Imprime o cabeçalho da lista.
-printf("+=====================================================+\n");
-printf("|               LISTA DE OPERADORES                   |\n");
-printf("+=====================================================+\n");
-
-if (sistema->num_operadores == 0) {
-    printf("| Nenhum operador cadastrado.                        |\n");
-} else {
+    printf("\n--- Lista de Operadores ---\n");
     for (int i = 0; i < sistema->num_operadores; i++) {
-        printf("+-----------------------------------------------------+\n");
-        printf("| Codigo : %-42d \n", sistema->lista_operadores[i].codigo);
-        printf("| Nome   : %-42s \n", sistema->lista_operadores[i].nome);
-        printf("| Usuario: %-42s \n", sistema->lista_operadores[i].usuario);
+        printf("ID: %d | Nome: %s | Usuario: %s\n", 
+               sistema->lista_operadores[i].codigo,
+               sistema->lista_operadores[i].nome,
+               sistema->lista_operadores[i].usuario);
     }
-}
-
-        printf("+=====================================================+\n");
-
 }
