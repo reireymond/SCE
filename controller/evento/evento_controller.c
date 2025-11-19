@@ -12,27 +12,39 @@
 #include "view/equipe_interna/equipe_interna_view.h"
 #include "controller/transacao/transacao_controller.h"
 
-// Ajuda a comparar datas transformando texto "01/01/2025" em numero 20250101
-int transformarDataEmNumero(char* data) {
-    int dia, mes, ano;
-    // Tenta ler os numeros da data
-    if(sscanf(data, "%d/%d/%d", &dia, &mes, &ano) != 3) return 0;
-    // Matematica pra virar um numero so (AnoMesDia)
-    return (ano * 10000) + (mes * 100) + dia;
+// Ajuda a comparar data e hora juntas transformando tudo num numerão
+// Ex: Data 01/01/2025 e Hora 14:30 vira -> 202501011430
+// Assim fica facil saber se um evento comeca antes ou depois do outro
+long long transformarDataHoraEmNumero(char* data, char* hora) {
+    int dia, mes, ano, h, m;
+    // Zera tudo pra garantir que não tenha lixo de memoria
+    dia=0; mes=0; ano=0; h=0; m=0;
+    
+    // Le os numeros das strings
+    sscanf(data, "%d/%d/%d", &dia, &mes, &ano);
+    sscanf(hora, "%d:%d", &h, &m);
+    
+    // Matematica: multiplica pra jogar cada um na sua casa decimal correta (AnoMesDiaHoraMinuto)
+    long long resultado = (long long)ano * 100000000; // 202500000000
+    resultado += mes * 1000000;                       // 202501000000
+    resultado += dia * 10000;                         // 202501010000
+    resultado += h * 100;                             // 202501011400
+    resultado += m;                                   // 202501011430
+    
+    return resultado;
 }
 
 void adicionarEventoController(Sistema *sistema) {
-    // Verifica se precisa aumentar a lista de eventos
+    // Verifica se precisa aumentar a lista de eventos na memoria
     if (sistema->num_eventos == sistema->capacidade_eventos) {
         int nova_capacidade = (sistema->capacidade_eventos == 0) ? 10 : sistema->capacidade_eventos * 2;
-        // Realoca memoria pra caber mais
         sistema->lista_eventos = realloc(sistema->lista_eventos, nova_capacidade * sizeof(Evento));
         sistema->capacidade_eventos = nova_capacidade;
     }
 
-    // Pega o proximo espaco vazio
+    // Pega o ponteiro pro proximo espaco vazio
     Evento *novo = &sistema->lista_eventos[sistema->num_eventos];
-    // Limpa o lixo de memoria
+    // Limpa a memoria pra nao ter lixo antigo
     memset(novo, 0, sizeof(Evento));
     
     novo->codigo = sistema->num_eventos + 1;
@@ -43,7 +55,7 @@ void adicionarEventoController(Sistema *sistema) {
     printf("Nome do Evento: "); 
     ler_texto_valido(novo->nome_evento, 150, VALIDAR_NAO_VAZIO);
     
-    // Mostra clientes pra facilitar
+    // Mostra clientes pra facilitar a escolha
     listarClientesView(sistema);
     printf("Codigo do Cliente: "); 
     ler_inteiro_valido(&novo->codigo_cliente, 1, 99999);
@@ -51,8 +63,16 @@ void adicionarEventoController(Sistema *sistema) {
     printf("Data Inicio (DD/MM/AAAA): "); 
     ler_texto_valido(novo->data_inicio, 12, VALIDAR_DATA);
     
+    // Pede a hora de inicio
+    printf("Hora Inicio (HH:MM): "); 
+    ler_texto_valido(novo->hora_inicio, 6, VALIDAR_NAO_VAZIO);
+    
     printf("Data Fim (DD/MM/AAAA): "); 
     ler_texto_valido(novo->data_fim, 12, VALIDAR_DATA);
+    
+    // Pede a hora de fim
+    printf("Hora Fim (HH:MM): "); 
+    ler_texto_valido(novo->hora_fim, 6, VALIDAR_NAO_VAZIO);
     
     printf("Local do Evento: "); 
     ler_texto_valido(novo->local, 150, VALIDAR_NAO_VAZIO);
@@ -70,7 +90,7 @@ void adicionarEventoController(Sistema *sistema) {
         scanf("%d", &codigo_recurso);
         limpar_buffer();
         
-        // Procura o recurso na lista
+        // Procura o recurso na lista geral
         Recurso *recurso_encontrado = NULL;
         for(int i=0; i < sistema->num_recursos; i++) {
             if(sistema->lista_recursos[i].codigo == codigo_recurso) {
@@ -86,7 +106,7 @@ void adicionarEventoController(Sistema *sistema) {
             // Aumenta a lista de recursos DENTRO do evento
             novo->lista_recursos_alocados = realloc(novo->lista_recursos_alocados, (novo->num_recursos_alocados + 1) * sizeof(ItemRecursoEvento));
             
-            // Preenche os dados do item
+            // Preenche os dados do item no evento
             ItemRecursoEvento *item = &novo->lista_recursos_alocados[novo->num_recursos_alocados];
             item->codigo_recurso = recurso_encontrado->codigo;
             item->quantidade = quantidade;
@@ -142,7 +162,7 @@ void adicionarEventoController(Sistema *sistema) {
         limpar_buffer();
     }
 
-    // Tudo pronto, salva
+    // Tudo pronto, salva no arquivo
     sistema->num_eventos++;
     salvarEventos(sistema);
     printf("\nOrcamento criado com sucesso! Valor Previsto: R$ %.2f\n", novo->custo_total_previsto);
@@ -167,9 +187,12 @@ void alterarStatusEventoController(Sistema *sistema) {
         return; 
     }
 
-    printf("Verificando se tem estoque nas datas...\n");
-    int data_inicio_int = transformarDataEmNumero(evento->data_inicio);
-    int data_fim_int = transformarDataEmNumero(evento->data_fim);
+    printf("Verificando se tem estoque nas datas e horas...\n");
+    
+    // Calcula inicio e fim deste evento usando a funcao nova
+    long long inicio_atual = transformarDataHoraEmNumero(evento->data_inicio, evento->hora_inicio);
+    long long fim_atual = transformarDataHoraEmNumero(evento->data_fim, evento->hora_fim);
+    
     int tem_conflito = 0;
 
     // Passa por cada recurso que o evento quer usar
@@ -178,25 +201,28 @@ void alterarStatusEventoController(Sistema *sistema) {
         int qtd_pedida = evento->lista_recursos_alocados[i].quantidade;
         int estoque_total = 0;
         
-        // Acha quanto tem no total desse recurso
+        // Acha quanto tem no total desse recurso no estoque geral
         for(int k=0; k < sistema->num_recursos; k++) {
             if(sistema->lista_recursos[k].codigo == codigo_rec) {
                 estoque_total = sistema->lista_recursos[k].quantidade_estoque;
             }
         }
         
-        // Vê quanto ja ta sendo usado por OUTROS eventos aprovados na mesma data
+        // Vê quanto ja ta sendo usado por OUTROS eventos aprovados na mesma data/hora
         int qtd_usada = 0;
         for(int j=0; j < sistema->num_eventos; j++) {
             Evento *outro = &sistema->lista_eventos[j];
-            // So olha eventos aprovados e que nao sao esse mesmo
+            // So olha eventos que ja estao APROVADOS e que nao sao esse mesmo que estamos tentando aprovar
             if(outro->status == APROVADO && outro->codigo != evento->codigo) {
-                int outro_inicio = transformarDataEmNumero(outro->data_inicio);
-                int outro_fim = transformarDataEmNumero(outro->data_fim);
                 
-                // Verifica se as datas batem (intersecao)
-                if(data_inicio_int <= outro_fim && data_fim_int >= outro_inicio) {
-                    // Se bate a data, soma os recursos que ele usa
+                // Calcula inicio e fim do outro evento
+                long long inicio_outro = transformarDataHoraEmNumero(outro->data_inicio, outro->hora_inicio);
+                long long fim_outro = transformarDataHoraEmNumero(outro->data_fim, outro->hora_fim);
+                
+                // Verifica se os horarios batem (intersecao de tempo)
+                // Logica: Se (Inicio A <= Fim B) E (Fim A >= Inicio B), eles se cruzam
+                if(inicio_atual <= fim_outro && fim_atual >= inicio_outro) {
+                    // Se bate o horario, soma os recursos que ele usa
                     for(int r=0; r < outro->num_recursos_alocados; r++) {
                         if(outro->lista_recursos_alocados[r].codigo_recurso == codigo_rec) {
                             qtd_usada += outro->lista_recursos_alocados[r].quantidade;
@@ -208,8 +234,8 @@ void alterarStatusEventoController(Sistema *sistema) {
 
         // Verifica se sobra estoque
         if (qtd_pedida > (estoque_total - qtd_usada)) {
-            printf("ERRO: Recurso ID %d nao tem estoque suficiente pra essa data!\n", codigo_rec);
-            printf("Total: %d, Usado na data: %d, Pedido: %d\n", estoque_total, qtd_usada, qtd_pedida);
+            printf("ERRO: Recurso ID %d sem estoque no horario %s as %s!\n", codigo_rec, evento->hora_inicio, evento->hora_fim);
+            printf("Estoque Total: %d, Usado na hora: %d, Pedido: %d\n", estoque_total, qtd_usada, qtd_pedida);
             tem_conflito = 1; 
             break; // Para tudo se der erro
         }
@@ -220,7 +246,7 @@ void alterarStatusEventoController(Sistema *sistema) {
         salvarEventos(sistema);
         printf("Tudo certo! Evento APROVADO.\n");
     } else {
-        printf("Nao foi possivel aprovar por falta de estoque nas datas.\n");
+        printf("Nao foi possivel aprovar por falta de estoque neste horario.\n");
     }
 }
 
@@ -265,7 +291,7 @@ void finalizarEventoController(Sistema *sistema) {
     // Salva a conta
     registrarTransacao(sistema, t);
     
-    // Atualiza o evento
+    // Atualiza o evento para finalizado
     e->status = FINALIZADO;
     salvarEventos(sistema);
     
