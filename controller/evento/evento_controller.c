@@ -69,13 +69,13 @@ void adicionarEventoController(Sistema *sistema) {
     ler_texto_valido(novo->data_inicio, 12, VALIDAR_DATA);
     
     printf("Hora Inicio (HH:MM): "); 
-    ler_texto_valido(novo->hora_inicio, 6, VALIDAR_NAO_VAZIO);
+    ler_texto_valido(novo->hora_inicio, 10, VALIDAR_NAO_VAZIO);
     
     printf("Data Fim (DD/MM/AAAA): "); 
     ler_texto_valido(novo->data_fim, 12, VALIDAR_DATA);
     
     printf("Hora Fim (HH:MM): "); 
-    ler_texto_valido(novo->hora_fim, 6, VALIDAR_NAO_VAZIO);
+    ler_texto_valido(novo->hora_fim, 10, VALIDAR_NAO_VAZIO);
     
     printf("Local do Evento: "); 
     ler_texto_valido(novo->local, 150, VALIDAR_NAO_VAZIO);
