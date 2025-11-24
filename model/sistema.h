@@ -79,6 +79,12 @@ typedef struct {
     float custo_diaria_momento;
 } ItemEquipeEvento;
 
+// Estrutura pro fornecedor dentro do evento
+typedef struct {
+    int codigo_fornecedor;
+    float valor_cobrado; // Quanto custou esse servico
+} ItemFornecedorEvento;
+
 // --- ESTRUTURAS PRINCIPAIS (EVENTO E TRANSACAO) ---
 typedef struct {
     int codigo;
@@ -98,6 +104,10 @@ typedef struct {
     
     ItemEquipeEvento *lista_equipe_alocada;
     int num_equipe_alocada;
+
+    //Lista de fornecedores no evento
+    ItemFornecedorEvento *lista_fornecedores_alocados;
+    int num_fornecedores_alocados;
 
     float custo_total_previsto;
     float valor_final_faturado;
