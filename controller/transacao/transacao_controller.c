@@ -7,170 +7,242 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-// Registra transação e salva no disco
+// Funcao interna pra salvar uma transacao nova
 void registrarTransacao(Sistema *sistema, Transacao t) {
     if (sistema->num_transacoes == sistema->capacidade_transacoes) {
-        int nova_cap = (sistema->capacidade_transacoes == 0) ? 10 : sistema->capacidade_transacoes * 2;
-        sistema->lista_transacoes = realloc(sistema->lista_transacoes, nova_cap * sizeof(Transacao));
-        sistema->capacidade_transacoes = nova_cap;
+        int nova = (sistema->capacidade_transacoes == 0) ? 10 : sistema->capacidade_transacoes * 2;
+        Transacao *temp = realloc(sistema->lista_transacoes, nova * sizeof(Transacao));
+        if (temp == NULL) {
+            printf("Erro de alocacao de memoria para transacoes!\n");
+            return;
+        }
+        sistema->lista_transacoes = temp;
+        sistema->capacidade_transacoes = nova;
     }
     t.codigo = sistema->num_transacoes + 1;
-    sistema->lista_transacoes[sistema->num_transacoes++] = t;
+    // Guarda na lista
+    sistema->lista_transacoes[sistema->num_transacoes] = t;
+    sistema->num_transacoes++;
     salvarTransacoes(sistema);
 }
 
-// Lista transações filtradas por tipo e retorna se achou alguma
-int listarTransacoesPorTipo(Sistema *sistema, TipoTransacao tipo, const char* titulo) {
-    printf("\n=== %s ===\n", titulo);
-    int achou = 0;
-    for(int i = 0; i < sistema->num_transacoes; i++) {
-        if(sistema->lista_transacoes[i].tipo == tipo) {
-             Transacao *t = &sistema->lista_transacoes[i];
-             printf("ID: %d | R$ %8.2f | Vence: %-10s | %s | %s\n", 
-                t->codigo, t->valor, t->data_vencimento, 
-                (t->status == PAGA ? "PAGA" : "PENDENTE"), t->descricao);
-             achou = 1;
-        }
-    }
-    if(!achou) printf("Nenhum registro encontrado.\n");
-    return achou;
-}
-
-// --- CONTROLLERS ---
-
 void lancarAquisicaoController(Sistema *sistema) {
-    if (!sistema->dados_produtora) { printf("Erro: Cadastre a Produtora primeiro.\n"); return; }
-
-    printf("\n=== NOVA COMPRA (NOTA FISCAL) ===\n");
-    float frete, imposto, total_prod = 0;
-    int qtd_itens;
-
-    printf("Frete Total: R$ "); ler_float_positivo(&frete);
-    printf("Impostos Total: R$ "); ler_float_positivo(&imposto);
-    printf("Qtd. Itens Diferentes: "); ler_inteiro_valido(&qtd_itens, 1, 100);
-
-    //  Aloca memória para TODOS os itens de uma vez só
-    if (sistema->num_recursos + qtd_itens > sistema->capacidade_recursos) {
-        sistema->capacidade_recursos += (qtd_itens + 10);
-        sistema->lista_recursos = realloc(sistema->lista_recursos, sistema->capacidade_recursos * sizeof(Recurso));
+    // Precisa da produtora cadastrada pra pegar a margem de lucro
+    if (!sistema->dados_produtora) {
+        printf("Erro: Cadastre a Produtora primeiro pra saber a margem de lucro.\n"); 
+        return;
     }
 
-    float taxas_por_item = (frete + imposto) / qtd_itens;
+    printf("\n=== REGISTRAR COMPRA (NOTA FISCAL) ===\n");
+    float frete_total, imposto_total;
+    int qtd_itens_diferentes;
 
-    for(int i = 0; i < qtd_itens; i++) {
-        Recurso *r = &sistema->lista_recursos[sistema->num_recursos];
-        r->codigo = sistema->num_recursos + 1;
+    printf("Valor Total do Frete na Nota: R$ "); 
+    ler_float_positivo(&frete_total);
+    
+    printf("Valor Total de Impostos: R$ "); 
+    ler_float_positivo(&imposto_total);
+    
+    printf("Quantos produtos diferentes tem na nota? "); 
+    ler_inteiro_valido(&qtd_itens_diferentes, 1, 100);
 
-        printf("\n-- Item %d --\n", i+1);
-        printf("Descricao: "); ler_texto_valido(r->descricao, 150, VALIDAR_NAO_VAZIO);
-        printf("Categoria: "); ler_texto_valido(r->categoria, 50, VALIDAR_NAO_VAZIO);
-        printf("Qtd: "); ler_inteiro_valido(&r->quantidade_estoque, 1, 10000);
-        printf("Custo Unit.: R$ "); ler_float_positivo(&r->preco_custo);
+    // Divide frete e imposto igual pra todos (rateio simples)
+    float frete_por_item = frete_total / qtd_itens_diferentes;
+    float imposto_por_item = imposto_total / qtd_itens_diferentes;
 
-        total_prod += (r->preco_custo * r->quantidade_estoque);
+    // Loop pra cadastrar cada item da nota
+    for(int i=0; i < qtd_itens_diferentes; i++) {
+        printf("\n--- Produto %d ---\n", i+1);
         
-        // Custo final e Preço Locação
-        float custo_final = r->preco_custo + (taxas_por_item / r->quantidade_estoque);
-        r->valor_locacao = custo_final * (1.0 + (sistema->dados_produtora->margem_lucro / 100.0));
+        // Aumenta vetor de recursos se precisar
+        if (sistema->num_recursos == sistema->capacidade_recursos) {
+             int nova_cap = (sistema->capacidade_recursos == 0) ? 10 : sistema->capacidade_recursos + 10;
+             Recurso *temp = realloc(sistema->lista_recursos, nova_cap * sizeof(Recurso));
+             if (temp == NULL) {
+                 printf("Erro de memoria!\n");
+                 return;
+             }
+             sistema->lista_recursos = temp;
+             sistema->capacidade_recursos = nova_cap;
+        }
+        
+        Recurso *novo = &sistema->lista_recursos[sistema->num_recursos];
+        novo->codigo = sistema->num_recursos + 1;
+
+        printf("Descricao do Equipamento: "); 
+        ler_texto_valido(novo->descricao, 150, VALIDAR_NAO_VAZIO);
+        
+        printf("Categoria (Ex: Som, Luz): "); 
+        ler_texto_valido(novo->categoria, 50, VALIDAR_NAO_VAZIO);
+        
+        printf("Quantidade comprada: "); 
+        ler_inteiro_valido(&novo->quantidade_estoque, 1, 1000);
+        
+        printf("Preco de Custo (Unitario): R$ "); 
+        ler_float_positivo(&novo->preco_custo);
+
+        // CALCULO DO PRECO DE ALUGUEL
+        // Custo final = Custo + (Frete rateado / qtd) + (Imposto rateado / qtd)
+        float custo_unitario_final = novo->preco_custo + (frete_por_item / novo->quantidade_estoque) + (imposto_por_item / novo->quantidade_estoque);
+        
+        // Calculo da locacao baseado na margem
+        novo->valor_locacao = custo_unitario_final * (sistema->dados_produtora->margem_lucro / 100.0);
+
+        printf("-> Valor de Locacao Calculado (Baseado na margem): R$ %.2f\n", novo->valor_locacao);
         
         sistema->num_recursos++;
     }
     salvarRecursos(sistema);
+    
+    // Pergunta como vai pagar a compra dos equipamentos
+    int tipo_pagamento;
+    printf("\nComo deseja pagar essa compra?\n");
+    printf("1. A Vista (Sai do Caixa agora)\n");
+    printf("2. A Prazo (Gera Conta a Pagar)\n");
+    printf("Opcao: ");
+    ler_inteiro_valido(&tipo_pagamento, 1, 2);
 
-    float total_nota = total_prod + frete + imposto;
-    printf("\nTOTAL NOTA: R$ %.2f\n1. A Vista\n2. A Prazo\nOpcao: ", total_nota);
-    int op; ler_inteiro_valido(&op, 1, 2);
-
-    // Lógica de Pagamento
-    float entrada = 0;
-    if (op == 2) { // A Prazo
-        printf("Valor da Entrada (0 se nao houver): R$ ");
-        scanf("%f", &entrada); limpar_buffer();
-    } else { // A Vista
-        entrada = total_nota; // Trata tudo como entrada imediata
-    }
-
-    // Processa Pagamento Imediato (Entrada ou Total à vista)
-    if (entrada > 0) {
-        if (sistema->saldo_caixa >= entrada) {
-            sistema->saldo_caixa -= entrada;
-            Transacao t = {0};
-            t.tipo = CONTA_A_PAGAR; t.status = PAGA; t.valor = entrada;
-            strcpy(t.descricao, op == 1 ? "Compra A Vista" : "Entrada Compra");
-            printf("Data Pagamento: "); ler_texto_valido(t.data_pagamento, 12, VALIDAR_DATA);
-            strcpy(t.data_vencimento, t.data_pagamento);
-            registrarTransacao(sistema, t);
-            printf("Debitado R$ %.2f do Caixa.\n", entrada);
+    Transacao t;
+    memset(&t, 0, sizeof(Transacao));
+    t.tipo = CONTA_A_PAGAR;
+    
+    printf("\nValor Total da Nota para Pagar: R$ "); 
+    ler_float_positivo(&t.valor);
+    
+    printf("Descricao da conta: "); 
+    ler_texto_valido(t.descricao, 100, VALIDAR_NAO_VAZIO);
+    
+    if (tipo_pagamento == 1) {
+        // Se for a vista, verifica se tem dinheiro
+        if (sistema->saldo_caixa >= t.valor) {
+            sistema->saldo_caixa -= t.valor;
+            t.status = PAGA; 
+            printf("Data do Pagamento (Hoje): ");
+            ler_texto_valido(t.data_pagamento, 12, VALIDAR_DATA);
+            strcpy(t.data_vencimento, t.data_pagamento); // Vencimento igual pagamento
+            printf("Pagamento realizado com sucesso! Saiu do caixa.\n");
         } else {
-            printf("Erro: Saldo insuficiente (Tem: %.2f) para pagar R$ %.2f agora.\n", sistema->saldo_caixa, entrada);
-            if(op == 1) return; // Se era a vista, cancela. Se prazo, continua parcelas.
+            printf("ERRO: Sem dinheiro no caixa! Vai ficar como PENDENTE.\n");
+            t.status = PENDENTE;
+            printf("Data de Vencimento: "); 
+            ler_texto_valido(t.data_vencimento, 12, VALIDAR_DATA);
         }
+    } else {
+        // A prazo
+        t.status = PENDENTE;
+        printf("Data de Vencimento: "); 
+        ler_texto_valido(t.data_vencimento, 12, VALIDAR_DATA);
     }
-
-    // Processa Parcelas (Restante)
-    float restante = total_nota - entrada;
-    if (restante > 0) {
-        int parcelas;
-        printf("Qtd Parcelas para R$ %.2f: ", restante); ler_inteiro_valido(&parcelas, 1, 48);
-        char vencto[15];
-        printf("1o Vencimento: "); ler_texto_valido(vencto, 12, VALIDAR_DATA);
-
-        float valor_p = restante / parcelas;
-        for(int p=1; p<=parcelas; p++) {
-            Transacao t = {0};
-            t.tipo = CONTA_A_PAGAR; t.status = PENDENTE; t.valor = valor_p;
-            sprintf(t.descricao, "Parc %d/%d Compra", p, parcelas);
-            strcpy(t.data_vencimento, (p==1 ? vencto : "Ver Detalhes"));
-            registrarTransacao(sistema, t);
-        }
-        printf("%d parcelas geradas.\n", parcelas);
-    }
+    
+    registrarTransacao(sistema, t);
+    printf("Compra registrada e estoque atualizado!\n");
 }
 
 void gerenciarContasReceberController(Sistema *sistema) {
-    if(!listarTransacoesPorTipo(sistema, CONTA_A_RECEBER, "CONTAS A RECEBER")) return;
+    printf("\n=== CONTAS A RECEBER ===\n");
+    int achou = 0;
+    for(int i=0; i < sistema->num_transacoes; i++) {
+        if(sistema->lista_transacoes[i].tipo == CONTA_A_RECEBER) {
+             char *status_txt = (sistema->lista_transacoes[i].status == PAGA) ? "PAGA" : "PENDENTE";
+             printf("ID: %d | %s | R$ %.2f | Vence: %s | Status: %s\n", 
+                sistema->lista_transacoes[i].codigo, 
+                sistema->lista_transacoes[i].descricao, 
+                sistema->lista_transacoes[i].valor, 
+                sistema->lista_transacoes[i].data_vencimento,
+                status_txt);
+             achou = 1;
+        }
+    }
     
-    int id; printf("\nID para RECEBER (0 sair): "); scanf("%d", &id); limpar_buffer();
-    if(id == 0) return;
+    if(achou == 0) {
+        printf("Nenhuma conta a receber.\n");
+        return;
+    }
+    
+    int cod;
+    printf("\nDigite o ID para RECEBER (ou 0 para sair): "); 
+    scanf("%d", &cod);
+    limpar_buffer();
+    
+    if(cod == 0) return;
 
     for(int i=0; i < sistema->num_transacoes; i++) {
-        Transacao *t = &sistema->lista_transacoes[i];
-        if(t->codigo == id && t->tipo == CONTA_A_RECEBER && t->status == PENDENTE) {
-            t->status = PAGA;
-            printf("Data Receb.: "); ler_texto_valido(t->data_pagamento, 12, VALIDAR_DATA);
-            sistema->saldo_caixa += t->valor;
+        if(sistema->lista_transacoes[i].codigo == cod) {
+            if(sistema->lista_transacoes[i].tipo != CONTA_A_RECEBER) {
+                printf("Isso nao e conta a receber.\n"); 
+                return;
+            }
+            if(sistema->lista_transacoes[i].status == PAGA) {
+                printf("Esta conta ja foi paga.\n");
+                return;
+            }
+            sistema->lista_transacoes[i].status = PAGA;
+            // Entra dinheiro no caixa
+            sistema->saldo_caixa += sistema->lista_transacoes[i].valor;
             salvarTransacoes(sistema);
-            printf("Recebido! Saldo Atual: %.2f\n", sistema->saldo_caixa);
+            printf("Recebido com sucesso! Caixa atualizado.\n");
             return;
         }
     }
-    printf("ID invalido ou ja pago.\n");
+    printf("Conta nao encontrada.\n");
 }
 
 void gerenciarContasPagarController(Sistema *sistema) {
-    if(!listarTransacoesPorTipo(sistema, CONTA_A_PAGAR, "CONTAS A PAGAR")) return;
+    printf("\n=== CONTAS A PAGAR ===\n");
+    int achou = 0;
+    for(int i=0; i < sistema->num_transacoes; i++) {
+        if(sistema->lista_transacoes[i].tipo == CONTA_A_PAGAR) {
+             char *status_txt = (sistema->lista_transacoes[i].status == PAGA) ? "PAGA" : "PENDENTE";
+             printf("ID: %d | %s | R$ %.2f | Vence: %s | Status: %s\n", 
+                sistema->lista_transacoes[i].codigo, 
+                sistema->lista_transacoes[i].descricao, 
+                sistema->lista_transacoes[i].valor, 
+                sistema->lista_transacoes[i].data_vencimento,
+                status_txt);
+             achou = 1;
+        }
+    }
 
-    int id; printf("\nID para PAGAR (0 sair): "); scanf("%d", &id); limpar_buffer();
-    if(id == 0) return;
+    if(achou == 0) {
+        printf("Nenhuma conta a pagar.\n");
+        return;
+    }
+    
+    int cod;
+    printf("\nDigite o ID para PAGAR (ou 0 para sair): "); 
+    scanf("%d", &cod);
+    limpar_buffer();
+    
+    if(cod == 0) return;
 
     for(int i=0; i < sistema->num_transacoes; i++) {
-        Transacao *t = &sistema->lista_transacoes[i];
-        if(t->codigo == id && t->tipo == CONTA_A_PAGAR && t->status == PENDENTE) {
-            if(sistema->saldo_caixa >= t->valor) {
-                t->status = PAGA;
-                printf("Data Pagto: "); ler_texto_valido(t->data_pagamento, 12, VALIDAR_DATA);
-                sistema->saldo_caixa -= t->valor;
+        if(sistema->lista_transacoes[i].codigo == cod) {
+            if(sistema->lista_transacoes[i].tipo != CONTA_A_PAGAR) {
+                printf("Isso nao e conta a pagar.\n"); 
+                return;
+            }
+             if(sistema->lista_transacoes[i].status == PAGA) {
+                printf("Esta conta ja foi paga.\n");
+                return;
+            }
+            // Verifica se tem dinheiro
+            if(sistema->saldo_caixa >= sistema->lista_transacoes[i].valor) {
+                sistema->lista_transacoes[i].status = PAGA;
+                // Tira dinheiro do caixa
+                sistema->saldo_caixa -= sistema->lista_transacoes[i].valor;
                 salvarTransacoes(sistema);
-                printf("Pago! Saldo Atual: %.2f\n", sistema->saldo_caixa);
+                printf("Conta paga! Caixa atualizado.\n");
             } else {
-                printf("Sem saldo! Precisa: %.2f | Tem: %.2f\n", t->valor, sistema->saldo_caixa);
+                printf("Erro: Saldo insuficiente no caixa! Voce tem R$ %.2f\n", sistema->saldo_caixa);
             }
             return;
         }
     }
-    printf("ID invalido ou ja pago.\n");
+    printf("Conta nao encontrada.\n");
 }
 
 void verSaldoCaixaController(Sistema *sistema) {
-    printf("\n=== CAIXA: R$ %.2f ===\n", sistema->saldo_caixa);
+    printf("\n==================================\n");
+    printf(" SALDO ATUAL DO CAIXA: R$ %.2f\n", sistema->saldo_caixa);
+    printf("==================================\n");
 }
