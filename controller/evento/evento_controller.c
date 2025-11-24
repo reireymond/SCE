@@ -57,7 +57,7 @@ void adicionarEventoController(Sistema *sistema) {
     int op = 0;
 
     // ADICIONAR EQUIPAMENTOS
-    printf("\nAdd Equipamentos? (1-Sim, 0-Nao): "); 
+    printf("\nAdicionar Equipamentos? (1-Sim, 0-Nao): "); 
     scanf("%d", &op); limpar_buffer();
 
     while(op == 1) {
@@ -86,11 +86,11 @@ void adicionarEventoController(Sistema *sistema) {
         } else {
             printf("Nao achou.\n");
         }
-        printf("Add mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
+        printf("Adicionar mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
     }
 
     // ADICIONAR EQUIPE
-    printf("\nAdd Equipe? (1-Sim, 0-Nao): "); 
+    printf("\nAdicionar Equipe? (1-Sim, 0-Nao): "); 
     scanf("%d", &op); limpar_buffer();
 
     while(op == 1) {
@@ -116,11 +116,11 @@ void adicionarEventoController(Sistema *sistema) {
         } else {
             printf("Nao achou.\n");
         }
-        printf("Add mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
+        printf("Adicionar mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
     }
 
     // ADICIONAR FORNECEDORES (SERVIÇOS)
-    printf("\nAdd Servico Fornecedor? (1-Sim, 0-Nao): "); 
+    printf("\nAdicionar Servico Fornecedor? (1-Sim, 0-Nao): "); 
     scanf("%d", &op); limpar_buffer();
 
     while(op == 1) {
@@ -149,7 +149,7 @@ void adicionarEventoController(Sistema *sistema) {
         } else {
             printf("Nao achou.\n");
         }
-        printf("Add mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
+        printf("Adicionar mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
     }
 
     sistema->num_eventos++;
