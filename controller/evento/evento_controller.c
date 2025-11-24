@@ -21,31 +21,31 @@ long long transformarDataHoraEmNumero(char* data, char* hora) {
     return (long long)a*100000000 + m*1000000 + d*10000 + hh*100 + mm;
 }
 
-void adicionarEventoController(Sistema *s) {
+void adicionarEventoController(Sistema *sistema) {
     // Validações iniciais
-    if (s->num_clientes == 0) { 
+    if (sistema->num_clientes == 0) { 
         printf("\nSem clientes cadastrados. Cadastre um primeiro.\n"); 
         return; 
     }
 
     // Expande memória se precisar
-    if (s->num_eventos == s->capacidade_eventos) {
-        s->capacidade_eventos = (s->capacidade_eventos == 0) ? 10 : s->capacidade_eventos * 2;
-        s->lista_eventos = realloc(s->lista_eventos, s->capacidade_eventos * sizeof(Evento));
+    if (sistema->num_eventos == sistema->capacidade_eventos) {
+        sistema->capacidade_eventos = (sistema->capacidade_eventos == 0) ? 10 : sistema->capacidade_eventos * 2;
+        sistema->lista_eventos = realloc(sistema->lista_eventos, sistema->capacidade_eventos * sizeof(Evento));
     }
 
     // Cria o evento zerado
-    Evento *e = &s->lista_eventos[s->num_eventos];
+    Evento *e = &sistema->lista_eventos[sistema->num_eventos];
     memset(e, 0, sizeof(Evento));
     
-    e->codigo = s->num_eventos + 1;
+    e->codigo = sistema->num_eventos + 1;
     e->status = ORCAMENTO;
 
     printf("\n--- Novo Evento (ID: %d) ---\n", e->codigo);
     
     printf("Nome: "); ler_texto_valido(e->nome_evento, 150, VALIDAR_NAO_VAZIO);
     
-    listarClientesView(s);
+    listarClientesView(sistema);
     printf("Cod. Cliente: "); ler_inteiro_valido(&e->codigo_cliente, 1, 99999);
     
     printf("Data Inicio (DD/MM/AAAA): "); ler_texto_valido(e->data_inicio, 12, VALIDAR_DATA);
@@ -61,15 +61,15 @@ void adicionarEventoController(Sistema *s) {
     scanf("%d", &op); limpar_buffer();
 
     while(op == 1) {
-        if(s->num_recursos == 0) { printf("Sem equipamentos no sistema.\n"); break; }
+        if(sistema->num_recursos == 0) { printf("Sem equipamentos no sistema.\n"); break; }
         
-        listarRecursosView(s);
+        listarRecursosView(sistema);
         int cod, qtd;
         printf("Cod Equipamento: "); scanf("%d", &cod); limpar_buffer();
         
         Recurso *r = NULL;
-        for(int i=0; i < s->num_recursos; i++) {
-            if(s->lista_recursos[i].codigo == cod) r = &s->lista_recursos[i];
+        for(int i=0; i < sistema->num_recursos; i++) {
+            if(sistema->lista_recursos[i].codigo == cod) r = &sistema->lista_recursos[i];
         }
 
         if(r) {
@@ -94,15 +94,15 @@ void adicionarEventoController(Sistema *s) {
     scanf("%d", &op); limpar_buffer();
 
     while(op == 1) {
-        if(s->num_equipe == 0) { printf("Sem equipe cadastrada.\n"); break; }
+        if(sistema->num_equipe == 0) { printf("Sem equipe cadastrada.\n"); break; }
 
-        listarEquipeInternaView(s);
+        listarEquipeInternaView(sistema);
         int cod;
         printf("Cod Funcionario: "); scanf("%d", &cod); limpar_buffer();
         
         EquipeInterna *m = NULL;
-        for(int i=0; i < s->num_equipe; i++) {
-            if(s->lista_equipe[i].codigo == cod) m = &s->lista_equipe[i];
+        for(int i=0; i < sistema->num_equipe; i++) {
+            if(sistema->lista_equipe[i].codigo == cod) m = &sistema->lista_equipe[i];
         }
 
         if(m) {
@@ -119,20 +119,20 @@ void adicionarEventoController(Sistema *s) {
         printf("Add mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
     }
 
-    // ADICIONAR FORNECEDORES
+    // ADICIONAR FORNECEDORES (SERVIÇOS)
     printf("\nAdd Servico Fornecedor? (1-Sim, 0-Nao): "); 
     scanf("%d", &op); limpar_buffer();
 
     while(op == 1) {
-        if(s->num_fornecedores == 0) { printf("Sem fornecedores cadastrados.\n"); break; }
+        if(sistema->num_fornecedores == 0) { printf("Sem fornecedores cadastrados.\n"); break; }
 
-        listarFornecedoresView(s);
+        listarFornecedoresView(sistema);
         int cod;
         printf("Cod Fornecedor: "); scanf("%d", &cod); limpar_buffer();
 
         Fornecedor *f = NULL;
-        for(int i=0; i < s->num_fornecedores; i++) {
-            if(s->lista_fornecedores[i].codigo == cod) f = &s->lista_fornecedores[i];
+        for(int i=0; i < sistema->num_fornecedores; i++) {
+            if(sistema->lista_fornecedores[i].codigo == cod) f = &sistema->lista_fornecedores[i];
         }
 
         if(f) {
@@ -152,21 +152,21 @@ void adicionarEventoController(Sistema *s) {
         printf("Add mais? (1-Sim, 0-Nao): "); scanf("%d", &op); limpar_buffer();
     }
 
-    s->num_eventos++;
-    salvarEventos(s);
+    sistema->num_eventos++;
+    salvarEventos(sistema);
     printf("\nEvento criado! Previsto: R$ %.2f\n", e->custo_total_previsto);
 }
 
-void alterarStatusEventoController(Sistema *s) {
-    listarEventosView(s);
-    if (s->num_eventos == 0) return;
+void alterarStatusEventoController(Sistema *sistema) {
+    listarEventosView(sistema);
+    if (sistema->num_eventos == 0) return;
 
     int id;
     printf("\nID para APROVAR: "); scanf("%d", &id); limpar_buffer();
 
     Evento *e = NULL;
-    for (int i = 0; i < s->num_eventos; i++) {
-        if (s->lista_eventos[i].codigo == id) e = &s->lista_eventos[i];
+    for (int i = 0; i < sistema->num_eventos; i++) {
+        if (sistema->lista_eventos[i].codigo == id) e = &sistema->lista_eventos[i];
     }
 
     if (!e || e->status != ORCAMENTO) { 
@@ -186,14 +186,14 @@ void alterarStatusEventoController(Sistema *s) {
         int total = 0;
 
         // Acha o total do estoque
-        for(int k=0; k < s->num_recursos; k++) {
-            if(s->lista_recursos[k].codigo == cod) total = s->lista_recursos[k].quantidade_estoque;
+        for(int k=0; k < sistema->num_recursos; k++) {
+            if(sistema->lista_recursos[k].codigo == cod) total = sistema->lista_recursos[k].quantidade_estoque;
         }
 
         // Calcula quanto ja ta usado nesse horario
         int usado = 0;
-        for(int j=0; j < s->num_eventos; j++) {
-            Evento *out = &s->lista_eventos[j];
+        for(int j=0; j < sistema->num_eventos; j++) {
+            Evento *out = &sistema->lista_eventos[j];
             if(out->status == APROVADO && out->codigo != e->codigo) {
                 long long i2 = transformarDataHoraEmNumero(out->data_inicio, out->hora_inicio);
                 long long f2 = transformarDataHoraEmNumero(out->data_fim, out->hora_fim);
@@ -216,21 +216,21 @@ void alterarStatusEventoController(Sistema *s) {
 
     if(!conflito) {
         e->status = APROVADO;
-        salvarEventos(s);
+        salvarEventos(sistema);
         printf("Aprovado!\n");
     }
 }
 
-void finalizarEventoController(Sistema *s) {
-    listarEventosView(s);
-    if (s->num_eventos == 0) return;
+void finalizarEventoController(Sistema *sistema) {
+    listarEventosView(sistema);
+    if (sistema->num_eventos == 0) return;
 
     int id;
     printf("\nID para FINALIZAR: "); scanf("%d", &id); limpar_buffer();
     
     Evento *e = NULL;
-    for (int i = 0; i < s->num_eventos; i++) {
-        if (s->lista_eventos[i].codigo == id) e = &s->lista_eventos[i];
+    for (int i = 0; i < sistema->num_eventos; i++) {
+        if (sistema->lista_eventos[i].codigo == id) e = &sistema->lista_eventos[i];
     }
 
     if (!e || e->status != APROVADO) { printf("Erro: Nao esta aprovado.\n"); return; }
@@ -246,9 +246,9 @@ void finalizarEventoController(Sistema *s) {
     sprintf(t.descricao, "Fatura Evento %d", e->codigo);
     printf("Vencimento (DD/MM/AAAA): "); ler_texto_valido(t.data_vencimento, 12, VALIDAR_DATA);
 
-    registrarTransacao(s, t);
+    registrarTransacao(sistema, t);
     
     e->status = FINALIZADO;
-    salvarEventos(s);
+    salvarEventos(sistema);
     printf("Finalizado e conta gerada.\n");
 }
