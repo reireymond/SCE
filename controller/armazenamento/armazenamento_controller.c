@@ -6,7 +6,6 @@
 #include "controller/main/main_controller.h"
 #include "utils/utils.h"
 #include "utils/validation.h"
-
 // Includes para as funcoes de salvar/carregar
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
@@ -14,7 +13,8 @@
 #include "model/recurso/recurso_model.h"
 #include "model/fornecedor/fornecedor_model.h"
 #include "model/operador/operador_model.h"
-
+#include "model/evento/evento_model.h"
+#include "model/transacao/transacao_model.h"
 void importarDadosDeOutroFormatoController(Sistema *sistema) {
     int opcao;
     TipoArmazenamento origem;
@@ -43,13 +43,13 @@ void importarDadosDeOutroFormatoController(Sistema *sistema) {
     definirModoDeArmazenamento(sistema, origem);
     carregarTodosOsDadosController(sistema);
     
-    // Volta pro modo original (ou mantem se quiser, aqui voltamos pra nao baguncar)
-    definirModoDeArmazenamento(sistema, modo_original);
+    // Volta pro modo original 
+   definirModoDeArmazenamento(sistema, modo_original); 
     printf("Dados importados!\n");
 }
 
 void transferirDadosDeArmazenamento(Sistema *sistema) {
-    // Simples conversao: Carrega de um jeito, Salva de outro
+    // Simples conversao, Carrega de um jeito, Salva de outro
     int op1, op2;
     TipoArmazenamento origem, destino;
 
@@ -82,6 +82,9 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
     salvarRecursos(&temp);
     salvarFornecedores(&temp);
     salvarOperadores(&temp);
+    salvarEventos(&temp);
+    salvarTransacoes(&temp);
+
 
     liberarTodaMemoriaController(&temp);
     printf("Convertido com sucesso!\n");
