@@ -15,4 +15,5 @@ void menuGestaoDeDadosView(Sistema *sistema);
 // Exibe o menu de importação e exportação de dados (CORREÇÃO: Adicionada declaração)
 void menuImportarExportarView(Sistema *sistema);
 
-#endif // MAIN_VIEW_H
+
+#endif 

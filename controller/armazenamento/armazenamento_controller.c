@@ -15,41 +15,9 @@
 #include "model/operador/operador_model.h"
 #include "model/evento/evento_model.h"
 #include "model/transacao/transacao_model.h"
-void importarDadosDeOutroFormatoController(Sistema *sistema) {
-    int opcao;
-    TipoArmazenamento origem;
-    TipoArmazenamento modo_original = obterModoDeArmazenamento(sistema);
-
-    limpar_tela();
-    printf("=== IMPORTAR DADOS ===\n");
-    printf("[1] De Binario (.dat)\n");
-    printf("[2] De Texto (.txt)\n");
-    printf("[0] Cancelar\n");
-    printf("Opcao: ");
-    scanf("%d", &opcao);
-    limpar_buffer();
-
-    if (opcao == 0) return;
-    if (opcao == 1) origem = ARQUIVO_BINARIO;
-    else if (opcao == 2) origem = ARQUIVO_TEXTO;
-    else { printf("Invalido.\n"); return; }
-
-    printf("\nIsso vai substituir os dados atuais na memoria. Continuar? (s/n): ");
-    char conf; scanf(" %c", &conf); limpar_buffer();
-    if (conf != 's' && conf != 'S') return;
-
-    // Limpa e carrega no novo formato
-    liberarTodaMemoriaController(sistema);
-    definirModoDeArmazenamento(sistema, origem);
-    carregarTodosOsDadosController(sistema);
-    
-    // Volta pro modo original 
-   definirModoDeArmazenamento(sistema, modo_original); 
-    printf("Dados importados!\n");
-}
 
 void transferirDadosDeArmazenamento(Sistema *sistema) {
-    // Simples conversao, Carrega de um jeito, Salva de outro
+    
     int op1, op2;
     TipoArmazenamento origem, destino;
 
@@ -65,6 +33,19 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
 
     if (origem == destino) { printf("Mesmo formato, nada a fazer.\n"); return; }
 
+    printf("\nTem certeza que deseja converter de [%s] para [%s]? (s/n): ", 
+           (origem == ARQUIVO_BINARIO ? "Binario" : "Texto"),
+           (destino == ARQUIVO_BINARIO ? "Binario" : "Texto"));
+    
+    char conf; 
+    scanf(" %c", &conf); 
+    limpar_buffer();
+
+    if (conf != 's' && conf != 'S') {
+        printf("Transferencia cancelada.\n");
+        return;
+    }
+    
     Sistema temp;
     memset(&temp, 0, sizeof(Sistema));
 
@@ -87,5 +68,6 @@ void transferirDadosDeArmazenamento(Sistema *sistema) {
 
 
     liberarTodaMemoriaController(&temp);
-    printf("Convertido com sucesso!\n");
+   
+    printf(" Conversao concluida com sucesso! Novos arquivos criados.\n"); 
 }

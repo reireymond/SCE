@@ -75,8 +75,7 @@ void menuImportarExportarView(Sistema *sistema) {
         printf("+=====================================================+\n");
         printf("|              MENU IMPORTAR / EXPORTAR               |\n");
         printf("+=====================================================+\n");
-        printf("| [1] Importar Dados (Substitui atuais)               |\n");
-        printf("| [2] Converter Arquivos (Binario <-> Texto)          |\n");
+        printf("| [1] Converter Arquivos (Binario <-> Texto)          |\n");
         printf("+-----------------------------------------------------+\n");
         printf("| [0] Voltar                                          |\n");
         printf("+=====================================================+\n");
@@ -86,8 +85,7 @@ void menuImportarExportarView(Sistema *sistema) {
         limpar_buffer();
 
         switch(opcao) {
-            case 1: importarDadosDeOutroFormatoController(sistema); pausar(); break;
-            case 2: transferirDadosDeArmazenamento(sistema); pausar(); break;
+            case 1: transferirDadosDeArmazenamento(sistema); pausar(); break;
             case 0: break;
             default: printf("Opcao invalida.\n"); pausar(); break;
         }

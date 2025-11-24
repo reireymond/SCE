@@ -5,7 +5,7 @@
 // View principal (menu de configuração)
 #include "view/main/main_view.h"
 
-// Funções utilitárias (ex: pausar)
+// Funções utilitárias 
 #include "utils/utils.h"
 
 // Models usados para carregar e liberar dados
