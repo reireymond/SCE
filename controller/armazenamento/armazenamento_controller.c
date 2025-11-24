@@ -7,7 +7,7 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-// Includes necessarios para as funcoes de salvar/carregar
+// Includes para as funcoes de salvar/carregar
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
 #include "model/equipe_interna/equipe_interna_model.h"

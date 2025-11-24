@@ -25,7 +25,7 @@ void adicionarOperadorController(Sistema *sistema) {
     }
 
     Operador *novo = &sistema->lista_operadores[sistema->num_operadores];
-    novo->codigo = obterProximoIdOperador(sistema); // CORREÇÃO DE ID
+    novo->codigo = obterProximoIdOperador(sistema); 
 
     printf("\n--- Novo Operador (ID: %d) ---\n", novo->codigo);
     printf("Nome: "); ler_texto_valido(novo->nome, sizeof(novo->nome), VALIDAR_NOME);

@@ -26,7 +26,7 @@ void adicionarClienteController(Sistema *sistema) {
     }
 
     Cliente *novo_cliente = &sistema->lista_clientes[sistema->num_clientes];
-    novo_cliente->codigo = obterProximoIdCliente(sistema); // CORREÇÃO DE ID
+    novo_cliente->codigo = obterProximoIdCliente(sistema); 
 
     printf("\n--- Cadastro de Novo Cliente (ID: %d) ---\n", novo_cliente->codigo);
     printf("Nome / Razao Social: "); ler_texto_valido(novo_cliente->razao_social, sizeof(novo_cliente->razao_social), VALIDAR_NAO_VAZIO);
