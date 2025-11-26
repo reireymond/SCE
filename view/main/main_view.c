@@ -85,7 +85,7 @@ void menuImportarExportarView(Sistema *sistema) {
         limpar_buffer();
 
         switch(opcao) {
-            case 1: transferirDadosDeArmazenamento(sistema); pausar(); break;
+            case 1: menuConverterArquivosView(sistema); pausar(); break;
             case 0: break;
             default: printf("Opcao invalida.\n"); pausar(); break;
         }
