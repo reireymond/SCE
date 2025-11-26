@@ -3,7 +3,6 @@
 #include "model/sistema.h"
 
 void registrarTransacao(Sistema *sistema, Transacao t);
-void lancarAquisicaoController(Sistema *sistema);
 void gerenciarContasReceberController(Sistema *sistema);
 void gerenciarContasPagarController(Sistema *sistema);
 void verSaldoCaixaController(Sistema *sistema);
