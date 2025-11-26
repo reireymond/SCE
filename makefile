@@ -14,6 +14,7 @@ ODIR = obj
 BDIR = bin
 
 # Acha todos os arquivos .c automaticamente
+# O wildcard view/*/*.c ja vai pegar a nova pasta view/armazenamento
 SOURCES = $(wildcard controller/*/*.c model/*/*.c view/*/*.c utils/*.c main.c)
 
 # Cria lista de arquivos .o (objetos)
@@ -35,7 +36,8 @@ $(BDIR)/$(TARGET): $(OBJECTS)
 
 # Compila cada arquivo .c individualmente
 # Precisamos dizer pro make onde achar os .c usando VPATH
-VPATH = controller/armazenamento:controller/cliente:controller/equipe_interna:controller/evento:controller/fornecedor:controller/login:controller/main:controller/operador:controller/produtora:controller/recurso:controller/transacao:model/cliente:model/config_armazenamento:model/equipe_interna:model/evento:model/fornecedor:model/operador:model/produtora:model/recurso:model/transacao:view/cliente:view/equipe_interna:view/evento:view/fornecedor:view/main:view/operador:view/produtora:view/recurso:view/transacao:utils
+# ATENCAO: Adicionei :view/armazenamento no final da linha
+VPATH = controller/armazenamento:controller/cliente:controller/equipe_interna:controller/evento:controller/fornecedor:controller/login:controller/main:controller/operador:controller/produtora:controller/recurso:controller/transacao:model/cliente:model/config_armazenamento:model/equipe_interna:model/evento:model/fornecedor:model/operador:model/produtora:model/recurso:model/transacao:view/cliente:view/equipe_interna:view/evento:view/fornecedor:view/main:view/operador:view/produtora:view/recurso:view/transacao:utils:view/armazenamento
 
 $(ODIR)/%.o: %.c
 	@echo Compilando $<...
