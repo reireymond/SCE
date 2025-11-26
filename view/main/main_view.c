@@ -4,6 +4,8 @@
 #include "model/config_armazenamento/config_armazenamento.h"
 #include "controller/armazenamento/armazenamento_controller.h"
 
+#include "view/armazenamento/armazenamento_view.h"
+
 // Includes das outras Views
 #include "view/produtora/produtora_view.h"
 #include "view/cliente/cliente_view.h"
