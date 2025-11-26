@@ -3,7 +3,6 @@
 
 #include "model/sistema.h"
 
-void importarDadosDeOutroFormatoController(Sistema *sistema);
-void transferirDadosDeArmazenamento(Sistema *sistema);
+void converterDadosController(Sistema *sistema, TipoArmazenamento origem, TipoArmazenamento destino);
 
 #endif
