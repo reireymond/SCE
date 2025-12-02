@@ -22,16 +22,11 @@ void adicionarEventoController(Sistema *sistema) {
     listarClientesView(sistema);
     formulario_novo_evento_basico(e);
 
-   // Dentro de adicionarEventoController...
-
-    // --- FORNECEDORES ---
     while (perguntar_se_adiciona_fornecedor()) {
-        listarFornecedoresView(sistema); // Mostra a lista para ajudar
+        listarFornecedoresView(sistema);
         
         int cod;
-        // float val; <--- Variável 'val' manual não é mais necessária aqui
-        
-        formulario_adicionar_fornecedor(&cod); // Chama função nova (só ID)
+        formulario_adicionar_fornecedor(&cod);
 
         Fornecedor *f = NULL;
         for(int i=0; i < sistema->num_fornecedores; i++) {
