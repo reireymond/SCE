@@ -1,19 +1,13 @@
-// da view de recurso, que contém as declarações das funções
-// que serão implementadas neste arquivo.
+
 #include "recurso_view.h"
-// Inclui a biblioteca padrão de entrada/saída para usar funções como 'printf' e 'scanf'.
 #include <stdio.h>
-// de utilitários para usar funções como 'limpar_tela' e 'pausar'.
 #include "utils/utils.h"
-// do controller de recurso para poder chamar as funções que executam
-// as ações (adicionarRecursoController, etc.).
+#include "utils/validation.h"
 #include "controller/recurso/recurso_controller.h"
 
 // exibe e gerencia o menu de recursos e equipamentos.
 void menuRecursosView(Sistema *sistema) {
     int opcao;
-    // O loop 'do-while' garante que o menu seja exibido continuamente até que o
-    // usuário escolha a opção 0 para voltar ao menu anterior.
     do {
        limpar_tela();
         printf("+=====================================================+\n");
@@ -26,11 +20,8 @@ void menuRecursosView(Sistema *sistema) {
         printf("+-----------------------------------------------------+\n");
         printf("| [0] Voltar                                          |\n");
         printf("+=====================================================+\n");
-
-        // Prompt para o usuário escolher
         printf("Escolha uma opcao: ");
 
-        // Lê a opção digitada pelo usuário.
         scanf("%d", &opcao);
         // 
         limpar_buffer();
@@ -53,12 +44,12 @@ void menuRecursosView(Sistema *sistema) {
 
 // exibe a lista de recursos e equipamentos.
 void listarRecursosView(Sistema *sistema) {
-    // Verifica se há recursos cadastrados. Se não houver, exibe uma mensagem.
+    int opcao;
     if (sistema->num_recursos == 0) {
         printf("\nNenhum recurso cadastrado.\n");
-        return; // Retorna para a função anterior (o menu).
+        return; 
     }
-    // Imprime o cabeçalho da lista com retângulo destacado
+    
         printf("+=====================================================+\n");
         printf("|           LISTA DE RECURSOS E EQUIPAMENTOS          |\n");
         printf("+=====================================================+\n");
@@ -81,3 +72,56 @@ void listarRecursosView(Sistema *sistema) {
                 printf("+=====================================================+\n");
 
 }
+
+void formulario_novo_recurso(Recurso *r) {
+    printf("\n--- Novo Recurso (ID: %d) ---\n", r->codigo);
+    printf("Descricao: "); 
+    ler_texto_valido(r->descricao, sizeof(r->descricao), VALIDAR_NAO_VAZIO);
+    
+    printf("Categoria: "); 
+    ler_texto_valido(r->categoria, sizeof(r->categoria), VALIDAR_NAO_VAZIO);
+    
+    printf("Estoque: "); 
+    ler_inteiro_valido(&r->quantidade_estoque, 0, 9999);
+    
+    printf("Preco de Custo: R$ "); 
+    ler_float_positivo(&r->preco_custo);
+    
+    printf("Valor Locacao: R$ "); 
+    ler_float_positivo(&r->valor_locacao);
+}
+
+int pedir_id_recurso(const char *acao) {
+    int id;
+    printf("\nDigite o ID do Recurso para %s: ", acao);
+    ler_inteiro_valido(&id, 1, 999999);
+    return id;
+}
+
+int menu_alterar_recurso(Recurso *r) {
+    int opcao;
+    limpar_tela();
+    printf("--- Editando: %s ---\n", r->descricao);
+    printf("1. Descricao\n2. Categoria\n3. Estoque\n4. Custo\n5. Locacao\n0. Sair\nEscolha: ");
+    ler_inteiro_valido(&opcao, 0, 5);
+
+    if(opcao != 0) printf("\n>> Novo valor: ");
+
+    switch(opcao) {
+        case 1: ler_texto_valido(r->descricao, sizeof(r->descricao), VALIDAR_NAO_VAZIO); break;
+        case 2: ler_texto_valido(r->categoria, sizeof(r->categoria), VALIDAR_NAO_VAZIO); break;
+        case 3: ler_inteiro_valido(&r->quantidade_estoque, 0, 9999); break;
+        case 4: ler_float_positivo(&r->preco_custo); break;
+        case 5: ler_float_positivo(&r->valor_locacao); break;
+    }
+    return opcao;
+}
+
+int confirmar_exclusao_recurso(char *nome) {
+    char resp;
+    printf("\nTem certeza que deseja excluir '%s'? (s/n): ", nome);
+    scanf(" %c", &resp); limpar_buffer();
+    return (resp == 's' || resp == 'S');
+}
+void mensagem_sucesso(const char *msg) { printf("\n[SUCESSO] %s\n", msg); pausar(); }
+void mensagem_erro(const char *msg) { printf("\n[ERRO] %s\n", msg); pausar(); }

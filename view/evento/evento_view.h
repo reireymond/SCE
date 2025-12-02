@@ -1,6 +1,24 @@
 #ifndef EVENTO_VIEW_H
 #define EVENTO_VIEW_H
 #include "model/sistema.h"
+
 void menuEventosView(Sistema *sistema);
 void listarEventosView(Sistema *sistema);
+
+void formulario_novo_evento_basico(Evento *e);
+int perguntar_se_adiciona_recurso();
+void formulario_adicionar_recurso(int *cod, int *qtd);
+int perguntar_se_adiciona_equipe();
+void formulario_adicionar_equipe(int *cod);
+int perguntar_se_adiciona_fornecedor();
+void formulario_adicionar_fornecedor(int *cod, float *valor);
+
+int pedir_id_evento(const char *acao);
+void formulario_finalizar_evento(float *valor_final);
+
+void msg_recurso_adicionado();
+void msg_recurso_nao_encontrado();
+void msg_conflito_estoque(int cod, int total, int usado);
+void msg_evento_aprovado();
+
 #endif

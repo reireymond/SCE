@@ -1,12 +1,13 @@
 #ifndef FORNECEDOR_VIEW_H
 #define FORNECEDOR_VIEW_H
+#include "model/sistema.h"
 
-#include "model/sistema.h"  // Para acessar os dados do sistema
-
-// Exibe o menu de gerenciamento de fornecedores (Adicionar, Alterar, Listar, Excluir)
 void menuFornecedoresView(Sistema *sistema);
-
-// Lista todos os fornecedores cadastrados de forma organizada
 void listarFornecedoresView(Sistema *sistema);
+
+void formulario_novo_fornecedor(Fornecedor *f);
+int pedir_id_fornecedor(const char *acao);
+int menu_alterar_fornecedor(Fornecedor *f);
+int confirmar_exclusao_fornecedor(char *nome);
 
 #endif

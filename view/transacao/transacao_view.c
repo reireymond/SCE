@@ -143,3 +143,24 @@ void formularioRegistrarCompraView(Sistema *sistema) {
     registrarTransacao(sistema, t);
     printf("Compra registrada e estoque atualizado!\n");
 }
+
+void gerenciarContasReceberController(Sistema *sistema) {
+    listar_contas_filtro(sistema, CONTA_A_RECEBER);
+
+    int cod = pedir_id_pagamento();
+    if (cod == 0) return;
+    
+    for(int i=0; i < sistema->num_transacoes; i++) {
+        if(sistema->lista_transacoes[i].codigo == cod) {
+            sistema->lista_transacoes[i].status = PAGA;
+            sistema->saldo_caixa += sistema->lista_transacoes[i].valor;
+            salvarTransacoes(sistema);
+            msg_conta_paga_sucesso();
+            return;
+        }
+    }
+}
+
+void verSaldoCaixaController(Sistema *sistema) {
+    mostrar_saldo(sistema->saldo_caixa);
+}

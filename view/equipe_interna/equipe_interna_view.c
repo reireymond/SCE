@@ -49,78 +49,42 @@ void listarEquipeInternaView(Sistema *sistema) {
                sistema->lista_equipe[i].valor_diaria);
     }
 }
-
-void mensagem_erro(const char *msg) {
-    printf("\n %s Erro \n", msg);
-    pausar();
+void formulario_novo_equipe(EquipeInterna *e) {
+    printf("\n--- Novo Membro (ID: %d) ---\n", e->codigo);
+    printf("Nome: "); ler_texto_valido(e->nome, sizeof(e->nome), VALIDAR_NOME);
+    printf("CPF: "); ler_texto_valido(e->cpf, sizeof(e->cpf), VALIDAR_CPF);
+    printf("Funcao: "); ler_texto_valido(e->funcao, sizeof(e->funcao), VALIDAR_NAO_VAZIO);
+    printf("Valor Diaria: R$ "); ler_float_positivo(&e->valor_diaria);
 }
 
-void mensagem_sucesso(const char *msg) {
-    printf("\n %s Sucesso\n", msg);
-    pausar();
+int pedir_id_equipe(const char *acao) {
+    int id;
+    printf("\nDigite o ID do Membro para %s: ", acao);
+    ler_inteiro_valido(&id, 1, 999999);
+    return id;
 }
 
-void mensagem_aviso(const char *msg) {
-    printf("\n %s Aviso \n", msg);
-    pausar();
-}
-
-void formulario_novo_EquipeInterna(EquipeInterna *equipe) {
-    printf("\n--- Preencha os dados do EquipeInterna (ID: %d) ---\n", equipe->codigo);
-    
-    printf("Nome / Razao Social: "); 
-    ler_texto_valido(equipe->nome, sizeof(equipeInterna->nome), VALIDAR_NAO_VAZIO);
-    
-    printf("CPF / CNPJ: "); 
-    ler_texto_valido(equipeInterna->cnpj, sizeof(c->cnpj), VALIDAR_CPF_CNPJ);
-    
-    printf("Endereco Completo: "); 
-    ler_texto_valido(c->endereco, sizeof(c->endereco), VALIDAR_NAO_VAZIO);
-    
-    printf("Telefone: "); 
-    ler_texto_valido(c->telefone, sizeof(c->telefone), VALIDAR_TELEFONE);
-    
-    printf("E-mail: "); 
-    ler_texto_valido(c->email, sizeof(c->email), VALIDAR_EMAIL);
-    
-    printf("Nome do Contato: "); 
-    ler_texto_valido(c->nome_do_contato, sizeof(c->nome_do_contato), VALIDAR_NOME);
-}
-
-int pedir_id_EquipeInterna(const char *acao) {
-    int codigo;
-    printf("\nDigite o ID do EquipeInterna para %s: ", acao);
-    scanf("%d", &codigo);
-    limpar_buffer();
-    return codigo;
-}
-
-int menu_alterar_EquipeInterna(EquipeInterna *e) {
+int menu_alterar_equipe(EquipeInterna *e) {
     int opcao;
     limpar_tela();
-    printf("--- Alterando EquipeInterna: %s ---\n", e->razao_social);
-    printf("1. Nome\n2. CPF/CNPJ\n3. Endereco\n4. Telefone\n5. Email\n6. Contato\n0. Sair e Salvar\n");
-    printf("Escolha o campo para editar: ");
-    ler_inteiro_valido(&opcao, 0, 6);
+    printf("--- Editando: %s ---\n", e->nome);
+    printf("1. Nome\n2. CPF\n3. Funcao\n4. Valor Diaria\n0. Sair\nEscolha: ");
+    ler_inteiro_valido(&opcao, 0, 4);
+
+    if(opcao != 0) printf("\n>> Novo valor: ");
+
+    switch(opcao) {
+        case 1: ler_texto_valido(e->nome, sizeof(e->nome), VALIDAR_NOME); break;
+        case 2: ler_texto_valido(e->cpf, sizeof(e->cpf), VALIDAR_CPF); break;
+        case 3: ler_texto_valido(e->funcao, sizeof(e->funcao), VALIDAR_NAO_VAZIO); break;
+        case 4: ler_float_positivo(&e->valor_diaria); break;
+    }
     return opcao;
 }
 
-void atualizar_campo_EquipeInterna(EquipeInterna *c, int opcao) {
-    printf("\n>> ");
-    switch (opcao) {
-        case 1: printf("Novo Nome: "); ler_texto_valido(c->nome sizeof(e->razao_social), VALIDAR_NAO_VAZIO); break;
-        case 2: printf("Novo CPF/CNPJ: "); ler_texto_valido(c->cnpj, sizeof(c->cnpj), VALIDAR_CPF_CNPJ); break;
-        case 3: printf("Novo Endereco: "); ler_texto_valido(c->endereco, sizeof(c->endereco), VALIDAR_NAO_VAZIO); break;
-        case 4: printf("Novo Telefone: "); ler_texto_valido(c->telefone, sizeof(c->telefone), VALIDAR_TELEFONE); break;
-        case 5: printf("Novo Email: "); ler_texto_valido(c->email, sizeof(c->email), VALIDAR_EMAIL); break;
-        case 6: printf("Novo Contato: "); ler_texto_valido(c->nome_do_contato, sizeof(c->nome_do_contato), VALIDAR_NOME); break;
-    }
-}
-
-int confirmar_exclusao(const char *nome) {
-    char conf;
-    printf("\nTem certeza que deseja EXCLUIR '%s'? (s/n): ", nome);
-    scanf(" %c", &conf);
-    limpar_buffer();
-    return (conf == 's' || conf == 'S');
+int confirmar_exclusao_equipe(char *nome) {
+    char c;
+    printf("Excluir %s? (s/n): ", nome);
+    scanf(" %c", &c); limpar_buffer();
+    return (c == 's' || c == 'S');
 }

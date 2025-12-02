@@ -40,9 +40,13 @@ void menuConverterArquivosView(Sistema *sistema) {
     limpar_buffer();
 
     if (conf == 's' || conf == 'S') {
-        // Chama o controller apenas passando os parametros, sem printar nada la dentro
         converterDadosController(sistema, origem, destino);
     } else {
         printf("Cancelado.\n");
     }
+}
+
+void msg_conversao_sucesso() {
+    printf("\nProcesso interno finalizado! Arquivos convertidos com sucesso.\n");
+    pausar();
 }

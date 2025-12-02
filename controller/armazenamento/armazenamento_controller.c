@@ -1,9 +1,8 @@
 #include "armazenamento_controller.h"
-#include <stdio.h>
-#include <stdlib.h> 
 #include <string.h>
 #include "model/config_armazenamento/config_armazenamento.h"
 #include "controller/main/main_controller.h"
+#include "view/armazenamento/armazenamento_view.h"
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
 #include "model/equipe_interna/equipe_interna_model.h"
@@ -16,12 +15,10 @@
 void converterDadosController(Sistema *sistema, TipoArmazenamento origem, TipoArmazenamento destino) {
     Sistema temp;
     memset(&temp, 0, sizeof(Sistema));
-
     definirModoDeArmazenamento(&temp, origem);
     carregarTodosOsDadosController(&temp);
 
     definirModoDeArmazenamento(&temp, destino);
-    
     salvarProdutora(&temp);
     salvarClientes(&temp);
     salvarEquipeInterna(&temp);
@@ -32,6 +29,6 @@ void converterDadosController(Sistema *sistema, TipoArmazenamento origem, TipoAr
     salvarTransacoes(&temp);
 
     liberarTodaMemoriaController(&temp);
-   
-    printf("\nProcesso interno finalizado! Arquivos convertidos.\n"); 
+
+    msg_conversao_sucesso(); 
 }

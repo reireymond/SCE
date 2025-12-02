@@ -1,5 +1,6 @@
 #include "produtora_view.h"
 #include <stdio.h>
+#include "utils/validation.h"
 #include "utils/utils.h"
 #include "controller/produtora/produtora_controller.h"
 
@@ -53,3 +54,59 @@ void verDetalhesProdutoraView(Sistema *sistema) {
     printf("| Margem Lucro:  %-35.2f%% |\n", sistema->dados_produtora->margem_lucro);
     printf("+=====================================================+\n");
 }
+
+void formulario_produtora(Produtora *p) {
+    printf("\n--- Preencha os dados da Produtora ---\n");
+    
+    printf("Nome Fantasia: ");
+    ler_texto_valido(p->nome_fantasia, sizeof(p->nome_fantasia), VALIDAR_NAO_VAZIO);
+
+    printf("Razao Social: ");
+    ler_texto_valido(p->razao_social, sizeof(p->razao_social), VALIDAR_NAO_VAZIO);
+
+    printf("Nome do Responsavel: ");
+    ler_texto_valido(p->nome_do_responsavel, sizeof(p->nome_do_responsavel), VALIDAR_NOME);
+
+    printf("CNPJ: ");
+    ler_texto_valido(p->cnpj, sizeof(p->cnpj), VALIDAR_CNPJ);
+
+    printf("Inscricao Estadual: ");
+    ler_texto_valido(p->inscricao_estadual, sizeof(p->inscricao_estadual), VALIDAR_NAO_VAZIO);
+
+    printf("Endereco: ");
+    ler_texto_valido(p->endereco, sizeof(p->endereco), VALIDAR_NAO_VAZIO);
+
+    printf("Telefone: ");
+    ler_texto_valido(p->telefone, sizeof(p->telefone), VALIDAR_TELEFONE);
+
+    printf("Telefone Resp.: ");
+    ler_texto_valido(p->telefone_responsavel, sizeof(p->telefone_responsavel), VALIDAR_TELEFONE);
+
+    printf("E-mail: ");
+    ler_texto_valido(p->email, sizeof(p->email), VALIDAR_EMAIL);
+
+    printf("Margem de Lucro (%%): ");
+    ler_float_positivo(&p->margem_lucro);
+}
+
+int menu_alterar_campo_produtora(Produtora *p) {
+    int opcao;
+    limpar_tela();
+    printf("--- Alterar Produtora: %s ---\n", p->nome_fantasia);
+    printf("1. Nome Fantasia\n2. Razao Social\n3. Responsavel\n4. CNPJ\n");
+    printf("5. Inscricao Est.\n6. Endereco\n7. Telefone\n8. Tel. Resp.\n");
+    printf("9. Email\n10. Margem Lucro\n0. Sair\nEscolha: ");
+    ler_inteiro_valido(&opcao, 0, 10);
+    
+    if(opcao != 0) printf("\n>> Digite o novo valor: ");
+    
+    switch(opcao) {
+        case 1: ler_texto_valido(p->nome_fantasia, sizeof(p->nome_fantasia), VALIDAR_NAO_VAZIO); break;
+        case 2: ler_texto_valido(p->razao_social, sizeof(p->razao_social), VALIDAR_NAO_VAZIO); break;
+        case 10: ler_float_positivo(&p->margem_lucro); break;
+    }
+    return opcao;
+}
+
+void mensagem_sucesso(const char *msg) { printf("\n[SUCESSO] %s\n", msg); pausar(); }
+void mensagem_erro(const char *msg) { printf("\n[ERRO] %s\n", msg); pausar(); }
