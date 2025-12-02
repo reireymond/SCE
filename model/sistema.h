@@ -58,6 +58,7 @@ typedef struct {
     char endereco[150];
     char telefone[20];
     char tipo_servico[100];
+    float valor_servico;
 } Fornecedor;
 
 typedef struct {

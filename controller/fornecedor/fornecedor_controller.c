@@ -55,7 +55,7 @@ void alterarFornecedorController(Sistema *sistema) {
 void excluirFornecedorController(Sistema *sistema) {
     listarFornecedoresView(sistema);
     if (sistema->num_fornecedores == 0) return;
-
+    
     int codigo = pedir_id_fornecedor("excluir");
     for (int i = 0; i < sistema->num_fornecedores; i++) {
         if (sistema->lista_fornecedores[i].codigo == codigo) {

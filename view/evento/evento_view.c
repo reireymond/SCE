@@ -121,9 +121,6 @@ int perguntar_se_adiciona_fornecedor() {
 void formulario_adicionar_fornecedor(int *cod, float *valor) {
     printf("Digite o ID do Fornecedor: ");
     ler_inteiro_valido(cod, 1, 999999);
-    
-    printf("Valor a ser cobrado neste evento: R$ ");
-    ler_float_positivo(valor);
 }
 
 int pedir_id_evento(const char *acao) {

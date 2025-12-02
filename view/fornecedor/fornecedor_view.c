@@ -56,6 +56,7 @@ void formulario_novo_fornecedor(Fornecedor *f) {
     printf("Endereco: "); ler_texto_valido(f->endereco, sizeof(f->endereco), VALIDAR_NAO_VAZIO);
     printf("Telefone: "); ler_texto_valido(f->telefone, sizeof(f->telefone), VALIDAR_TELEFONE);
     printf("Tipo Servico: "); ler_texto_valido(f->tipo_servico, sizeof(f->tipo_servico), VALIDAR_NAO_VAZIO);
+    printf("Valor do servico: "); ler_texto_valido(f->valor_servico, sizeof(f->valor_servico), VALIDAR_NAO_VAZIO);
 }
 
 int pedir_id_fornecedor(const char *acao) {
