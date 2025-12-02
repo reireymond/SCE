@@ -118,7 +118,7 @@ int perguntar_se_adiciona_fornecedor() {
     return op;
 }
 
-void formulario_adicionar_fornecedor(int *cod, float *valor) {
+void formulario_adicionar_fornecedor(int *cod) {
     printf("Digite o ID do Fornecedor: ");
     ler_inteiro_valido(cod, 1, 999999);
 }
@@ -134,6 +134,10 @@ void formulario_finalizar_evento(float *valor_final) {
     printf("\n--- Finalizando Evento ---\n");
     printf("Informe o Valor Final Faturado (Real): R$ ");
     ler_float_positivo(valor_final);
+}
+
+void msg_fornecedor_adicionado_sucesso(char *nome_fornecedor, float custo) {
+    printf(">> Fornecedor '%s' adicionado! Custo: R$ %.2f\n", nome_fornecedor, custo);
 }
 
 void msg_recurso_adicionado() {

@@ -28,7 +28,8 @@ void salvarFornecedores(Sistema *sistema) {
                     sistema->lista_fornecedores[i].cnpj,
                     sistema->lista_fornecedores[i].endereco,
                     sistema->lista_fornecedores[i].telefone,
-                    sistema->lista_fornecedores[i].tipo_servico);
+                    sistema->lista_fornecedores[i].tipo_servico,
+                    sistema->lista_fornecedores[i].valor_servico);
         }
     }
     fclose(arquivo);
@@ -63,6 +64,7 @@ void carregarFornecedores(Sistema *sistema) {
                 fgets(f->endereco, 150, arquivo); f->endereco[strcspn(f->endereco, "\n")] = 0;
                 fgets(f->telefone, 20, arquivo); f->telefone[strcspn(f->telefone, "\n")] = 0;
                 fgets(f->tipo_servico, 100, arquivo); f->tipo_servico[strcspn(f->tipo_servico, "\n")] = 0;
+                fscanf(arquivo, "%f\n", &f->valor_servico);
             }
         }
     }

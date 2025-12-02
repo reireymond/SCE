@@ -22,30 +22,39 @@ void adicionarEventoController(Sistema *sistema) {
     listarClientesView(sistema);
     formulario_novo_evento_basico(e);
 
-    while (perguntar_se_adiciona_recurso()) {
-        listarRecursosView(sistema);
-        int cod, qtd;
-        formulario_adicionar_recurso(&cod, &qtd);
+   // Dentro de adicionarEventoController...
 
-        Recurso *r = NULL;
-        for(int i=0; i < sistema->num_recursos; i++)
-            if(sistema->lista_recursos[i].codigo == cod) r = &sistema->lista_recursos[i];
+    // --- FORNECEDORES ---
+    while (perguntar_se_adiciona_fornecedor()) {
+        listarFornecedoresView(sistema); // Mostra a lista para ajudar
+        
+        int cod;
+        // float val; <--- Variável 'val' manual não é mais necessária aqui
+        
+        formulario_adicionar_fornecedor(&cod); // Chama função nova (só ID)
 
-        if(r) {
-            e->lista_recursos_alocados = realloc(e->lista_recursos_alocados, (e->num_recursos_alocados + 1) * sizeof(ItemRecursoEvento));
-            e->lista_recursos_alocados[e->num_recursos_alocados].codigo_recurso = r->codigo;
-            e->lista_recursos_alocados[e->num_recursos_alocados].quantidade = qtd;
-            e->lista_recursos_alocados[e->num_recursos_alocados].custo_locacao_momento = r->valor_locacao;
-            
-            e->num_recursos_alocados++;
-            e->custo_total_previsto += (r->valor_locacao * qtd);
-            msg_recurso_adicionado();
+        Fornecedor *f = NULL;
+        for(int i=0; i < sistema->num_fornecedores; i++) {
+            if(sistema->lista_fornecedores[i].codigo == cod) {
+                f = &sistema->lista_fornecedores[i];
+                break;
+            }
+        }
+
+        if(f) {
+            // AUTOMÁTICO: Pega o valor do cadastro do fornecedor
+            float custo_automatico = f->valor_servico; 
+
+            e->lista_fornecedores_alocados = realloc(e->lista_fornecedores_alocados, (e->num_fornecedores_alocados + 1) * sizeof(ItemFornecedorEvento));
+            e->lista_fornecedores_alocados[e->num_fornecedores_alocados].codigo_fornecedor = f->codigo;
+            e->lista_fornecedores_alocados[e->num_fornecedores_alocados].valor_cobrado = custo_automatico;
+            e->num_fornecedores_alocados++;
+            e->custo_total_previsto += custo_automatico;
+            msg_fornecedor_adicionado_sucesso(f->nome_fantasia, custo_automatico);
         } else {
             msg_recurso_nao_encontrado();
         }
     }
-    sistema->num_eventos++;
-    salvarEventos(sistema);
 }
 
 void alterarStatusEventoController(Sistema *sistema) {
