@@ -24,10 +24,10 @@ void menuEquipeInternaView(Sistema *sistema) {
         limpar_buffer();
 
         switch (opcao) {
-            case 1: adicionarEquipeController(sistema); break;
-            case 2: alterarEquipeController(sistema); break;
+            case 1: adicionarEquipeInternaController(sistema); break;
+            case 2: alterarEquipeInternaController(sistema); break;
             case 3: listarEquipeInternaView(sistema); break;
-            case 4: excluirEquipeController(sistema); break;
+            case 4: excluirEquipeInternaController(sistema); break;
             case 0: break;
             default: printf("\nOpcao invalida!\n"); break;
         }

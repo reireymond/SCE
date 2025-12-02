@@ -70,6 +70,19 @@ int menu_alterar_operador(Operador *op) {
     }
     return opcao;
 }
+int pedir_id_operador(const char *acao) {
+    int id;
+    printf("\nDigite o ID do Operador para %s: ", acao);
+    ler_inteiro_valido(&id, 1, 999999);
+    return id;
+}
+
+int confirmar_exclusao_operador(char *nome) {
+    char resp;
+    printf("Tem certeza que deseja excluir o operador '%s'? (s/n): ", nome);
+    scanf(" %c", &resp); limpar_buffer();
+    return (resp == 's' || resp == 'S');
+}
 void tela_login(char *usuario_dest, char *senha_dest) {
     limpar_tela();
     printf("+=====================================================+\n");
@@ -79,6 +92,7 @@ void tela_login(char *usuario_dest, char *senha_dest) {
     ler_texto_valido(usuario_dest, 50, VALIDAR_NAO_VAZIO);
     printf("Senha: ");
     ler_texto_valido(senha_dest, 50, VALIDAR_NAO_VAZIO);
+
 }
 
 void mensagem_login_falhou(int tentativa, int max) {

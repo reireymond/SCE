@@ -108,5 +108,3 @@ int menu_alterar_campo_produtora(Produtora *p) {
     return opcao;
 }
 
-void mensagem_sucesso(const char *msg) { printf("\n[SUCESSO] %s\n", msg); pausar(); }
-void mensagem_erro(const char *msg) { printf("\n[ERRO] %s\n", msg); pausar(); }

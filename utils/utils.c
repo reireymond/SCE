@@ -25,3 +25,17 @@ void limpar_tela() {
         system("clear"); // Linux/macOs
     #endif
 }
+void mensagem_sucesso(const char *msg) {
+    printf("\n[SUCESSO] %s\n", msg);
+    pausar();
+}
+
+void mensagem_erro(const char *msg) {
+    printf("\n[ERRO] %s\n", msg);
+    pausar();
+}
+
+void mensagem_aviso(const char *msg) {
+    printf("\n[AVISO] %s\n", msg);
+    pausar();
+}

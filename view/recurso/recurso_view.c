@@ -44,7 +44,6 @@ void menuRecursosView(Sistema *sistema) {
 
 // exibe a lista de recursos e equipamentos.
 void listarRecursosView(Sistema *sistema) {
-    int opcao;
     if (sistema->num_recursos == 0) {
         printf("\nNenhum recurso cadastrado.\n");
         return; 
@@ -123,5 +122,3 @@ int confirmar_exclusao_recurso(char *nome) {
     scanf(" %c", &resp); limpar_buffer();
     return (resp == 's' || resp == 'S');
 }
-void mensagem_sucesso(const char *msg) { printf("\n[SUCESSO] %s\n", msg); pausar(); }
-void mensagem_erro(const char *msg) { printf("\n[ERRO] %s\n", msg); pausar(); }

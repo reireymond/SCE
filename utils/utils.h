@@ -1,4 +1,3 @@
-// Evita múltiplas inclusões do arquivo, prevenindo redefinições de funções
 #ifndef UTILS_H
 #define UTILS_H
 
@@ -8,7 +7,10 @@ void limpar_buffer();
 // Pausa a execução até o usuário pressionar Enter
 void pausar();
 
-// Limpa a tela do console (Windows: cls, Linux/macOS: clear)
+// Limpa a tela do console
 void limpar_tela();
+void mensagem_sucesso(const char *msg);
+void mensagem_erro(const char *msg);
+void mensagem_aviso(const char *msg);
 
-#endif // UTILS_H
+#endif 

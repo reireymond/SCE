@@ -2,6 +2,14 @@
 #include <string.h>
 #include "controller/operador/operador_controller.h" 
 #include "view/operador/operador_view.h" 
+static Operador* buscarOperadorPorUsuario(Sistema *sistema, const char *usuario) {
+    for(int i=0; i < sistema->num_operadores; i++) {
+        if(strcmp(sistema->lista_operadores[i].usuario, usuario) == 0) {
+            return &sistema->lista_operadores[i];
+        }
+    }
+    return NULL;
+}
 
 int realizarLoginOperador(Sistema *sistema) {
     if (sistema->num_operadores == 0) {

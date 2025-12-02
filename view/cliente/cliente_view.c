@@ -48,22 +48,6 @@ void listarClientesView(Sistema *sistema) {
                sistema->lista_clientes[i].telefone);
     }
 }
-
-void mensagem_erro(const char *msg) {
-    printf("\n %s Erro \n", msg);
-    pausar();
-}
-
-void mensagem_sucesso(const char *msg) {
-    printf("\n %s Sucesso\n", msg);
-    pausar();
-}
-
-void mensagem_aviso(const char *msg) {
-    printf("\n %s Aviso \n", msg);
-    pausar();
-}
-
 void formulario_novo_cliente(Cliente *c) {
     printf("\n--- Preencha os dados do Cliente (ID: %d) ---\n", c->codigo);
     
