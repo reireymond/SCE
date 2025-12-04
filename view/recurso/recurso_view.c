@@ -23,21 +23,16 @@ void menuRecursosView(Sistema *sistema) {
         printf("Escolha uma opcao: ");
 
         scanf("%d", &opcao);
-        // 
+ 
         limpar_buffer();
-
-        // Um 'switch' direciona o fluxo do programa com base na opção do usuário.
         switch (opcao) {
-            // Cada caso chama a função do controller correspondente para executar a ação.
             case 1: adicionarRecursoController(sistema); break;
             case 2: alterarRecursoController(sistema); break;
             case 3: listarRecursosView(sistema); break;
             case 4: excluirRecursoController(sistema); break;
-            case 0: break; // A opção 0 simplesmente encerra o loop.
+            case 0: break;
             default: printf("\nOpcao invalida!\n"); break;
         }
-        // Se a opção não for 0 (sair), o programa pausa, aguardando que o usuário
-        // pressione Enter para continuar.
         if (opcao != 0) pausar();
     } while (opcao != 0);
 }

@@ -128,7 +128,7 @@ typedef struct {
 } Transacao;
 
 // --- SISTEMA GERAL ---
-typedef struct Sistema {
+typedef struct {
     TipoArmazenamento modo_de_armazenamento;
 
     Produtora *dados_produtora;
