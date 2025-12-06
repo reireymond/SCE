@@ -19,9 +19,9 @@ void salvarRecursos(Sistema *sistema) {
         fwrite(&sistema->num_recursos, sizeof(int), 1, arquivo);
         fwrite(sistema->lista_recursos, sizeof(Recurso), sistema->num_recursos, arquivo);
     } else {
-        fprintf(arquivo, "%d\n", sistema->num_recursos);
+        fprintf(arquivo, "Numero de recursos cadastrados: %d\n", sistema->num_recursos);
         for (int i = 0; i < sistema->num_recursos; i++) {
-            fprintf(arquivo, "%d\n%s\n%s\n%d\n%.2f\n%.2f\n",
+            fprintf(arquivo, "Codigo: %d\nDescricao: %s\n Categoria: %s\nQuantidade em estoque: %d\nPreco de custo: %.2f\n Valor da locacao: %.2f\n",
                     sistema->lista_recursos[i].codigo,
                     sistema->lista_recursos[i].descricao,
                     sistema->lista_recursos[i].categoria,

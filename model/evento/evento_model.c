@@ -43,24 +43,24 @@ void salvarEventos(Sistema *sistema) {
             if(e->num_equipe_alocada > 0) fwrite(e->lista_equipe_alocada, sizeof(ItemEquipeEvento), e->num_equipe_alocada, f);
         }
     } else {
-        fprintf(f, "%d\n", sistema->num_eventos);
+        fprintf(f, "Numero de enventos: %d\n", sistema->num_eventos);
         for(int i=0; i<sistema->num_eventos; i++) {
             Evento *e = &sistema->lista_eventos[i];
             // Salva data e hora no txt
-            fprintf(f, "%d\n%s\n%d\n%d\n%s\n%s\n%s\n%s\n%s\n%.2f\n%.2f\n",
+            fprintf(f, " Codigo: %d\nNome do evento: %s\n Codigo do cliente: %d\nStatus: %d\nData de inicio: %s\n Hora de inicio: %s\n Data de termino: %s\n Hora de termino: %s\n Local do evento: %s\nValor do Orcamento: %.2f\nValor final:%.2f\n",
                 e->codigo, e->nome_evento, e->codigo_cliente, e->status,
                 e->data_inicio, e->hora_inicio, 
                 e->data_fim, e->hora_fim,       
                 e->local,
                 e->custo_total_previsto, e->valor_final_faturado);
             
-            fprintf(f, "%d\n", e->num_recursos_alocados);
+            fprintf(f, "Numero de recursos alocados: %d\n", e->num_recursos_alocados);
             for(int j=0; j<e->num_recursos_alocados; j++)
-                fprintf(f, "%d %d %.2f\n", e->lista_recursos_alocados[j].codigo_recurso, e->lista_recursos_alocados[j].quantidade, e->lista_recursos_alocados[j].custo_locacao_momento);
+                fprintf(f, " Lista de recursos alocados: %d %d %.2f\n", e->lista_recursos_alocados[j].codigo_recurso, e->lista_recursos_alocados[j].quantidade, e->lista_recursos_alocados[j].custo_locacao_momento);
             
-            fprintf(f, "%d\n", e->num_equipe_alocada);
+            fprintf(f, "Numero de equipe alocada: %d\n", e->num_equipe_alocada);
             for(int j=0; j<e->num_equipe_alocada; j++)
-                fprintf(f, "%d %.2f\n", e->lista_equipe_alocada[j].codigo_equipe, e->lista_equipe_alocada[j].custo_diaria_momento);
+                fprintf(f, "Lista de equipe alocada: %d %.2f\n", e->lista_equipe_alocada[j].codigo_equipe, e->lista_equipe_alocada[j].custo_diaria_momento);
         }
     }
     fclose(f);

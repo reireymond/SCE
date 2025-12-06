@@ -21,10 +21,10 @@ void salvarProdutora(Sistema *sistema) {
         fwrite(&existe, sizeof(int), 1, arquivo);
         if (existe) fwrite(sistema->dados_produtora, sizeof(Produtora), 1, arquivo);
     } else {
-        fprintf(arquivo, "%d\n", existe);
+        fprintf(arquivo, "Numero de produtora cadastrada: %d\n", existe);
         if (existe) {
             Produtora *p = sistema->dados_produtora;
-            fprintf(arquivo, "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%.2f\n",
+            fprintf(arquivo, "Nome fantasia: %s\nRazao social: %s\nNome do responsavel: %s\nCNPJ: %s\nInscricao estadual:%s\nEndereco: %s\nTelefone: %s\nTelefone do responsavel:  %s\nE-mail: %s\nMargem de lucro: %.2f%%\n",
                     p->nome_fantasia, p->razao_social, p->nome_do_responsavel,
                     p->cnpj, p->inscricao_estadual, p->endereco, p->telefone,
                     p->telefone_responsavel, p->email, p->margem_lucro);

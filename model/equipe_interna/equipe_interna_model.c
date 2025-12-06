@@ -19,9 +19,9 @@ void salvarEquipeInterna(Sistema *sistema) {
         fwrite(&sistema->num_equipe, sizeof(int), 1, arquivo);
         fwrite(sistema->lista_equipe, sizeof(EquipeInterna), sistema->num_equipe, arquivo);
     } else {
-        fprintf(arquivo, "%d\n", sistema->num_equipe);
+        fprintf(arquivo, "Numero de equipe cadastradas: %d\n", sistema->num_equipe);
         for (int i = 0; i < sistema->num_equipe; i++) {
-            fprintf(arquivo, "%d\n%s\n%s\n%s\n%.2f\n",
+            fprintf(arquivo, "Codigo: %d\nNome: %s\nCPF: %s\nFuncao: %s\n Valor da diaria: %.2f\n",
                     sistema->lista_equipe[i].codigo,
                     sistema->lista_equipe[i].nome,
                     sistema->lista_equipe[i].cpf,

@@ -19,9 +19,9 @@ void salvarOperadores(Sistema *sistema) {
         fwrite(&sistema->num_operadores, sizeof(int), 1, arquivo);
         fwrite(sistema->lista_operadores, sizeof(Operador), sistema->num_operadores, arquivo);
     } else {
-        fprintf(arquivo, "%d\n", sistema->num_operadores);
+        fprintf(arquivo, "Numero de operadores cadastrados: %d\n", sistema->num_operadores);
         for (int i = 0; i < sistema->num_operadores; i++) {
-            fprintf(arquivo, "%d\n%s\n%s\n%s\n",
+            fprintf(arquivo, " Codigo: %d\n Nome: %s\n Usuario: %s\n Senha: %s\n",
                     sistema->lista_operadores[i].codigo,
                     sistema->lista_operadores[i].nome,
                     sistema->lista_operadores[i].usuario,

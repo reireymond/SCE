@@ -48,10 +48,10 @@ void salvarTransacoes(Sistema *sistema) {
                 fwrite(sistema->lista_transacoes, sizeof(Transacao), sistema->num_transacoes, f);
             }
         } else {
-            fprintf(f, "%d\n", sistema->num_transacoes);
+            fprintf(f, "Numero de trasacoes: %d\n", sistema->num_transacoes);
             for(int i=0; i < sistema->num_transacoes; i++) {
                 Transacao *t = &sistema->lista_transacoes[i];
-                fprintf(f, "%d\n%d\n%d\n%.2f\n%s\n%s\n%s\n", 
+                fprintf(f, "Codigo: %d\n Tipo: %d\n Status: %d\n Valor: %.2f\n Descricao: %s\nData de vencimento: %s\n Data de pagamento: %s\n", 
                         t->codigo, t->tipo, t->status, t->valor, 
                         t->descricao, t->data_vencimento, t->data_pagamento);
             }

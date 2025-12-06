@@ -21,9 +21,9 @@ void salvarClientes(Sistema *sistema) {
     } else {
         arquivo = fopen(CLIENTES_TEXT_FILE, "w");
         if (arquivo) {
-            fprintf(arquivo, "%d\n", sistema->num_clientes);
+            fprintf(arquivo, " Numero de clientes cadastrados:%d\n", sistema->num_clientes);
             for (int i = 0; i < sistema->num_clientes; i++) {
-                fprintf(arquivo, "%d\n%s\n%s\n%s\n%s\n%s\n%s\n",
+                fprintf(arquivo, "Codigo: %d\nNome / Razao Social: %s\nCPF/CNPJ: %s\nEndereco completo: %s\nTelefone: %s\nE-mail: %s\nNome do contato: %s\n",
                         sistema->lista_clientes[i].codigo,
                         sistema->lista_clientes[i].razao_social,
                         sistema->lista_clientes[i].cnpj,

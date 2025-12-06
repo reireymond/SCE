@@ -19,9 +19,9 @@ void salvarFornecedores(Sistema *sistema) {
         fwrite(&sistema->num_fornecedores, sizeof(int), 1, arquivo);
         fwrite(sistema->lista_fornecedores, sizeof(Fornecedor), sistema->num_fornecedores, arquivo);
     } else {
-        fprintf(arquivo, "%d\n", sistema->num_fornecedores);
+        fprintf(arquivo, "Numero de fornecedores cadastrados: %d\n", sistema->num_fornecedores);
         for (int i = 0; i < sistema->num_fornecedores; i++) {
-            fprintf(arquivo, "%d\n%s\n%s\n%s\n%s\n%s\n%s\n",
+            fprintf(arquivo, "Codigo: %d\nNome fantasia: %s\n Razao social: %s\n CNPJ: %s\nEndereco: %s\n Telefone: %s\nTipo de servico: %s\n Valor do servico: %.2f\n",
                     sistema->lista_fornecedores[i].codigo,
                     sistema->lista_fornecedores[i].nome_fantasia,
                     sistema->lista_fornecedores[i].razao_social,
