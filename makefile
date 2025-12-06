@@ -12,6 +12,7 @@ ODIR = obj
 BDIR = bin
 
 # Acha todos os arquivos .c automaticamente
+# O wildcard pega controller/exportacao/*.c e controller/relatorio/*.c automaticamente
 SOURCES = $(wildcard controller/*/*.c model/*/*.c view/*/*.c utils/*.c main.c)
 
 # Cria lista de arquivos .o (objetos)
@@ -32,8 +33,7 @@ $(BDIR)/$(TARGET): $(OBJECTS)
 	@echo Sucesso! Execute: $(BDIR)\$(TARGET)
 
 # Compila cada arquivo .c individualmente
-# Adicionei :view/relatorio:controller/relatorio
-VPATH = controller/armazenamento:controller/cliente:controller/equipe_interna:controller/evento:controller/fornecedor:controller/login:controller/main:controller/operador:controller/produtora:controller/recurso:controller/transacao:model/cliente:model/config_armazenamento:model/equipe_interna:model/evento:model/fornecedor:model/operador:model/produtora:model/recurso:model/transacao:view/cliente:view/equipe_interna:view/evento:view/fornecedor:view/main:view/operador:view/produtora:view/recurso:view/transacao:utils:view/armazenamento:view/relatorio:controller/relatorio
+VPATH = controller/armazenamento:controller/cliente:controller/equipe_interna:controller/evento:controller/fornecedor:controller/login:controller/main:controller/operador:controller/produtora:controller/recurso:controller/transacao:model/cliente:model/config_armazenamento:model/equipe_interna:model/evento:model/fornecedor:model/operador:model/produtora:model/recurso:model/transacao:view/cliente:view/equipe_interna:view/evento:view/fornecedor:view/main:view/operador:view/produtora:view/recurso:view/transacao:utils:view/armazenamento:view/relatorio:controller/relatorio:view/exportacao:controller/exportacao
 
 $(ODIR)/%.o: %.c
 	@echo Compilando $<...
