@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "exportacao/exportacao_view.h"
+#include "view/exportacao/exportacao_view.h"
 #include "utils/utils.h"
 
 //pega o texto
