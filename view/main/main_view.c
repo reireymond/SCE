@@ -79,6 +79,7 @@ void menuPrincipalView(Sistema *sistema) {
         printf("| [3] Financeiro (Caixa e Contas)                     |\n");
         printf("| [4] Relatorios e Feedback                           |\n");
         printf("| [5] Importar/Exportar Dados (XML)                   |\n"); 
+        printf("| [6] Converter Dados                                 |\n"); 
         printf("+-----------------------------------------------------+\n");
         printf("| [0] Sair do Sistema                                 |\n");
         printf("+=====================================================+\n");
@@ -93,6 +94,7 @@ void menuPrincipalView(Sistema *sistema) {
             case 3: menuTransacoesView(sistema); break;
             case 4: menuRelatoriosController(sistema); break; 
             case 5: menuXMLController(sistema); break;
+            case 6:menuConverterArquivosView(sistema);break;
             case 0: printf("Saindo do sistema...\n"); break;
             default: printf("Opcao invalida.\n"); pausar(); break;
         }

@@ -8,24 +8,34 @@ void menuConverterArquivosView(Sistema *sistema) {
     TipoArmazenamento origem, destino;
 
     limpar_tela();
-    printf("=== CONVERTER ARQUIVOS (TEXTO <-> BINARIO) ===\n");
-    printf("ATENCAO: Isso vai recarregar os dados e salvar no novo formato.\n\n");
-    
-    printf("Qual o formato ATUAL dos arquivos? \n");
-    printf("[1] Binario (.dat)\n");
-    printf("[2] Texto (.txt)\n");
-    printf("Escolha: ");
-    scanf("%d", &op1);
-    limpar_buffer();
+        printf("+=====================================================+\n");
+        printf("|             CONVERTER ARQUIVOS (TXT <-> BIN)        |\n");
+        printf("+=====================================================+\n");
+        printf("| ATENCAO: Isso vai recarregar os dados e salvar      |\n");
+        printf("|          no novo formato escolhido.                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| Qual o formato ATUAL dos arquivos?                  |\n");
+        printf("|                                                     |\n");
+        printf("| [1] Binario (.dat)                                  |\n");
+        printf("| [2] Texto   (.txt)                                  |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("Escolha: ");
+        scanf("%d", &op1);
+        limpar_buffer();
+
     
     if(op1 == 1) origem = ARQUIVO_BINARIO; else origem = ARQUIVO_TEXTO;
 
-    printf("\nPara qual formato deseja CONVERTER? \n");
-    printf("[1] Binario (.dat)\n");
-    printf("[2] Texto (.txt)\n");
-    printf("Escolha: ");
-    scanf("%d", &op2);
-    limpar_buffer();
+        printf("+-----------------------------------------------------+\n");
+        printf("| Para qual FORMATO deseja CONVERTER?                 |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("| [1] Binario (.dat)                                  |\n");
+        printf("| [2] Texto   (.txt)                                  |\n");
+        printf("+-----------------------------------------------------+\n");
+        printf("Escolha: ");
+        scanf("%d", &op2);
+        limpar_buffer();
+
 
     if(op2 == 1) destino = ARQUIVO_BINARIO; else destino = ARQUIVO_TEXTO;
 
