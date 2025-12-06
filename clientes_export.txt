@@ -1,0 +1,18 @@
+LISTA DE CLIENTES
+REGISTRO
+Codigo: 1
+Razao Social: Gabriel oliveira
+Endereco: serra verde 663
+CNPJ: 16428006600
+Telefone: 998268735
+Email: bielbieloliveirag8@gmail.com
+Contato: Gabriel
+REGISTRO
+Codigo: 2
+Razao Social: Kaua teixeira
+Endereco: Altos pinheiros 663
+CNPJ: 16428006600
+Telefone: 998268735
+Email: kauateixeira@gmail.com
+Contato: Kaua
+FIM

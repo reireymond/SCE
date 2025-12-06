@@ -15,7 +15,7 @@
 #include "view/evento/evento_view.h"
 #include "view/transacao/transacao_view.h"
 
-void menuEscolherArmazenamentoView(Sistema *sistema) {
+int menuEscolherArmazenamentoView() {
     int opcao;
     limpar_tela();
     printf("+=====================================================+\n");
@@ -30,9 +30,7 @@ void menuEscolherArmazenamentoView(Sistema *sistema) {
     scanf("%d", &opcao);
     limpar_buffer();
 
-    if(opcao == 2) definirModoDeArmazenamento(sistema, ARQUIVO_TEXTO);
-    else if(opcao == 3) definirModoDeArmazenamento(sistema, MEMORIA);
-    else definirModoDeArmazenamento(sistema, ARQUIVO_BINARIO);
+    return opcao;
 }
 
 void menuGestaoDeDadosView(Sistema *sistema) {

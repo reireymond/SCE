@@ -1,0 +1,4 @@
+ID   | EVENTO                   | CLIENTE | INICIO      | FIM         | STATUS      | VALOR
+1    | festa                    | 1       | 06/12/2025  | 07/12/2025  | Finalizado  | 490.00
+2    | Show                     | 1       | 06/12/2025  | 07/12/2025  | Orcamento   | 440.00
+3    | festa                    | 1       | 25/11/2025  | 26/11/2025  | Aprovado    | 675.00

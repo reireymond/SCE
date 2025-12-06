@@ -174,8 +174,8 @@ void adicionarEventoController(Sistema *sistema) {
     //eEquipe
     while (perguntar_se_adiciona_equipe()) {
         int cod;
-        formulario_adicionar_equipe(&cod); 
         listarEquipeInternaView(sistema);//lista a equipe cadastrada
+        formulario_adicionar_equipe(&cod); 
 
         EquipeInterna *eq = NULL;
         for(int i=0; i < sistema->num_equipe; i++) {

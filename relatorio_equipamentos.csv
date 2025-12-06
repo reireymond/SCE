@@ -1,0 +1,4 @@
+ID   | DESCRICAO                     | CATEGORIA           | ESTOQUE   | VALOR
+1    | Baloes                        | Decoracao           | 25        | 10.00
+2    | mesa                          | alimentacao         | 25        | 15.00
+3    | pratos                        | alimentacao         | 50        | 30.00

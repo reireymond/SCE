@@ -4,7 +4,8 @@
 #include "utils/utils.h"
 #include "utils/validation.h"
 
-void menuRelatoriosView() {
+int menuRelatoriosView() {
+    int op;
     limpar_tela();
     printf("+=====================================================+\n");
     printf("|                 MODULO DE RELATORIOS                |\n");
@@ -20,6 +21,11 @@ void menuRelatoriosView() {
     printf("| [0] Voltar                                          |\n");
     printf("+=====================================================+\n");
     printf("Escolha uma opcao: ");
+    
+    scanf("%d", &op);
+    limpar_buffer();
+    
+    return op;
 }
 
 int perguntarTipoSaida() {
@@ -31,6 +37,7 @@ int perguntarTipoSaida() {
     ler_inteiro_valido(&op, 1, 2);
     return op;
 }
+
 //filtros
 void form_filtro_cliente(int *min, int *max, int *ordem) {
     printf("\nFiltros de Cliente\n");
@@ -74,7 +81,8 @@ void form_filtro_financeiro(int *cod_entidade, char *data_ini, char *data_fim) {
     printf("Data Vencimento Inicial (0 para ignorar):"); ler_texto_valido(data_ini, 15, VALIDAR_NAO_VAZIO);
     printf("Data Vencimento Final   (0 para ignorar):"); ler_texto_valido(data_fim, 15, VALIDAR_NAO_VAZIO);
 }
-// saida na tela 
+
+// aparece na tela
 void cabecalho_cliente() {
     printf("\n%-5s | %-30s | %-15s | %-20s\n", "ID", "Nome", "CPF/CNPJ", "Telefone");
     printf("------------------------------------------------------------------------------\n");
@@ -122,6 +130,7 @@ void linha_financeiro(Transacao *t) {
     if(t->status == PAGA) strcpy(st, "PAGO"); else strcpy(st, "PENDENTE");
     printf("%-5d | %-10s | %-10.2f | %-12s | %-25s\n", t->codigo, t->data_vencimento, t->valor, st, t->descricao);
 }
+
 void msg_relatorio_concluido() {
     printf("\n[FIM] Relatorio exibido com sucesso.\n");
     pausar();
@@ -132,5 +141,9 @@ void msg_arquivo_salvo(char *nome) {
 }
 void msg_erro_arquivo() {
     printf("\n[ERRO] Nao foi possivel criar o arquivo.\n");
+    pausar();
+}
+void msg_opcao_invalida() {
+    printf("\nOpcao invalida.\n");
     pausar();
 }

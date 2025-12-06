@@ -40,7 +40,7 @@ void exportar_equipamentos(Sistema *s, FILE *f) {
     fprintf(f, "LISTA DE EQUIPAMENTOS\n");
     for(int i=0; i < s->num_recursos; i++) {
         Recurso *r = &s->lista_recursos[i];
-        fprintf(f, "--- REGISTRO ---\n");
+        fprintf(f, "REGISTRO\n");
         fprintf(f, "Codigo: %d\n", r->codigo);
         fprintf(f, "Descricao: %s\n", r->descricao);
         fprintf(f, "Categoria: %s\n", r->categoria);
@@ -52,7 +52,7 @@ void exportar_equipamentos(Sistema *s, FILE *f) {
 }
 
 void exportar_eventos(Sistema *s, FILE *f) {
-    fprintf(f, "--- LISTA DE EVENTOS ---\n");
+    fprintf(f, "LISTA DE EVENTOS\n");
     for(int i=0; i < s->num_eventos; i++) {
         Evento *e = &s->lista_eventos[i];
         
@@ -62,13 +62,13 @@ void exportar_eventos(Sistema *s, FILE *f) {
         else if(e->status == APROVADO) strcpy(st, "Aprovado");
         else strcpy(st, "Finalizado");
 
-        fprintf(f, "--- REGISTRO ---\n");
+        fprintf(f, "REGISTRO\n");
         fprintf(f, "Codigo: %d\n", e->codigo);
         fprintf(f, "Evento: %s\n", e->nome_evento);
         fprintf(f, "Cliente ID: %d\n", e->codigo_cliente);
         fprintf(f, "Status: %s\n", st);
     }
-    fprintf(f, "--- FIM ---\n");
+    fprintf(f, "FIM\n");
 }
 
 //importar
@@ -92,7 +92,7 @@ void importar_clientes(Sistema *s, FILE *f) {
 
         if(lendo) {
             // pegar os dados
-            if(ler_campo(linha, "Codigo: ", valor)) temp.codigo = atoi(valor);
+            if(ler_campo(linha, "Codigo:", valor)) temp.codigo = atoi(valor);
             else if(ler_campo(linha, "Razao Social: ", temp.razao_social));
             else if(ler_campo(linha, "Endereco: ", temp.endereco));
             else if(ler_campo(linha, "CNPJ: ", temp.cnpj));
@@ -179,7 +179,7 @@ void importar_eventos(Sistema *s, FILE *f) {
     while(fgets(linha, sizeof(linha), f)) {
         linha[strcspn(linha, "\n")] = 0;
 
-        if(strcmp(linha, "--- REGISTRO ---") == 0) {
+        if(strcmp(linha, "REGISTRO") == 0) {
             memset(&temp, 0, sizeof(Evento));
             lendo = 1;
             continue;

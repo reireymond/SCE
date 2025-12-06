@@ -1,14 +1,8 @@
-// Controller principal do sistema
 #include "main_controller.h"
 #include <stdio.h>
-
-// View principal (menu de configuração)
 #include "view/main/main_view.h"
-
-// Funções utilitárias 
 #include "utils/utils.h"
-
-// Models usados para carregar e liberar dados
+#include "model/config_armazenamento/config_armazenamento.h"
 #include "model/produtora/produtora_model.h"
 #include "model/cliente/cliente_model.h"
 #include "model/equipe_interna/equipe_interna_model.h"
@@ -17,15 +11,19 @@
 #include "model/operador/operador_model.h"
 #include "model/evento/evento_model.h"
 #include "model/transacao/transacao_model.h"
-
-
-// Define o tipo de armazenamento inicial (memória, texto ou binário)
+// Define o tipo de armazenamento inicial
 void configuracaoInicialController(Sistema *sistema) {
-    menuEscolherArmazenamentoView(sistema);
+   
+    int opcao = menuEscolherArmazenamentoView();
+
+    // Aplica a logica aqui no controller
+    if(opcao == 2) definirModoDeArmazenamento(sistema, ARQUIVO_TEXTO);
+    else if(opcao == 3) definirModoDeArmazenamento(sistema, MEMORIA);
+    else definirModoDeArmazenamento(sistema, ARQUIVO_BINARIO);
 }
 
 
-// Carrega todos os dados das entidades do sistema
+// Carrega todos os dados do sistema
 void carregarTodosOsDadosController(Sistema *sistema) {
     carregarProdutora(sistema);
     carregarClientes(sistema);
@@ -39,7 +37,7 @@ void carregarTodosOsDadosController(Sistema *sistema) {
 }
 
 
-// Libera toda a memória alocada pelo sistema antes de encerrar
+// Libera toda a memoria alocada pelo sistema antes de encerrar
 void liberarTodaMemoriaController(Sistema *sistema) {
     liberarMemoriaProdutora(sistema);
     liberarMemoriaClientes(sistema);
@@ -50,3 +48,4 @@ void liberarTodaMemoriaController(Sistema *sistema) {
     liberarMemoriaEventos(sistema);
     liberarMemoriaTransacoes(sistema);
 }
+

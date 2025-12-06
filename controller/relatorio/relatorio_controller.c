@@ -20,7 +20,7 @@ void relatorio_clientes(Sistema *s) {
     if(tipo == 2) {
         f = fopen("relatorio_clientes.csv", "w");
         if(!f) { msg_erro_arquivo(); return; }
-        fprintf(f, "CODIGO;NOME;CNPJ;TELEFONE;EMAIL\n"); //CSV
+        fprintf(f, "%-6s| %-30s| %-18s| %-15s| %s\n", "CODIGO", "NOME", "CNPJ", "TELEFONE", "EMAIL"); //CSV
     } else {
         cabecalho_cliente();
     }
@@ -47,7 +47,7 @@ void relatorio_clientes(Sistema *s) {
         if(max > 0 && c->codigo > max) continue;
 
         if(tipo == 2) {
-            fprintf(f, "%d;%s;%s;%s;%s\n", c->codigo, c->razao_social, c->cnpj, c->telefone, c->email);
+            fprintf(f, "%-6d| %-30s| %-18s| %-15s| %s\n", c->codigo, c->razao_social, c->cnpj, c->telefone, c->email);
         } else {
             linha_cliente(c);
         }
@@ -68,7 +68,7 @@ void relatorio_eventos(Sistema *s) {
     if(tipo == 2) {
         f = fopen("relatorio_eventos.csv", "w");
         if(!f) { msg_erro_arquivo(); return; }
-        fprintf(f, "ID;EVENTO;CLIENTE;INICIO;FIM;STATUS;VALOR\n");
+        fprintf(f, "%-5s| %-25s| %-8s| %-12s| %-12s| %-12s| %s\n", "ID", "EVENTO", "CLIENTE", "INICIO", "FIM", "STATUS", "VALOR");
     } else {
         cabecalho_evento();
     }
@@ -94,8 +94,14 @@ void relatorio_eventos(Sistema *s) {
             if(d_fim > 0 && d_evento > d_fim) continue;
         }
 
+        char texto_status[20];
+        if(e->status == ORCAMENTO) strcpy(texto_status, "Orcamento");
+        else if(e->status == APROVADO) strcpy(texto_status, "Aprovado");
+        else if(e->status == FINALIZADO) strcpy(texto_status, "Finalizado");
+        else strcpy(texto_status, "Cancelado");
+
         if(tipo == 2) {
-            fprintf(f, "%d;%s;%d;%s;%s;%d;%.2f\n", e->codigo, e->nome_evento, e->codigo_cliente, e->data_inicio, e->data_fim, e->status, e->custo_total_previsto);
+            fprintf(f, "%-5d| %-25s| %-8d| %-12s| %-12s| %-12s| %.2f\n", e->codigo, e->nome_evento, e->codigo_cliente, e->data_inicio, e->data_fim, texto_status, e->custo_total_previsto);
         } else {
             linha_evento(e);
         }
@@ -115,7 +121,7 @@ void relatorio_cronograma(Sistema *s) {
     if(tipo == 2) {
         f = fopen("cronograma.csv", "w");
         if(!f) { msg_erro_arquivo(); return; }
-        fprintf(f, "RECURSO;DATA;HORA;EVENTO\n");
+        fprintf(f, "%-25s| %-12s| %-8s| %s\n", "RECURSO", "DATA", "HORA", "EVENTO");
     } else {
         cabecalho_cronograma();
     }
@@ -144,7 +150,7 @@ void relatorio_cronograma(Sistema *s) {
             }
 
             if(tipo == 2) {
-                fprintf(f, "%s;%s;%s;%s\n", nome_rec, e->data_inicio, e->hora_inicio, e->nome_evento);
+                fprintf(f, "%-25s| %-12s| %-8s| %s\n", nome_rec, e->data_inicio, e->hora_inicio, e->nome_evento);
             } else {
                 linha_cronograma(nome_rec, e->data_inicio, e->hora_inicio, e->nome_evento);
             }
@@ -165,7 +171,7 @@ void relatorio_equipamentos(Sistema *s) {
     if(tipo == 2) {
         f = fopen("relatorio_equipamentos.csv", "w");
         if(!f) { msg_erro_arquivo(); return; }
-        fprintf(f, "ID;DESCRICAO;CATEGORIA;ESTOQUE;VALOR\n");
+        fprintf(f, "%-5s| %-30s| %-20s| %-10s| %s\n", "ID", "DESCRICAO", "CATEGORIA", "ESTOQUE", "VALOR");
     } else {
         cabecalho_equipamento();
     }
@@ -178,7 +184,7 @@ void relatorio_equipamentos(Sistema *s) {
         if(strcmp(cat, "0") != 0 && strcmp(cat, r->categoria) != 0) continue;
 
         if(tipo == 2) {
-            fprintf(f, "%d;%s;%s;%d;%.2f\n", r->codigo, r->descricao, r->categoria, r->quantidade_estoque, r->valor_locacao);
+            fprintf(f, "%-5d| %-30s| %-20s| %-10d| %.2f\n", r->codigo, r->descricao, r->categoria, r->quantidade_estoque, r->valor_locacao);
         } else {
             linha_equipamento(r);
         }
@@ -203,7 +209,7 @@ void relatorio_financeiro(Sistema *s, TipoTransacao tipo_filtro) {
     if(tipo == 2) {
         f = fopen(nome_arq, "w");
         if(!f) { msg_erro_arquivo(); return; }
-        fprintf(f, "ID;VENCIMENTO;VALOR;STATUS;DESCRICAO\n");
+        fprintf(f, "%-5s| %-12s| %-12s| %-10s| %s\n", "ID", "VENCIMENTO", "VALOR", "STATUS", "DESCRICAO");
     } else {
         cabecalho_financeiro();
     }
@@ -222,8 +228,12 @@ void relatorio_financeiro(Sistema *s, TipoTransacao tipo_filtro) {
         if(d_ini > 0 && d_venc < d_ini) continue;
         if(d_fim > 0 && d_venc > d_fim) continue;
 
+        char st[20];
+        if(t->status == PAGA) strcpy(st, "PAGO");
+        else strcpy(st, "PENDENTE");
+
         if(tipo == 2) {
-            fprintf(f, "%d;%s;%.2f;%d;%s\n", t->codigo, t->data_vencimento, t->valor, t->status, t->descricao);
+            fprintf(f, "%-5d| %-12s| %-12.2f| %-10s| %s\n", t->codigo, t->data_vencimento, t->valor, st, t->descricao);
         } else {
             linha_financeiro(t);
         }
@@ -237,9 +247,7 @@ void relatorio_financeiro(Sistema *s, TipoTransacao tipo_filtro) {
 void menuRelatoriosController(Sistema *sistema) {
     int op;
     do {
-        menuRelatoriosView();
-        scanf("%d", &op);
-        limpar_buffer();
+        op = menuRelatoriosView();
 
         switch(op) {
             case 1: relatorio_clientes(sistema); break;
@@ -250,7 +258,7 @@ void menuRelatoriosController(Sistema *sistema) {
             case 6: relatorio_financeiro(sistema, CONTA_A_PAGAR); break;
             case 7: relatorio_financeiro(sistema, MOVIMENTACAO_CAIXA); break;
             case 0: break;
-            default: printf("Opcao invalida.\n"); pausar(); break;
+            default: msg_opcao_invalida(); break;
         }
     } while(op != 0);
 }

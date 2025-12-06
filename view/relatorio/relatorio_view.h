@@ -1,18 +1,17 @@
 #ifndef RELATORIO_VIEW_H
 #define RELATORIO_VIEW_H
 #include "model/sistema.h"
-// Menus
-void menuRelatoriosView();
-int perguntarTipoSaida();
 
-// formularios dos Filtros que serao usados
+// Menu agora retorna a opcao escolhida
+int menuRelatoriosView(); 
+int perguntarTipoSaida();
+// Filtros
 void form_filtro_cliente(int *min, int *max, int *ordem_alfabetica);
 void form_filtro_eventos(int *cod_cliente, char *data_ini, char *data_fim, int *status_op);
 void form_filtro_cronograma(int *cod_recurso, char *data_ini, char *data_fim);
 void form_filtro_equipamentos(int *min, int *max, char *categoria);
 void form_filtro_financeiro(int *cod_entidade, char *data_ini, char *data_fim);
-
-// cabecalhos e Linhas para Tela
+// Cabecalhos e Linhas
 void cabecalho_cliente();
 void linha_cliente(Cliente *c);
 void cabecalho_evento();
@@ -27,5 +26,6 @@ void linha_financeiro(Transacao *t);
 void msg_relatorio_concluido();
 void msg_arquivo_salvo(char *nome);
 void msg_erro_arquivo();
+void msg_opcao_invalida();
 
 #endif
