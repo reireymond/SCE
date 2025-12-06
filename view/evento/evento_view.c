@@ -32,6 +32,7 @@ void menuEventosView(Sistema *sistema) {
         if (opcao != 0) pausar();
     } while (opcao != 0);
 }
+
 void listarEventosView(Sistema *sistema) {
     if (sistema->num_eventos == 0) {
         printf("\nNenhum evento cadastrado.\n"); 
@@ -58,25 +59,18 @@ void listarEventosView(Sistema *sistema) {
 
 void formulario_novo_evento_basico(Evento *e) {
     printf("\n--- Novo Evento (ID: %d) ---\n", e->codigo);
-    
     printf("Nome do Evento: "); 
     ler_texto_valido(e->nome_evento, sizeof(e->nome_evento), VALIDAR_NAO_VAZIO);
-    
     printf("ID do Cliente: "); 
     ler_inteiro_valido(&e->codigo_cliente, 1, 999999);
-    
     printf("Data Inicio (DD/MM/AAAA): "); 
     ler_texto_valido(e->data_inicio, sizeof(e->data_inicio), VALIDAR_DATA);
-    
     printf("Hora Inicio (HH:MM): "); 
     ler_texto_valido(e->hora_inicio, sizeof(e->hora_inicio), VALIDAR_NAO_VAZIO);
-    
     printf("Data Fim (DD/MM/AAAA): "); 
     ler_texto_valido(e->data_fim, sizeof(e->data_fim), VALIDAR_DATA);
-    
     printf("Hora Fim (HH:MM): "); 
     ler_texto_valido(e->hora_fim, sizeof(e->hora_fim), VALIDAR_NAO_VAZIO);
-    
     printf("Local: "); 
     ler_texto_valido(e->local, sizeof(e->local), VALIDAR_NAO_VAZIO);
 }
@@ -92,7 +86,6 @@ int perguntar_se_adiciona_recurso() {
 void formulario_adicionar_recurso(int *cod, int *qtd) {
     printf("Digite o ID do Equipamento: ");
     ler_inteiro_valido(cod, 1, 999999);
-    
     printf("Digite a Quantidade: ");
     ler_inteiro_valido(qtd, 1, 9999);
 }
@@ -110,7 +103,7 @@ void formulario_adicionar_equipe(int *cod) {
     ler_inteiro_valido(cod, 1, 999999);
 }
 
-// fornecedo
+// fornecedor
 int perguntar_se_adiciona_fornecedor() {
     int op;
     printf("\nAdicionar Servico de Fornecedor Externo? (1-Sim, 0-Nao): ");
@@ -130,22 +123,16 @@ int pedir_id_evento(const char *acao) {
     return id;
 }
 
-void formulario_finalizar_evento(float *valor_final) {
-    printf("\n--- Finalizando Evento ---\n");
-    printf("Informe o Valor Final Faturado (Real): R$ ");
-    ler_float_positivo(valor_final);
-}
-
 void msg_fornecedor_adicionado_sucesso(char *nome_fornecedor, float custo) {
-    printf(">> Fornecedor '%s' adicionado! Custo: R$ %.2f\n", nome_fornecedor, custo);
+    printf("Fornecedor '%s' adicionado! Custo: R$ %.2f\n", nome_fornecedor, custo);
 }
 
 void msg_recurso_adicionado() {
-    printf(">> Item adicionado ao orcamento!\n");
+    printf("Item adicionado ao orcamento!\n");
 }
 
 void msg_recurso_nao_encontrado() {
-    printf(">> ERRO: ID nao encontrado. Tente novamente.\n");
+    printf("ERRO: ID nao encontrado. Tente novamente.\n");
 }
 
 void msg_conflito_estoque(int cod, int total, int usado) {
@@ -159,3 +146,38 @@ void msg_evento_aprovado() {
     pausar();
 }
 
+// Mensagens novas
+void msg_verificando_disponibilidade() {
+    printf("Verificando disponibilidade de Recursos, Equipe e Fornecedores...\n");
+}
+
+void msg_conflito_equipe(int cod, char *nome_evento) {
+    printf("\n[ERRO] Conflito de Agenda: Membro ID %d ja esta alocado no evento '%s' neste horario.\n", cod, nome_evento);
+    pausar();
+}
+
+void msg_conflito_fornecedor(int cod, char *nome_evento) {
+    printf("\n[ERRO] Conflito de Fornecedor: Fornecedor ID %d ja contratado para o evento '%s' neste horario.\n", cod, nome_evento);
+    pausar();
+}
+
+void msg_erro_aprovacao_conflito() {
+    mensagem_erro("Nao foi possivel aprovar o evento devido a conflitos.");
+}
+
+void msg_membro_equipe_adicionado() {
+    printf("Membro adicionado ao orcamento.\n");
+}
+
+void msg_membro_nao_encontrado() {
+    mensagem_erro("Membro nao encontrado.");
+}
+
+void msg_evento_finalizado_sucesso(float valor) {
+    printf("\n============================================\n");
+    printf(" EVENTO FINALIZADO COM SUCESSO!\n");
+    printf(" Valor Total Faturado: R$ %.2f\n", valor);
+    printf(" Conta a Receber gerada automaticamente.\n");
+    printf("============================================\n");
+    pausar();
+}

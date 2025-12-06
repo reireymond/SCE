@@ -3,10 +3,8 @@
 #include "utils/utils.h"
 #include "model/config_armazenamento/config_armazenamento.h"
 #include "controller/armazenamento/armazenamento_controller.h"
-
+#include "controller/relatorio/relatorio_controller.h"
 #include "view/armazenamento/armazenamento_view.h"
-
-// Includes das outras Views
 #include "view/produtora/produtora_view.h"
 #include "view/cliente/cliente_view.h"
 #include "view/equipe_interna/equipe_interna_view.h"
@@ -20,7 +18,7 @@ void menuEscolherArmazenamentoView(Sistema *sistema) {
     int opcao;
     limpar_tela();
     printf("+=====================================================+\n");
-    printf("|              ONDE SALVAR OS DADOS?                  |\n");
+    printf("|              TIPO DE ARMAZENAMENTO                  |\n");
     printf("+=====================================================+\n");
     printf("| [1] Arquivo Binario (.dat - Recomendado)            |\n");
     printf("| [2] Arquivo Texto (.txt)                            |\n");
@@ -104,7 +102,7 @@ void menuPrincipalView(Sistema *sistema) {
         printf("| [1] Gestao de Cadastros (Clientes, Equipe...)       |\n");
         printf("| [2] Eventos (Orcamentos e Aprovacao)                |\n");
         printf("| [3] Financeiro (Caixa e Contas)                     |\n");
-        printf("| [4] Relatorios (Em breve)                           |\n");
+        printf("| [4] Relatorios e Feedback                           |\n");
         printf("| [5] Importar/Exportar Dados                         |\n");
         printf("+-----------------------------------------------------+\n");
         printf("| [0] Sair do Sistema                                 |\n");
@@ -118,7 +116,7 @@ void menuPrincipalView(Sistema *sistema) {
             case 1: menuGestaoDeDadosView(sistema); break;
             case 2: menuEventosView(sistema); break;
             case 3: menuTransacoesView(sistema); break;
-            case 4: printf("Disponivel na proxima entrega.\n"); pausar(); break;
+            case 4: menuRelatoriosController(sistema); break;
             case 5: menuImportarExportarView(sistema); break;
             case 0: printf("Saindo do sistema... Ate logo!\n"); break;
             default: printf("Opcao invalida.\n"); pausar(); break;
