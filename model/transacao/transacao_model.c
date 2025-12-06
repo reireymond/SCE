@@ -9,7 +9,10 @@
 #define ARQUIVO_CAIXA_BIN "data/caixa.dat"
 #define ARQUIVO_CAIXA_TXT "data/caixa.txt"
 
-// Funcoes auxiliares de caixa (chamadas pelo main controller)
+void remover_quebra_linha_transacao(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarCaixa(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     FILE *f = fopen(modo == ARQUIVO_BINARIO ? ARQUIVO_CAIXA_BIN : ARQUIVO_CAIXA_TXT, 
@@ -58,7 +61,6 @@ void salvarTransacoes(Sistema *sistema) {
         }
         fclose(f);
     }
-    // Sempre salva o caixa junto
     salvarCaixa(sistema);
 }
 
@@ -78,26 +80,37 @@ void carregarTransacoes(Sistema *sistema) {
                 sistema->capacidade_transacoes = sistema->num_transacoes;
             }
         } else {
-            fscanf(f, "%d\n", &sistema->num_transacoes);
+            char linha[256];
+            char *valor;
+
+            if(fgets(linha, sizeof(linha), f)) {
+                valor = strchr(linha, ':');
+                if(valor) sistema->num_transacoes = atoi(valor + 1);
+            }
+
             if (sistema->num_transacoes > 0) {
                 sistema->lista_transacoes = malloc(sistema->num_transacoes * sizeof(Transacao));
                 sistema->capacidade_transacoes = sistema->num_transacoes;
                 
                 for(int i=0; i < sistema->num_transacoes; i++) {
                     Transacao *t = &sistema->lista_transacoes[i];
-                    int tipo, status;
-                    fscanf(f, "%d\n%d\n%d\n%f\n", &t->codigo, &tipo, &status, &t->valor);
-                    t->tipo = tipo;
-                    t->status = status;
-                    fgets(t->descricao, 150, f); t->descricao[strcspn(t->descricao, "\n")] = 0;
-                    fgets(t->data_vencimento, 15, f); t->data_vencimento[strcspn(t->data_vencimento, "\n")] = 0;
-                    fgets(t->data_pagamento, 15, f); t->data_pagamento[strcspn(t->data_pagamento, "\n")] = 0;
+                    
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) t->codigo = atoi(valor + 1);
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) t->tipo = atoi(valor + 1);
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) t->status = atoi(valor + 1);
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) t->valor = atof(valor + 1);
+                    
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); 
+                    if(valor) { strcpy(t->descricao, valor + 2); remover_quebra_linha_transacao(t->descricao); }
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); 
+                    if(valor) { strcpy(t->data_vencimento, valor + 2); remover_quebra_linha_transacao(t->data_vencimento); }
+                    fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); 
+                    if(valor) { strcpy(t->data_pagamento, valor + 2); remover_quebra_linha_transacao(t->data_pagamento); }
                 }
             }
         }
         fclose(f);
     }
-    // Sempre carrega o caixa junto
     carregarCaixa(sistema);
 }
 

@@ -7,6 +7,10 @@
 #define EQUIPE_DATA_FILE "data/equipe.dat"
 #define EQUIPE_TEXT_FILE "data/equipe.txt"
 
+void remover_quebra_linha_equipe(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarEquipeInterna(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -48,17 +52,31 @@ void carregarEquipeInterna(Sistema *sistema) {
             fread(sistema->lista_equipe, sizeof(EquipeInterna), sistema->num_equipe, arquivo);
         }
     } else {
-        fscanf(arquivo, "%d\n", &sistema->num_equipe);
+        char linha[256];
+        char *valor;
+
+        if(fgets(linha, sizeof(linha), arquivo)) {
+            valor = strchr(linha, ':');
+            if(valor) sistema->num_equipe = atoi(valor + 1);
+        }
+
         if (sistema->num_equipe > 0) {
             sistema->lista_equipe = malloc(sistema->num_equipe * sizeof(EquipeInterna));
             sistema->capacidade_equipe = sistema->num_equipe;
+
             for (int i = 0; i < sistema->num_equipe; i++) {
                 EquipeInterna *e = &sistema->lista_equipe[i];
-                fscanf(arquivo, "%d\n", &e->codigo);
-                fgets(e->nome, 100, arquivo); e->nome[strcspn(e->nome, "\n")] = 0;
-                fgets(e->cpf, 15, arquivo); e->cpf[strcspn(e->cpf, "\n")] = 0;
-                fgets(e->funcao, 50, arquivo); e->funcao[strcspn(e->funcao, "\n")] = 0;
-                fscanf(arquivo, "%f\n", &e->valor_diaria);
+                
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) e->codigo = atoi(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(e->nome, valor + 2); remover_quebra_linha_equipe(e->nome); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(e->cpf, valor + 2); remover_quebra_linha_equipe(e->cpf); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(e->funcao, valor + 2); remover_quebra_linha_equipe(e->funcao); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) e->valor_diaria = atof(valor + 1);
             }
         }
     }

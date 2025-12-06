@@ -7,6 +7,10 @@
 #define FORNECEDORES_DATA_FILE "data/fornecedores.dat"
 #define FORNECEDORES_TEXT_FILE "data/fornecedores.txt"
 
+void remover_quebra_linha_fornecedor(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarFornecedores(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -51,20 +55,36 @@ void carregarFornecedores(Sistema *sistema) {
             fread(sistema->lista_fornecedores, sizeof(Fornecedor), sistema->num_fornecedores, arquivo);
         }
     } else {
-        fscanf(arquivo, "%d\n", &sistema->num_fornecedores);
+        char linha[256];
+        char *valor;
+
+        if(fgets(linha, sizeof(linha), arquivo)) {
+            valor = strchr(linha, ':');
+            if(valor) sistema->num_fornecedores = atoi(valor + 1);
+        }
+
         if (sistema->num_fornecedores > 0) {
             sistema->lista_fornecedores = malloc(sistema->num_fornecedores * sizeof(Fornecedor));
             sistema->capacidade_fornecedores = sistema->num_fornecedores;
+
             for (int i = 0; i < sistema->num_fornecedores; i++) {
                 Fornecedor *f = &sistema->lista_fornecedores[i];
-                fscanf(arquivo, "%d\n", &f->codigo);
-                fgets(f->nome_fantasia, 100, arquivo); f->nome_fantasia[strcspn(f->nome_fantasia, "\n")] = 0;
-                fgets(f->razao_social, 100, arquivo); f->razao_social[strcspn(f->razao_social, "\n")] = 0;
-                fgets(f->cnpj, 20, arquivo); f->cnpj[strcspn(f->cnpj, "\n")] = 0;
-                fgets(f->endereco, 150, arquivo); f->endereco[strcspn(f->endereco, "\n")] = 0;
-                fgets(f->telefone, 20, arquivo); f->telefone[strcspn(f->telefone, "\n")] = 0;
-                fgets(f->tipo_servico, 100, arquivo); f->tipo_servico[strcspn(f->tipo_servico, "\n")] = 0;
-                fscanf(arquivo, "%f\n", &f->valor_servico);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) f->codigo = atoi(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(f->nome_fantasia, valor + 2); remover_quebra_linha_fornecedor(f->nome_fantasia); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(f->razao_social, valor + 2); remover_quebra_linha_fornecedor(f->razao_social); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(f->cnpj, valor + 2); remover_quebra_linha_fornecedor(f->cnpj); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(f->endereco, valor + 2); remover_quebra_linha_fornecedor(f->endereco); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(f->telefone, valor + 2); remover_quebra_linha_fornecedor(f->telefone); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(f->tipo_servico, valor + 2); remover_quebra_linha_fornecedor(f->tipo_servico); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) f->valor_servico = atof(valor + 1);
             }
         }
     }

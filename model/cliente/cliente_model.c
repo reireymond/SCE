@@ -7,6 +7,10 @@
 #define CLIENTES_DATA_FILE "data/clientes.dat"
 #define CLIENTES_TEXT_FILE "data/clientes.txt"
 
+void remover_quebra_linha_cliente(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarClientes(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -53,19 +57,35 @@ void carregarClientes(Sistema *sistema) {
             fread(sistema->lista_clientes, sizeof(Cliente), sistema->num_clientes, arquivo);
         }
     } else {
-        fscanf(arquivo, "%d\n", &sistema->num_clientes);
+        char linha[256];
+        char *valor;
+
+        if(fgets(linha, sizeof(linha), arquivo)) {
+            valor = strchr(linha, ':');
+            if(valor) sistema->num_clientes = atoi(valor + 1);
+        }
+
         if (sistema->num_clientes > 0) {
             sistema->lista_clientes = malloc(sistema->num_clientes * sizeof(Cliente));
             sistema->capacidade_clientes = sistema->num_clientes;
+            
             for (int i = 0; i < sistema->num_clientes; i++) {
                 Cliente *c = &sistema->lista_clientes[i];
-                fscanf(arquivo, "%d\n", &c->codigo);
-                fgets(c->razao_social, 100, arquivo); c->razao_social[strcspn(c->razao_social, "\n")] = 0;
-                fgets(c->cnpj, 20, arquivo); c->cnpj[strcspn(c->cnpj, "\n")] = 0;
-                fgets(c->endereco, 150, arquivo); c->endereco[strcspn(c->endereco, "\n")] = 0;
-                fgets(c->telefone, 20, arquivo); c->telefone[strcspn(c->telefone, "\n")] = 0;
-                fgets(c->email, 50, arquivo); c->email[strcspn(c->email, "\n")] = 0;
-                fgets(c->nome_do_contato, 100, arquivo); c->nome_do_contato[strcspn(c->nome_do_contato, "\n")] = 0;
+                
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) c->codigo = atoi(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(c->razao_social, valor + 2); remover_quebra_linha_cliente(c->razao_social); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(c->cnpj, valor + 2); remover_quebra_linha_cliente(c->cnpj); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(c->endereco, valor + 2); remover_quebra_linha_cliente(c->endereco); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(c->telefone, valor + 2); remover_quebra_linha_cliente(c->telefone); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(c->email, valor + 2); remover_quebra_linha_cliente(c->email); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(c->nome_do_contato, valor + 2); remover_quebra_linha_cliente(c->nome_do_contato); }
             }
         }
     }

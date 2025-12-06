@@ -7,6 +7,10 @@
 #define RECURSOS_DATA_FILE "data/recursos.dat"
 #define RECURSOS_TEXT_FILE "data/recursos.txt"
 
+void remover_quebra_linha_recurso(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarRecursos(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -49,16 +53,32 @@ void carregarRecursos(Sistema *sistema) {
             fread(sistema->lista_recursos, sizeof(Recurso), sistema->num_recursos, arquivo);
         }
     } else {
-        fscanf(arquivo, "%d\n", &sistema->num_recursos);
+        char linha[256];
+        char *valor;
+
+        if(fgets(linha, sizeof(linha), arquivo)) {
+            valor = strchr(linha, ':');
+            if(valor) sistema->num_recursos = atoi(valor + 1);
+        }
+
         if (sistema->num_recursos > 0) {
             sistema->lista_recursos = malloc(sistema->num_recursos * sizeof(Recurso));
             sistema->capacidade_recursos = sistema->num_recursos;
+            
             for (int i = 0; i < sistema->num_recursos; i++) {
                 Recurso *r = &sistema->lista_recursos[i];
-                fscanf(arquivo, "%d\n", &r->codigo);
-                fgets(r->descricao, 150, arquivo); r->descricao[strcspn(r->descricao, "\n")] = 0;
-                fgets(r->categoria, 50, arquivo); r->categoria[strcspn(r->categoria, "\n")] = 0;
-                fscanf(arquivo, "%d\n%f\n%f\n", &r->quantidade_estoque, &r->preco_custo, &r->valor_locacao);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) r->codigo = atoi(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(r->descricao, valor + 2); remover_quebra_linha_recurso(r->descricao); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(r->categoria, valor + 2); remover_quebra_linha_recurso(r->categoria); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) r->quantidade_estoque = atoi(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) r->preco_custo = atof(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) r->valor_locacao = atof(valor + 1);
             }
         }
     }

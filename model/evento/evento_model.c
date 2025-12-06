@@ -7,6 +7,10 @@
 #define EVENTOS_DATA_FILE "data/eventos.dat"
 #define EVENTOS_TEXT_FILE "data/eventos.txt"
 
+void remover_quebra_linha_evento(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarEventos(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if(modo == MEMORIA) return;
@@ -19,34 +23,28 @@ void salvarEventos(Sistema *sistema) {
         fwrite(&sistema->num_eventos, sizeof(int), 1, f);
         for(int i=0; i<sistema->num_eventos; i++) {
             Evento *e = &sistema->lista_eventos[i];
-            // Salva estrutura principal
             fwrite(&e->codigo, sizeof(int), 1, f);
             fwrite(e->nome_evento, sizeof(char), 150, f);
             fwrite(&e->codigo_cliente, sizeof(int), 1, f);
             fwrite(&e->status, sizeof(StatusEvento), 1, f);
-            
-            // Salva datas e horas
             fwrite(e->data_inicio, sizeof(char), 15, f);
             fwrite(e->hora_inicio, sizeof(char), 6, f); 
             fwrite(e->data_fim, sizeof(char), 15, f);
             fwrite(e->hora_fim, sizeof(char), 6, f);    
-            
             fwrite(e->local, sizeof(char), 150, f);
             fwrite(&e->custo_total_previsto, sizeof(float), 1, f);
             fwrite(&e->valor_final_faturado, sizeof(float), 1, f);
-            
-            // Salva Listas internas
             fwrite(&e->num_recursos_alocados, sizeof(int), 1, f);
             if(e->num_recursos_alocados > 0) fwrite(e->lista_recursos_alocados, sizeof(ItemRecursoEvento), e->num_recursos_alocados, f);
-
             fwrite(&e->num_equipe_alocada, sizeof(int), 1, f);
             if(e->num_equipe_alocada > 0) fwrite(e->lista_equipe_alocada, sizeof(ItemEquipeEvento), e->num_equipe_alocada, f);
+            fwrite(&e->num_fornecedores_alocados, sizeof(int), 1, f);
+            if(e->num_fornecedores_alocados > 0) fwrite(e->lista_fornecedores_alocados, sizeof(ItemFornecedorEvento), e->num_fornecedores_alocados, f);
         }
     } else {
         fprintf(f, "Numero de enventos: %d\n", sistema->num_eventos);
         for(int i=0; i<sistema->num_eventos; i++) {
             Evento *e = &sistema->lista_eventos[i];
-            // Salva data e hora no txt
             fprintf(f, " Codigo: %d\nNome do evento: %s\n Codigo do cliente: %d\nStatus: %d\nData de inicio: %s\n Hora de inicio: %s\n Data de termino: %s\n Hora de termino: %s\n Local do evento: %s\nValor do Orcamento: %.2f\nValor final:%.2f\n",
                 e->codigo, e->nome_evento, e->codigo_cliente, e->status,
                 e->data_inicio, e->hora_inicio, 
@@ -57,10 +55,14 @@ void salvarEventos(Sistema *sistema) {
             fprintf(f, "Numero de recursos alocados: %d\n", e->num_recursos_alocados);
             for(int j=0; j<e->num_recursos_alocados; j++)
                 fprintf(f, " Lista de recursos alocados: %d %d %.2f\n", e->lista_recursos_alocados[j].codigo_recurso, e->lista_recursos_alocados[j].quantidade, e->lista_recursos_alocados[j].custo_locacao_momento);
-            
+                
             fprintf(f, "Numero de equipe alocada: %d\n", e->num_equipe_alocada);
             for(int j=0; j<e->num_equipe_alocada; j++)
                 fprintf(f, "Lista de equipe alocada: %d %.2f\n", e->lista_equipe_alocada[j].codigo_equipe, e->lista_equipe_alocada[j].custo_diaria_momento);
+
+            fprintf(f, "Numero de fornecedores alocados: %d\n", e->num_fornecedores_alocados);
+            for(int j=0; j<e->num_fornecedores_alocados; j++)
+                fprintf(f, "Lista de fornecedores alocados: %d %.2f\n", e->lista_fornecedores_alocados[j].codigo_fornecedor, e->lista_fornecedores_alocados[j].valor_cobrado);
         }
     }
     fclose(f);
@@ -79,20 +81,16 @@ void carregarEventos(Sistema *sistema) {
         if(sistema->num_eventos > 0) {
             sistema->lista_eventos = malloc(sistema->num_eventos * sizeof(Evento));
             sistema->capacidade_eventos = sistema->num_eventos;
-            
             for(int i=0; i<sistema->num_eventos; i++) {
                 Evento *e = &sistema->lista_eventos[i];
                 fread(&e->codigo, sizeof(int), 1, f);
                 fread(e->nome_evento, sizeof(char), 150, f);
                 fread(&e->codigo_cliente, sizeof(int), 1, f);
                 fread(&e->status, sizeof(StatusEvento), 1, f);
-                
-                // Lendo datas e horas binarias
                 fread(e->data_inicio, sizeof(char), 15, f);
                 fread(e->hora_inicio, sizeof(char), 6, f); 
                 fread(e->data_fim, sizeof(char), 15, f);
                 fread(e->hora_fim, sizeof(char), 6, f);    
-                
                 fread(e->local, sizeof(char), 150, f);
                 fread(&e->custo_total_previsto, sizeof(float), 1, f);
                 fread(&e->valor_final_faturado, sizeof(float), 1, f);
@@ -108,41 +106,67 @@ void carregarEventos(Sistema *sistema) {
                     e->lista_equipe_alocada = malloc(e->num_equipe_alocada * sizeof(ItemEquipeEvento));
                     fread(e->lista_equipe_alocada, sizeof(ItemEquipeEvento), e->num_equipe_alocada, f);
                 } else e->lista_equipe_alocada = NULL;
+
+                fread(&e->num_fornecedores_alocados, sizeof(int), 1, f);
+                if(e->num_fornecedores_alocados > 0) {
+                    e->lista_fornecedores_alocados = malloc(e->num_fornecedores_alocados * sizeof(ItemFornecedorEvento));
+                    fread(e->lista_fornecedores_alocados, sizeof(ItemFornecedorEvento), e->num_fornecedores_alocados, f);
+                } else e->lista_fornecedores_alocados = NULL;
             }
         }
     } else {
-        fscanf(f, "%d\n", &sistema->num_eventos);
+        char linha[500]; char *valor;
+        if(fgets(linha, sizeof(linha), f)) {
+            valor = strchr(linha, ':'); if(valor) sistema->num_eventos = atoi(valor+1);
+        }
+
         if(sistema->num_eventos > 0) {
             sistema->lista_eventos = malloc(sistema->num_eventos * sizeof(Evento));
             sistema->capacidade_eventos = sistema->num_eventos;
+
             for(int i=0; i<sistema->num_eventos; i++) {
                 Evento *e = &sistema->lista_eventos[i];
-                fscanf(f, "%d\n", &e->codigo);
-                fgets(e->nome_evento, 150, f); e->nome_evento[strcspn(e->nome_evento, "\n")] = 0;
-                fscanf(f, "%d\n%d\n", &e->codigo_cliente, (int*)&e->status);
                 
-                // Lendo datas e horas do texto
-                fgets(e->data_inicio, 15, f); e->data_inicio[strcspn(e->data_inicio, "\n")] = 0;
-                fgets(e->hora_inicio, 6, f); e->hora_inicio[strcspn(e->hora_inicio, "\n")] = 0; 
-                fgets(e->data_fim, 15, f); e->data_fim[strcspn(e->data_fim, "\n")] = 0;
-                fgets(e->hora_fim, 6, f); e->hora_fim[strcspn(e->hora_fim, "\n")] = 0; 
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->codigo = atoi(valor+1);
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) { strcpy(e->nome_evento, valor+2); remover_quebra_linha_evento(e->nome_evento); }
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->codigo_cliente = atoi(valor+1);
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->status = atoi(valor+1);
                 
-                fgets(e->local, 150, f); e->local[strcspn(e->local, "\n")] = 0;
-                fscanf(f, "%f\n%f\n", &e->custo_total_previsto, &e->valor_final_faturado);
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) { strcpy(e->data_inicio, valor+2); remover_quebra_linha_evento(e->data_inicio); }
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) { strcpy(e->hora_inicio, valor+2); remover_quebra_linha_evento(e->hora_inicio); }
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) { strcpy(e->data_fim, valor+2); remover_quebra_linha_evento(e->data_fim); }
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) { strcpy(e->hora_fim, valor+2); remover_quebra_linha_evento(e->hora_fim); }
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) { strcpy(e->local, valor+2); remover_quebra_linha_evento(e->local); }
+                
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->custo_total_previsto = atof(valor+1);
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->valor_final_faturado = atof(valor+1);
 
-                fscanf(f, "%d\n", &e->num_recursos_alocados);
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->num_recursos_alocados = atoi(valor+1);
                 if(e->num_recursos_alocados > 0) {
                     e->lista_recursos_alocados = malloc(e->num_recursos_alocados * sizeof(ItemRecursoEvento));
-                    for(int j=0; j<e->num_recursos_alocados; j++)
-                        fscanf(f, "%d %d %f\n", &e->lista_recursos_alocados[j].codigo_recurso, &e->lista_recursos_alocados[j].quantidade, &e->lista_recursos_alocados[j].custo_locacao_momento);
+                    for(int j=0; j<e->num_recursos_alocados; j++) {
+                        fgets(linha, sizeof(linha), f); valor = strchr(linha, ':');
+                        if(valor) sscanf(valor+1, "%d %d %f", &e->lista_recursos_alocados[j].codigo_recurso, &e->lista_recursos_alocados[j].quantidade, &e->lista_recursos_alocados[j].custo_locacao_momento);
+                    }
                 } else e->lista_recursos_alocados = NULL;
 
-                fscanf(f, "%d\n", &e->num_equipe_alocada);
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->num_equipe_alocada = atoi(valor+1);
                 if(e->num_equipe_alocada > 0) {
                     e->lista_equipe_alocada = malloc(e->num_equipe_alocada * sizeof(ItemEquipeEvento));
-                    for(int j=0; j<e->num_equipe_alocada; j++)
-                        fscanf(f, "%d %f\n", &e->lista_equipe_alocada[j].codigo_equipe, &e->lista_equipe_alocada[j].custo_diaria_momento);
+                    for(int j=0; j<e->num_equipe_alocada; j++) {
+                        fgets(linha, sizeof(linha), f); valor = strchr(linha, ':');
+                        if(valor) sscanf(valor+1, "%d %f", &e->lista_equipe_alocada[j].codigo_equipe, &e->lista_equipe_alocada[j].custo_diaria_momento);
+                    }
                 } else e->lista_equipe_alocada = NULL;
+
+                fgets(linha, sizeof(linha), f); valor = strchr(linha, ':'); if(valor) e->num_fornecedores_alocados = atoi(valor+1);
+                if(e->num_fornecedores_alocados > 0) {
+                    e->lista_fornecedores_alocados = malloc(e->num_fornecedores_alocados * sizeof(ItemFornecedorEvento));
+                    for(int j=0; j<e->num_fornecedores_alocados; j++) {
+                        fgets(linha, sizeof(linha), f); valor = strchr(linha, ':');
+                        if(valor) sscanf(valor+1, "%d %f", &e->lista_fornecedores_alocados[j].codigo_fornecedor, &e->lista_fornecedores_alocados[j].valor_cobrado);
+                    }
+                } else e->lista_fornecedores_alocados = NULL;
             }
         }
     }
@@ -156,6 +180,8 @@ void liberarMemoriaEventos(Sistema *sistema) {
                 free(sistema->lista_eventos[i].lista_recursos_alocados);
             if (sistema->lista_eventos[i].lista_equipe_alocada) 
                 free(sistema->lista_eventos[i].lista_equipe_alocada);
+            if (sistema->lista_eventos[i].lista_fornecedores_alocados)
+                free(sistema->lista_eventos[i].lista_fornecedores_alocados);
         }
         free(sistema->lista_eventos);
         sistema->lista_eventos = NULL;

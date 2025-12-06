@@ -7,6 +7,10 @@
 #define PRODUTORA_DATA_FILE "data/produtora.dat"
 #define PRODUTORA_TEXT_FILE "data/produtora.txt"
 
+void remover_quebra_linha_produtora(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarProdutora(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -42,25 +46,45 @@ void carregarProdutora(Sistema *sistema) {
     if (!arquivo) return;
 
     int existe = 0;
-    if (modo == ARQUIVO_BINARIO) fread(&existe, sizeof(int), 1, arquivo);
-    else fscanf(arquivo, "%d\n", &existe);
-
-    if (existe) {
-        sistema->dados_produtora = malloc(sizeof(Produtora));
-        if (modo == ARQUIVO_BINARIO) {
+    if (modo == ARQUIVO_BINARIO) {
+        fread(&existe, sizeof(int), 1, arquivo);
+        if (existe) {
+            sistema->dados_produtora = malloc(sizeof(Produtora));
             fread(sistema->dados_produtora, sizeof(Produtora), 1, arquivo);
-        } else {
+        }
+    } else {
+        char linha[256];
+        char *valor;
+
+        if(fgets(linha, sizeof(linha), arquivo)) {
+            valor = strchr(linha, ':');
+            if(valor) existe = atoi(valor + 1);
+        }
+
+        if (existe) {
+            sistema->dados_produtora = malloc(sizeof(Produtora));
             Produtora *p = sistema->dados_produtora;
-            fgets(p->nome_fantasia, 100, arquivo); p->nome_fantasia[strcspn(p->nome_fantasia, "\n")] = 0;
-            fgets(p->razao_social, 100, arquivo); p->razao_social[strcspn(p->razao_social, "\n")] = 0;
-            fgets(p->nome_do_responsavel, 100, arquivo); p->nome_do_responsavel[strcspn(p->nome_do_responsavel, "\n")] = 0;
-            fgets(p->cnpj, 20, arquivo); p->cnpj[strcspn(p->cnpj, "\n")] = 0;
-            fgets(p->inscricao_estadual, 20, arquivo); p->inscricao_estadual[strcspn(p->inscricao_estadual, "\n")] = 0;
-            fgets(p->endereco, 150, arquivo); p->endereco[strcspn(p->endereco, "\n")] = 0;
-            fgets(p->telefone, 20, arquivo); p->telefone[strcspn(p->telefone, "\n")] = 0;
-            fgets(p->telefone_responsavel, 20, arquivo); p->telefone_responsavel[strcspn(p->telefone_responsavel, "\n")] = 0;
-            fgets(p->email, 50, arquivo); p->email[strcspn(p->email, "\n")] = 0;
-            fscanf(arquivo, "%f\n", &p->margem_lucro);
+
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->nome_fantasia, valor + 2); remover_quebra_linha_produtora(p->nome_fantasia); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->razao_social, valor + 2); remover_quebra_linha_produtora(p->razao_social); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->nome_do_responsavel, valor + 2); remover_quebra_linha_produtora(p->nome_do_responsavel); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->cnpj, valor + 2); remover_quebra_linha_produtora(p->cnpj); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->inscricao_estadual, valor + 2); remover_quebra_linha_produtora(p->inscricao_estadual); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->endereco, valor + 2); remover_quebra_linha_produtora(p->endereco); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->telefone, valor + 2); remover_quebra_linha_produtora(p->telefone); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->telefone_responsavel, valor + 2); remover_quebra_linha_produtora(p->telefone_responsavel); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) { strcpy(p->email, valor + 2); remover_quebra_linha_produtora(p->email); }
+            fgets(linha, sizeof(linha), arquivo);
+            valor = strchr(linha, ':'); if(valor) p->margem_lucro = atof(valor + 1);
         }
     }
     fclose(arquivo);

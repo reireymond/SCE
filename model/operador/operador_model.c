@@ -7,6 +7,10 @@
 #define OPERADORES_DATA_FILE "data/operadores.dat"
 #define OPERADORES_TEXT_FILE "data/operadores.txt"
 
+void remover_quebra_linha_operador(char *str) {
+    str[strcspn(str, "\n")] = 0;
+}
+
 void salvarOperadores(Sistema *sistema) {
     TipoArmazenamento modo = obterModoDeArmazenamento(sistema);
     if (modo == MEMORIA) return;
@@ -47,16 +51,27 @@ void carregarOperadores(Sistema *sistema) {
             fread(sistema->lista_operadores, sizeof(Operador), sistema->num_operadores, arquivo);
         }
     } else {
-        fscanf(arquivo, "%d\n", &sistema->num_operadores);
+        char linha[256];
+        char *valor;
+
+        if(fgets(linha, sizeof(linha), arquivo)) {
+            valor = strchr(linha, ':');
+            if(valor) sistema->num_operadores = atoi(valor + 1);
+        }
+
         if (sistema->num_operadores > 0) {
             sistema->lista_operadores = malloc(sistema->num_operadores * sizeof(Operador));
             sistema->capacidade_operadores = sistema->num_operadores;
             for (int i = 0; i < sistema->num_operadores; i++) {
                 Operador *op = &sistema->lista_operadores[i];
-                fscanf(arquivo, "%d\n", &op->codigo);
-                fgets(op->nome, 100, arquivo); op->nome[strcspn(op->nome, "\n")] = 0;
-                fgets(op->usuario, 50, arquivo); op->usuario[strcspn(op->usuario, "\n")] = 0;
-                fgets(op->senha, 50, arquivo); op->senha[strcspn(op->senha, "\n")] = 0;
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) op->codigo = atoi(valor + 1);
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(op->nome, valor + 2); remover_quebra_linha_operador(op->nome); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(op->usuario, valor + 2); remover_quebra_linha_operador(op->usuario); }
+                fgets(linha, sizeof(linha), arquivo);
+                valor = strchr(linha, ':'); if(valor) { strcpy(op->senha, valor + 2); remover_quebra_linha_operador(op->senha); }
             }
         }
     }
