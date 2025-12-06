@@ -89,7 +89,7 @@ int menu_alterar_cliente(Cliente *c) {
 }
 
 void atualizar_campo_cliente(Cliente *c, int opcao) {
-    printf("\n>> ");
+    printf("\n");
     switch (opcao) {
         case 1: printf("Novo Nome: "); ler_texto_valido(c->razao_social, sizeof(c->razao_social), VALIDAR_NAO_VAZIO); break;
         case 2: printf("Novo CPF/CNPJ: "); ler_texto_valido(c->cnpj, sizeof(c->cnpj), VALIDAR_CPF_CNPJ); break;

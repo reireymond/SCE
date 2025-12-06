@@ -73,7 +73,7 @@ int menu_alterar_fornecedor(Fornecedor *f) {
     printf("1. Nome\n2. Razao\n3. CNPJ\n4. Endereco\n5. Telefone\n6. Servico\n0. Sair\nEscolha: ");
     ler_inteiro_valido(&opcao, 0, 6);
 
-    if(opcao != 0) printf("\n>> Novo valor: ");
+    if(opcao != 0) printf("\nNovo valor: ");
 
     switch(opcao) {
         case 1: ler_texto_valido(f->nome_fantasia, sizeof(f->nome_fantasia), VALIDAR_NAO_VAZIO); break;

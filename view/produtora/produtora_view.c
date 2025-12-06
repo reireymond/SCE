@@ -79,7 +79,7 @@ void formulario_produtora(Produtora *p) {
     printf("Telefone: ");
     ler_texto_valido(p->telefone, sizeof(p->telefone), VALIDAR_TELEFONE);
 
-    printf("Telefone Resp.: ");
+    printf("Telefone Responsavel: ");
     ler_texto_valido(p->telefone_responsavel, sizeof(p->telefone_responsavel), VALIDAR_TELEFONE);
 
     printf("E-mail: ");
@@ -98,7 +98,7 @@ int menu_alterar_campo_produtora(Produtora *p) {
     printf("9. Email\n10. Margem Lucro\n0. Sair\nEscolha: ");
     ler_inteiro_valido(&opcao, 0, 10);
     
-    if(opcao != 0) printf("\n>> Digite o novo valor: ");
+    if(opcao != 0) printf("\nDigite o novo valor: ");
     
     switch(opcao) {
         case 1: ler_texto_valido(p->nome_fantasia, sizeof(p->nome_fantasia), VALIDAR_NAO_VAZIO); break;

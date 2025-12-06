@@ -62,7 +62,7 @@ int menu_alterar_operador(Operador *op) {
     printf("1. Nome\n2. Usuario\n3. Senha\n0. Sair\nEscolha: ");
     ler_inteiro_valido(&opcao, 0, 3);
     
-    if(opcao != 0) printf("\n>> Novo Dado: ");
+    if(opcao != 0) printf("\nNovo Dado: ");
     switch(opcao) {
         case 1: ler_texto_valido(op->nome, sizeof(op->nome), VALIDAR_NOME); break;
         case 2: ler_texto_valido(op->usuario, sizeof(op->usuario), VALIDAR_NAO_VAZIO); break;

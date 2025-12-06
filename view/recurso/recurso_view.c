@@ -99,7 +99,7 @@ int menu_alterar_recurso(Recurso *r) {
     printf("1. Descricao\n2. Categoria\n3. Estoque\n4. Custo\n5. Locacao\n0. Sair\nEscolha: ");
     ler_inteiro_valido(&opcao, 0, 5);
 
-    if(opcao != 0) printf("\n>> Novo valor: ");
+    if(opcao != 0) printf("\nNovo valor: ");
 
     switch(opcao) {
         case 1: ler_texto_valido(r->descricao, sizeof(r->descricao), VALIDAR_NAO_VAZIO); break;

@@ -71,7 +71,7 @@ int menu_alterar_equipe(EquipeInterna *e) {
     printf("1. Nome\n2. CPF\n3. Funcao\n4. Valor Diaria\n0. Sair\nEscolha: ");
     ler_inteiro_valido(&opcao, 0, 4);
 
-    if(opcao != 0) printf("\n>> Novo valor: ");
+    if(opcao != 0) printf("\nNovo valor: ");
 
     switch(opcao) {
         case 1: ler_texto_valido(e->nome, sizeof(e->nome), VALIDAR_NOME); break;
